@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Hustory</string>
+    <string name="reserve">예약 진행하기</string>
+    <string name="date">상담날짜</string>
+    <string name="time">상담시간</string>
+    <string name="onoff">상담방법</string>
+    <string name="place">상담장소</string>
+    <string name="contents">상담내용</string>
+    <string name="before">상담 전</string>
+    <string name="after">상담 후</string>
+    <string name="aaaaa"><![CDATA[자세히>]]></string>
+
+    <string-array name="on_off_line">
+        <item>오프라인</item>
+        <item>온라인</item>
+    </string-array>
+
+    <string-array name="day_of_week">
+        <item>일</item>
+        <item>월</item>
+        <item>화</item>
+        <item>수</item>
+        <item>목</item>
+        <item>금</item>
+        <item>토</item>
+    </string-array>
+</resources>
