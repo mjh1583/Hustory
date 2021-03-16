@@ -31,4 +31,16 @@
     <string name="test_time">12:00</string>
     <string name="reservation_time">상담 시간</string>
     <string name="reservation_content">상담 내용</string>
+    <string name="test_version">대구 ICT산업 혁신아카데미 2021년도 3기</string>
+    <string name="my_school">최종 학교</string>
+    <string name="test_school">길동대학교</string>
+    <string name="my_major">전공명</string>
+    <string name="test_major">컴퓨터공학과</string>
+    <string name="my_company">희망기업</string>
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="test_company_1">길동데이타</string>
+    <string name="test_company_2">길동텍</string>
+    <string name="test_company_3">길동시스템</string>
 </resources>
