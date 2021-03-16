@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/logo_main"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_margin="30dp"
+
+        android:scaleType="fitCenter"
+        android:src="@drawable/logo_main" />
+
+    <view
+        android:id="@+id/image_banner"
+        class="androidx.viewpager.widget.ViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        tools:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edit_question"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_weight="1"
+
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="35dp"
+            android:paddingBottom="10dp"
+
+            android:textSize="14sp"
+            android:fontFamily="@font/jalnan"
+
+            android:ems="10"
+            android:hint="@string/hint_question"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+
+            android:elevation="5dp"
+            android:background="@drawable/round_background" />
+
+        <TextView
+            android:id="@+id/go_question"
+            android:layout_width="42dp"
+            android:layout_height="43dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center"
+
+            android:text="@string/go"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/jalnan"
+
+            android:elevation="5dp"
+            android:background="@drawable/round2_background" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:padding="10dp"
+        android:orientation="vertical"
+
+        android:elevation="5dp"
+        android:background="@drawable/round_background">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/new_question_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="@string/new_question_1"
+                android:textSize="12sp"
+                android:textColor="@color/main_color"
+                android:fontFamily="@font/jalnan"/>
+
+            <TextView
+                android:id="@+id/new_question_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+
+                android:text="@string/new_question_2"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/jalnan" />
+
+            <TextView
+                android:id="@+id/view_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:fontFamily="@font/jalnan"
+                android:text="@string/view_all"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="vertical"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/new_question"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+
+                        android:text="@string/new_question"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/jalnan" />
+
+                    <TextView
+                        android:id="@+id/new_question_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+
+                        android:text="@string/test_question"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/jalnan" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/new_answer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="5dp"
+
+                        android:text="@string/new_answer"
+                        android:textSize="14sp"
+                        android:textColor="@color/main_color"
+                        android:fontFamily="@font/jalnan" />
+
+
+                    <TextView
+                        android:id="@+id/new_answer_content"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+
+                        android:text="@string/test_answer"
+                        android:textSize="14sp"
+                        android:textColor="@color/main_color"
+                        android:fontFamily="@font/jalnan" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/go_answer"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+
+                android:gravity="center_horizontal|center_vertical"
+
+                android:textSize="24dp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/jalnan"
+
+                android:background="@drawable/question"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/reservation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:padding="10dp"
+        android:orientation="vertical"
+
+        android:elevation="5dp"
+        android:background="@drawable/round2_background">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/consulting_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/jalnan"
+
+                android:text="@string/consulting_status"
+                android:textSize="12sp"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/see_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="@string/see_more"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/jalnan" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/image_professor"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_margin="15dp"
+
+                app:srcCompat="@drawable/professor"
+                tools:srcCompat="@drawable/professor"
+                android:contentDescription="@string/todo" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/main_professor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="@string/test_name"
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/jalnan"/>
+
+                    <TextView
+                        android:id="@+id/title_professor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+
+                        android:text="@string/professor"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/jalnan" />
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/main_summary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="@string/test_summary"
+                    android:textSize="14sp"
+                    android:textColor="@color/summary_color"
+                    android:fontFamily="@font/jalnan" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/go_reservation"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                android:layout_marginRight="9dp"
+                android:layout_marginTop="7dp"
+
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/dday_reservation"
+                android:textSize="12dp"
+                android:textColor="@color/main_color"
+                android:fontFamily="@font/jalnan"
+
+                android:elevation="5dp"
+                android:background="@drawable/go_background"/>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

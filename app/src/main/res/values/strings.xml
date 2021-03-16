@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">HuStory.</string>
+    <string name="todo">TODO</string>
+    <string name="hint_question">Q</string>
+    <string name="new_question_1">최근 </string>
+    <string name="new_question_2">등록된 질문</string>
+    <string name="view_all"><![CDATA[전체보기 >]]></string>
+    <string name="new_question">Q</string>
+    <string name="new_answer">A</string>
+    <string name="consulting_status">상담 예약 현황</string>
+    <string name="see_more"><![CDATA[자세히 >]]></string>
+    <string name="professor">교수님</string>
+    <string name="test_question">프로젝트 평가 요소가 궁금합니다.</string>
+    <string name="test_answer">가장 중요한 것은 협업 능력!</string>
+    <string name="test_name">홍길동</string>
+    <string name="test_summary">회사에 임하는 자세</string>
+    <string name="go_answer">!</string>
+    <string name="dday_reservation">D-1</string>
+    <string name="go"><![CDATA[>]]></string>
+    <string name="no_reservation">진행중인 예약 내역이 없습니다.</string>
+    <string name="advice_reservation">새로운 예약을 진행하세요.</string>
+    <string name="go_reservation">예약 진행하기</string>
+    <string name="reservation_date">상담 날짜</string>
+    <string name="test_date">02.18(목)</string>
+    <string name="reservation_way">상담 방법</string>
+    <string name="test_way">온라인</string>
+    <string name="test_place">ZOOM</string>
+    <string name="reservation_place">상담 장소</string>
+    <string name="test_state">수락 대기</string>
+    <string name="reservation">예약</string>
+</resources>
