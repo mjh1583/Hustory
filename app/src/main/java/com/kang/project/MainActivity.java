@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private FragmentMain fragmentMain = new FragmentMain();
     private FragmentReservation fragmentReservation = new FragmentReservation();
+    private FragmentMy fragmentMy = new FragmentMy();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
                     transaction.replace(R.id.frameLayout, fragmentReservation).commitAllowingStateLoss();
                     break;
                 case R.id.myItem:
-                    transaction.replace(R.id.frameLayout, fragmentReservation).commitAllowingStateLoss();
+                    transaction.replace(R.id.frameLayout, fragmentMy).commitAllowingStateLoss();
                     break;
             }
             return true;
