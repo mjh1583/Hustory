@@ -12,4 +12,12 @@
     <string name="logout">로그아웃</string>
     <string name="find_id">아이디 찾기</string>
     <string name="find_pw">비밀번호 찾기</string>
+    <string name="student">학생</string>
+    <string name="mentor">멘토</string>
+    <string name="name_editText">이름을 입력하세요</string>
+    <string name="phone_editText">-를 입력하지 말고 번호를 입력하세요</string>
+    <string name="name">이름</string>
+    <string name="phone">휴대전화</string>
+    <string name="find_Id">아이디 찾기</string>
+    <string name="find_email">이메일(아이디)를 입력하세요</string>
 </resources>

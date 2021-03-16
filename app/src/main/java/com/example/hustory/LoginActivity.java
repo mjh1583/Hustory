@@ -41,8 +41,11 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences auto;
     private SharedPreferences.Editor auto_editor;
 
+    private Intent intent;
+
     private String email;
     private String password;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,12 +97,20 @@ public class LoginActivity extends AppCompatActivity {
                     login();
                     break;
                 case R.id.find_Id_TXT:
-
+                    findIdActivity();
+                    break;
+                case R.id.find_Pw_TXT:
+                    findPwActivity();
+                    break;
+                default:
+                    break;
             }
         };
 
         login_loginBTN.setOnClickListener(onClickListener);
         login_signUpBTN.setOnClickListener(onClickListener);
+        find_Id_TXT.setOnClickListener(onClickListener);
+        find_Pw_TXT.setOnClickListener(onClickListener);
     }
 
     private void login() {
@@ -140,12 +151,22 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void signUpActivity() {
-        Intent intent = new Intent(this, SignUPActivity.class);
+        intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
+    }
+
+    private void findIdActivity() {
+        intent = new Intent(this, FindIdActivity.class);
+        startActivity(intent);
+    }
+
+    private void findPwActivity() {
+        intent = new Intent(this, FindPwActivity.class);
         startActivity(intent);
     }
 
     private void startMainActivity() {
-        Intent intent = new Intent(this, MainActivity.class);
+        intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish();
     }

@@ -6,7 +6,9 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,6 +18,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -23,26 +26,35 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public class SignUPActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
-    private static final String TAG = "SignUPActivity";
+    private static final String TAG = "SignUpActivity";
 
     private FirebaseAuth mAuth;
 
     private EditText emailETXT;
     private EditText passwordETXT;
     private EditText passwordCheckETXT;
+    private EditText nameETXT;
+    private EditText phoneETXT;
 
     private Button signUpBTN;
     private Button loginBTN;
 
+    private RadioButton studentBTN;
+    private RadioButton mentorBTN;
 
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     private DatabaseReference myRef = db.getReference();
+    private FirebaseUser currentUser;
 
     private String email = "";
     private String password = "";
     private String passwordCheck = "";
+    private String name = "";
+    private String phone = "";
+    private String role = "";
+    private String userId = "";
 
     // 비밀번호 정규식 : 문자 A-Z a-z 0-9 특수문자 : ~!@#$%^&*? 입력가능 8~15자리
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[~!@#$%^&*?])[A-Za-z[0-9]~!@#$%^&*?]{8,15}$");
@@ -63,9 +75,14 @@ public class SignUPActivity extends AppCompatActivity {
         emailETXT = findViewById(R.id.signUp_emailETXT);
         passwordETXT = findViewById(R.id.signUp_passwordETXT);
         passwordCheckETXT = findViewById(R.id.passwordCheckETXT);
+        nameETXT = findViewById(R.id.nameETXT);
+        phoneETXT = findViewById(R.id.phoneETXT);
 
         signUpBTN = findViewById(R.id.signUpBTN);
         loginBTN = findViewById(R.id.loginBTN);
+
+        studentBTN = findViewById(R.id.studentBTN);
+        mentorBTN = findViewById(R.id.mentorBTN);
 
         View.OnClickListener onClickListener = v -> {
             switch (v.getId()) {
@@ -75,11 +92,27 @@ public class SignUPActivity extends AppCompatActivity {
                 case R.id.loginBTN:
                     startLoginAcivity();
                     break;
+                default:
+                    break;
             }
         };
 
         signUpBTN.setOnClickListener(onClickListener);
         loginBTN.setOnClickListener(onClickListener);
+
+        CompoundButton.OnCheckedChangeListener onCheckedChangeListener = (buttonView, isChecked) -> {
+            switch (buttonView.getId()) {
+                case R.id.studentBTN:
+                    role = buttonView.getText().toString();
+                    break;
+                case R.id.mentorBTN:
+                    role = buttonView.getText().toString();
+                    break;
+            }
+        };
+
+        studentBTN.setOnCheckedChangeListener(onCheckedChangeListener);
+        mentorBTN.setOnCheckedChangeListener(onCheckedChangeListener);
     }
 
 
@@ -87,6 +120,8 @@ public class SignUPActivity extends AppCompatActivity {
         email = emailETXT.getText().toString();
         password = passwordETXT.getText().toString();
         passwordCheck = passwordCheckETXT.getText().toString();
+        name = nameETXT.getText().toString();
+        phone = phoneETXT.getText().toString();
 
         if(isValidEmail()) {
             if(isValidPwd()) {
@@ -99,12 +134,17 @@ public class SignUPActivity extends AppCompatActivity {
                                     // 로그인 성공
                                     Log.i(TAG, "createUserWithEmail : Success");
 
+                                    currentUser = mAuth.getCurrentUser();
+                                    userId = currentUser.getUid();
+                                    Log.d(TAG, userId);
+
                                     // firebase에 데이터 저장
-                                    HashMap<String, Object> childUpdates = new HashMap<>();
-                                    Member member = new Member(email, password);
-                                    Map<String, Object> postValue = member.toMap();
-                                    childUpdates.put("/Member/" + myRef.child("Member").push().getKey(), postValue);
-                                    myRef.updateChildren(childUpdates);
+                                    //HashMap<String, Object> childUpdates = new HashMap<>();
+                                    Member member = new Member(email, password, name, phone, role);
+                                    //Map<String, Object> postValue = member.toMap();
+                                    myRef.child("Member").child(userId).setValue(member);
+                                    //childUpdates.put("/Member/" + myRef.child("Member").push().getKey(), postValue);
+                                    //myRef.updateChildren(childUpdates);
 
                                     startToast("회원가입을 성공했습니다.");
                                     startLoginAcivity();
