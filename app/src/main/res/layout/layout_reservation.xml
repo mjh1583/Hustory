@@ -19,19 +19,13 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
         android:fontFamily="@font/jalnan"
         android:gravity="center_horizontal"
         android:text="@string/reservation"
         android:textSize="16dp"
-        android:textColor="@color/main_color" />
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_gravity="center_vertical"
-        android:background="@color/main_color" />
+        android:padding="15dp"
+        android:background="@color/main_color"
+        android:textColor="@color/white" />
 
     <ScrollView
         android:id="@+id/ScrollView1"
