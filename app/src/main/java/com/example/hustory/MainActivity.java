@@ -17,6 +17,8 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     //멤버 변수
     private TextView reserveTXT;
     private Button beforeBTN, afterBTN;
-
 
     // 매개변수 받아서 Toast
     private void showToast(String message){
@@ -65,12 +66,9 @@ public class MainActivity extends AppCompatActivity {
 
     // Fragment 이동 함수
     public void fragmentClick (View v){
-        showToast("before" + beforeFragment.isVisible());
-        showToast("after" + afterFragment.isVisible());
 
         if(v == beforeBTN){
             if(!beforeFragment.isVisible()){
-                showToast("before");
                 FragmentTransaction ft = manager.beginTransaction();
                 ft.addToBackStack(null);
                 ft.replace(R.id.main_container, beforeFragment);
@@ -78,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }else if(v == afterBTN){
                 if(!afterFragment.isVisible()){
-                    showToast("after");
                     FragmentTransaction ft = manager.beginTransaction();
                     ft.addToBackStack(null);
                     ft.replace(R.id.main_container, afterFragment);

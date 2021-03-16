@@ -1,19 +1,24 @@
 package com.example.hustory;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.fragment.app.ListFragment;
 
-public class AfterFragment extends Fragment {
-    @Nullable
+import java.util.ArrayList;
+
+public class AfterFragment extends ListFragment {
+    private ArrayList<AfterData> datas;
+    private ArrayAdapter adapter;
+
     @Override
-    public View onCreateView(LayoutInflater inflater,
-                             @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState){
-        return inflater.inflate(R.layout.after_fragment, container, false);
+    public void onViewCreated(View view, Bundle savedInstanceState){
+        super.onViewCreated(view, savedInstanceState);
+        datas = new ArrayList<AfterData>();
+
+        datas.add(new AfterData("홍길동", "02.18(목)", "온라인", "ZOOM", "연봉협상에대하여"));
+        adapter = new AfterDataAdapter(getActivity(), R.layout.activity_after_data, datas);
+        setListAdapter(adapter);
     }
 }

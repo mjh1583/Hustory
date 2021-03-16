@@ -1,15 +1,12 @@
 package com.example.hustory;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class BeforeData {
+public class AfterData {
     private String uid;
     private String profesor;
     private String date;
     private String onOff;
     private String place;
-    private String accept;
+
     private String contents;
 
     public String getProfesor() {
@@ -44,13 +41,6 @@ public class BeforeData {
         this.place = place;
     }
 
-    public String getAccept() {
-        return accept;
-    }
-
-    public void setAccept(String accept) {
-        this.accept = accept;
-    }
 
     public String getContents() {
         return contents;
@@ -60,24 +50,11 @@ public class BeforeData {
         this.contents = contents;
     }
 
-    public BeforeData(String profesor, String date, String onOff, String place, String accept, String contents) {
+    public AfterData(String profesor, String date, String onOff, String place,  String contents) {
         this.profesor = profesor;
         this.date = date;
         this.onOff = onOff;
         this.place = place;
-        this.accept = accept;
         this.contents = contents;
-    }
-
-    public Map<String, Object> toMap(){
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("professor", this.profesor);
-        result.put("date", this.date);
-        result.put("onOff", this.onOff);
-        result.put("place", this.place);
-        result.put("accept", this.accept);
-        result.put("contents", this.contents);
-
-        return result;
     }
 }

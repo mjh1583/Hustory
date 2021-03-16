@@ -24,4 +24,17 @@
         <item>금</item>
         <item>토</item>
     </string-array>
+
+    <string name="id">ID</string>
+    <string name="pw">PW</string>
+    <string name="auto_login">AUTO LOGIN</string>
+    <string name="login">LOGIN</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="email">이메일</string>
+    <string name="password">비밀번호</string>
+    <string name="check_password">비밀번호 확인</string>
+    <string name="sign_up">회원가입</string>
+    <string name="logout">로그아웃</string>
+    <string name="find_id">아이디 찾기</string>
+    <string name="find_pw">비밀번호 찾기</string>
 </resources>
