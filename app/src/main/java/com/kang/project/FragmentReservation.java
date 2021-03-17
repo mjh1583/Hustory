@@ -1,18 +1,22 @@
 package com.kang.project;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TabHost;
@@ -27,7 +31,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class FragmentReservation extends Fragment implements TabHost.OnTabChangeListener {
-    int flag = 1;
+    int flag = 0;
 
     PreviousAdapter previousAdapter;
     AfterAdapter afterAdapter;
@@ -38,6 +42,9 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
     LinearLayout tab_after;
 
     TextView intent_reservation;
+
+    private Dialog dlg_previous;
+    private Dialog dlg_after;
 
     private Context mContext;
     private FloatingActionButton fab_main, fab_sub1, fab_sub2;
@@ -117,6 +124,30 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
 
         afterAdapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.professor), "홍길동", "연봉 협상에 대하여", "02.18(목)", "온라인", "ZOOM");
         afterAdapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.professor), "홍길동", "취업 가능 여부", "01.12(화)", "오프라인", "테크카페");
+
+        dlg_previous = new Dialog(getActivity());
+        dlg_previous.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dlg_previous.setContentView(R.layout.dialog_previous);
+        dlg_previous.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        dlg_after = new Dialog(getActivity());
+        dlg_after.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dlg_after.setContentView(R.layout.dialog_after);
+        dlg_after.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                dlg_previous.show();
+            }
+        });
+
+        listview2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                dlg_after.show();
+            }
+        });
 
         mContext = getContext();
         fab_open = AnimationUtils.loadAnimation(mContext, R.anim.fab_open);
