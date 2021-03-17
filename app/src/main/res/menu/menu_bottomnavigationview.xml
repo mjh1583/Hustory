@@ -5,7 +5,7 @@
         android:icon="@drawable/ic_menu_home"
         android:title="홈" />
     <item
-        android:id="@+id/searchItem"
+        android:id="@+id/questionItem"
         android:icon="@drawable/ic_menu_search"
         android:title="질문" />
     <item

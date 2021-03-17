@@ -1,18 +1,22 @@
 package com.kang.project;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,10 +24,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class FragmentMy extends Fragment {
-
-    Button button_card;
-    Button button_letter;
+public class FragmentQuestion extends Fragment {
 
     View view;
 
@@ -32,15 +33,49 @@ public class FragmentMy extends Fragment {
     private Animation fab_open, fab_close;
     private boolean isFabOpen = false;
 
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    QuestionAdapter questionAdapter;
+    AnswerAdapter answerAdapter;
+    private Dialog dlg_question;
 
-        view = inflater.inflate(R.layout.fragment_my, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_question, container, false);
         init();
 
         return view;
     }
 
     public void init() {
+
+        questionAdapter = new QuestionAdapter();
+        ListView listview1 = (ListView) view.findViewById(R.id.list_question);
+        listview1.setAdapter(questionAdapter);
+
+        questionAdapter.addItem("프로젝트 평가 요소가 궁금합니다.", "1분 전", "0");
+        questionAdapter.addItem("프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다.", "2021-03-16", "5");
+
+
+        listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                LayoutInflater inflater = getLayoutInflater();
+                View view1 = inflater.inflate(R.layout.dialog_question, null);
+                builder.setView(view1);
+
+                answerAdapter = new AnswerAdapter();
+                ListView listView2 = (ListView) view1.findViewById(R.id.list_answer);
+                final AlertDialog dialog = builder.create();
+
+                listView2.setAdapter(answerAdapter);
+
+                answerAdapter.addItem("프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다.", "홍길동", "1분 전");
+                answerAdapter.addItem("프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다.", "홍길동", "5분 전");
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.show();
+            }
+        });
+
         mContext = getContext();
         fab_open = AnimationUtils.loadAnimation(mContext, R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(mContext, R.anim.fab_close);
@@ -66,25 +101,6 @@ public class FragmentMy extends Fragment {
                     fab_sub2.setClickable(true);
                     isFabOpen = true;
                 }
-            }
-        });
-
-        button_card = (Button) view.findViewById(R.id.button_card);
-        button_letter = (Button) view.findViewById(R.id.button_letter);
-
-        button_card.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CardActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        button_letter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), LetterActivity.class);
-                startActivity(intent);
             }
         });
     }

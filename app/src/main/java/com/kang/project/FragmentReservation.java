@@ -125,6 +125,7 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
         afterAdapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.professor), "홍길동", "연봉 협상에 대하여", "02.18(목)", "온라인", "ZOOM");
         afterAdapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.professor), "홍길동", "취업 가능 여부", "01.12(화)", "오프라인", "테크카페");
 
+
         dlg_previous = new Dialog(getActivity());
         dlg_previous.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dlg_previous.setContentView(R.layout.dialog_previous);
@@ -148,6 +149,7 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
                 dlg_after.show();
             }
         });
+
 
         mContext = getContext();
         fab_open = AnimationUtils.loadAnimation(mContext, R.anim.fab_open);

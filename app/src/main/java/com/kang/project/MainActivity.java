@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentMain fragmentMain = new FragmentMain();
     private FragmentReservation fragmentReservation = new FragmentReservation();
     private FragmentMy fragmentMy = new FragmentMy();
+    private FragmentQuestion fragmentQuestion = new FragmentQuestion();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.mainItem:
                     transaction.replace(R.id.frameLayout, fragmentMain).commitAllowingStateLoss();
                     break;
-                case R.id.searchItem:
-                    transaction.replace(R.id.frameLayout, fragmentReservation).commitAllowingStateLoss();
+                case R.id.questionItem:
+                    transaction.replace(R.id.frameLayout, fragmentQuestion).commitAllowingStateLoss();
                     break;
                 case R.id.reservationItem:
                     transaction.replace(R.id.frameLayout, fragmentReservation).commitAllowingStateLoss();
