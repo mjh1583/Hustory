@@ -27,7 +27,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class FragmentMain extends Fragment {
-    int flag = 1;
+    int flag = 0;
 
     View view;
     ImageView image_top;
@@ -148,7 +148,7 @@ public class FragmentMain extends Fragment {
             layout_reservation.addView(text_no);
 
             LinearLayout.LayoutParams layoutParams1 = (LinearLayout.LayoutParams) text_no.getLayoutParams();
-            layoutParams1.topMargin = 30;
+            layoutParams1.topMargin = 80;
             text_no.setLayoutParams(layoutParams1);
 
             TextView text_go = new TextView(getContext());
@@ -158,7 +158,7 @@ public class FragmentMain extends Fragment {
             layout_reservation.addView(text_go);
 
             LinearLayout.LayoutParams layoutParams2 = (LinearLayout.LayoutParams) text_go.getLayoutParams();
-            layoutParams2.bottomMargin = 30;
+            layoutParams2.bottomMargin = 80;
             text_go.setLayoutParams(layoutParams2);
 
             Typeface typeface = getResources().getFont(R.font.jalnan);
