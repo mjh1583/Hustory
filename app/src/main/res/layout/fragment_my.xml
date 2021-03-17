@@ -235,7 +235,7 @@
                         android:fontFamily="@font/jalnan"
                         android:text="@string/one"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="14sp" />
 
                     <View
                         android:layout_width="1dp"
@@ -255,7 +255,7 @@
                         android:fontFamily="@font/jalnan"
                         android:text="@string/test_company_1"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -278,7 +278,7 @@
                         android:fontFamily="@font/jalnan"
                         android:text="@string/two"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="14sp" />
 
                     <View
                         android:layout_width="1dp"
@@ -298,7 +298,7 @@
                         android:fontFamily="@font/jalnan"
                         android:text="@string/test_company_2"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -321,7 +321,7 @@
                         android:fontFamily="@font/jalnan"
                         android:text="@string/three"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="14sp" />
 
                     <View
                         android:layout_width="1dp"
@@ -341,7 +341,7 @@
                         android:fontFamily="@font/jalnan"
                         android:text="@string/test_company_3"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="14sp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -350,13 +350,13 @@
                 android:id="@+id/button_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="15dp"
 
                 android:text="@string/card"
-                android:textSize="18dp"
+                android:textSize="14dp"
                 android:textColor="@color/main_color"
                 android:fontFamily="@font/jalnan"
                 android:padding="7dp"
@@ -373,7 +373,7 @@
                 android:layout_marginBottom="20dp"
 
                 android:text="@string/about"
-                android:textSize="18dp"
+                android:textSize="14dp"
                 android:textColor="@color/white"
                 android:fontFamily="@font/jalnan"
                 android:padding="5dp"
