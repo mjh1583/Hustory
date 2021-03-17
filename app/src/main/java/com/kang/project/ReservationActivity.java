@@ -27,4 +27,12 @@ public class ReservationActivity extends AppCompatActivity {
 
         Toast.makeText(this,"Date: "+dateMessage,Toast.LENGTH_SHORT).show();
     }
+
+    public void init() {
+        int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
+        int newUiOptions = uiOptions;
+        newUiOptions ^= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        newUiOptions ^= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        getWindow().getDecorView().setSystemUiVisibility(newUiOptions);
+    }
 }

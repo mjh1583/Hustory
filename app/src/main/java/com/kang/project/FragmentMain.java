@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class FragmentMain extends Fragment {
-    int flag = 0;
+    int flag = 1;
 
     View view;
     ImageView image_top;
@@ -133,30 +134,32 @@ public class FragmentMain extends Fragment {
         });
 
         if (flag == 1) {
-            image_professor.setVisibility(View.INVISIBLE);
-            main_professor.setVisibility(View.INVISIBLE);
-            title_professor.setVisibility(View.INVISIBLE);
-            main_summary.setVisibility(View.INVISIBLE);
-            go_reservation.setVisibility(View.INVISIBLE);
+            image_professor.setVisibility(View.GONE);
+            main_professor.setVisibility(View.GONE);
+            title_professor.setVisibility(View.GONE);
+            main_summary.setVisibility(View.GONE);
+            go_reservation.setVisibility(View.GONE);
 
             TextView text_no = new TextView(getContext());
             text_no.setText("진행중인 예약 내역이 없습니다.");
+            text_no.setTextColor(Color.parseColor("#FFFFFF"));
             text_no.setTextSize(14);
+            text_no.setGravity(Gravity.CENTER);
             layout_reservation.addView(text_no);
 
-            text_no.setX(width/5);
-            text_no.setY(height/14);
-            text_no.requestLayout();
+            LinearLayout.LayoutParams layoutParams1 = (LinearLayout.LayoutParams) text_no.getLayoutParams();
+            layoutParams1.topMargin = 30;
+            text_no.setLayoutParams(layoutParams1);
 
             TextView text_go = new TextView(getContext());
             text_go.setText("새로운 예약을 진행하세요");
             text_go.setTextSize(12);
-            text_go.setTextColor(Color.parseColor("#FFBEC0C3"));
+            text_go.setGravity(Gravity.CENTER);
             layout_reservation.addView(text_go);
 
-            text_go.setX(width/4);
-            text_go.setY(text_no.getY() + 50);
-            text_go.requestLayout();
+            LinearLayout.LayoutParams layoutParams2 = (LinearLayout.LayoutParams) text_go.getLayoutParams();
+            layoutParams2.bottomMargin = 30;
+            text_go.setLayoutParams(layoutParams2);
 
             Typeface typeface = getResources().getFont(R.font.jalnan);
             text_no.setTypeface(typeface);
