@@ -139,6 +139,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -153,7 +154,7 @@
                         android:layout_height="wrap_content"
 
                         android:text="@string/my_school"
-                        android:textSize="12sp"
+                        android:textSize="10sp"
                         android:textColor="@color/grey"
                         android:fontFamily="@font/jalnan" />
 
@@ -166,7 +167,7 @@
                         android:fontFamily="@font/jalnan"
                         android:text="@string/test_school"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <View
@@ -187,7 +188,7 @@
                         android:layout_height="wrap_content"
 
                         android:text="@string/my_major"
-                        android:textSize="12sp"
+                        android:textSize="10sp"
                         android:textColor="@color/grey"
                         android:fontFamily="@font/jalnan" />
 
@@ -200,7 +201,7 @@
                         android:fontFamily="@font/jalnan"
                         android:text="@string/test_major"
                         android:textColor="@color/black"
-                        android:textSize="18sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -216,7 +217,7 @@
                     android:layout_height="wrap_content"
 
                     android:text="@string/my_company"
-                    android:textSize="12sp"
+                    android:textSize="10sp"
                     android:textColor="@color/grey"
                     android:fontFamily="@font/jalnan" />
 
@@ -356,7 +357,7 @@
                 android:layout_marginBottom="15dp"
 
                 android:text="@string/card"
-                android:textSize="14dp"
+                android:textSize="16dp"
                 android:textColor="@color/main_color"
                 android:fontFamily="@font/jalnan"
                 android:padding="7dp"
@@ -365,15 +366,15 @@
                 android:background="@drawable/round3_background" />
 
             <Button
-                android:id="@+id/button_about"
+                android:id="@+id/button_letter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="20dp"
 
-                android:text="@string/about"
-                android:textSize="14dp"
+                android:text="@string/letter"
+                android:textSize="16dp"
                 android:textColor="@color/white"
                 android:fontFamily="@font/jalnan"
                 android:padding="5dp"

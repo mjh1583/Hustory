@@ -171,11 +171,11 @@
                     <TextView
                         android:id="@+id/view_all"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
 
                         android:fontFamily="@font/jalnan"
                         android:text="@string/view_all"
-                        android:textSize="12sp" />
+                        android:textSize="10sp" />
 
                 </LinearLayout>
 
@@ -217,12 +217,13 @@
                                 android:id="@+id/answer_time"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
                                 android:gravity="center_horizontal|center_vertical"
                                 android:paddingLeft="7dp"
                                 android:paddingRight="7dp"
 
                                 android:text="@string/answer_time"
-                                android:textSize="12dp"
+                                android:textSize="10dp"
                                 android:textColor="@color/white"
                                 android:fontFamily="@font/jalnan"
 
@@ -301,10 +302,10 @@
                     <TextView
                         android:id="@+id/see_more"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
 
                         android:text="@string/see_more"
-                        android:textSize="12sp"
+                        android:textSize="10sp"
                         android:textColor="@color/white"
                         android:fontFamily="@font/jalnan" />
 

@@ -20,6 +20,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ReservationActivity"></activity>
+        <activity android:name=".CardActivity"></activity>
+        <activity android:name=".LetterActivity"></activity>
     </application>
 
 </manifest>
