@@ -1,84 +1,93 @@
 package com.example.hustory;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.Log;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.example.hustory.managementcard.FragmentMy;
+import com.example.hustory.question.FragmentQuestion;
+import com.example.hustory.reservation.FragmentReservation;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "MainActivity";
-
-    private Button logoutBTN;
-
-    private FirebaseAuth mAuth;
-    private FirebaseUser currentUser;
-
-    private SharedPreferences auto;
-    private SharedPreferences.Editor auto_editor;
+    private FragmentManager fragmentManager = getSupportFragmentManager();
+    private FragmentMain fragmentMain = new FragmentMain();
+    private FragmentReservation fragmentReservation = new FragmentReservation();
+    private FragmentMy fragmentMy = new FragmentMy();
+    private FragmentQuestion fragmentQuestion = new FragmentQuestion();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.Theme_Hustory);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mAuth = FirebaseAuth.getInstance();
 
         init();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly
-        currentUser = mAuth.getCurrentUser();
+    class ItemSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener{
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-        Log.i(TAG, "onStart()");
-        if(currentUser == null) {
-            startLoginActivity();
+            switch(menuItem.getItemId())
+            {
+                case R.id.mainItem:
+                    transaction.replace(R.id.frameLayout, fragmentMain).commitAllowingStateLoss();
+                    break;
+                case R.id.questionItem:
+                    transaction.replace(R.id.frameLayout, fragmentQuestion).commitAllowingStateLoss();
+                    break;
+                case R.id.reservationItem:
+                    transaction.replace(R.id.frameLayout, fragmentReservation).commitAllowingStateLoss();
+                    break;
+                case R.id.myItem:
+                    transaction.replace(R.id.frameLayout, fragmentMy).commitAllowingStateLoss();
+                    break;
+            }
+            return true;
         }
     }
 
-    private void init() {
-        logoutBTN = findViewById(R.id.logoutBTN);
+    public void init() {
+        int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
+        int newUiOptions = uiOptions;
+        newUiOptions ^= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        newUiOptions ^= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        getWindow().getDecorView().setSystemUiVisibility(newUiOptions);
 
-        auto = PreferenceManager.getDefaultSharedPreferences(this);
-        auto_editor = auto.edit();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.frameLayout, fragmentMain).commitAllowingStateLoss();
 
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.logoutBTN:
-                        mAuth.signOut();
-                        auto_editor.clear();
-                        auto_editor.apply();
-                        startToast("로그아웃했습니다,");
-                        startLoginActivity();
-                        break;
+        BottomNavigationView bottomNavigationView = findViewById(R.id.navigationView);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new ItemSelectedListener());
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
                 }
             }
-        };
-
-        logoutBTN.setOnClickListener(onClickListener);
-    }
-
-    private void startLoginActivity() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    private void startToast(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        }
+        return super.dispatchTouchEvent( event );
     }
 }

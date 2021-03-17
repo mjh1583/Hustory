@@ -9,9 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Hustory">
-        <activity android:name=".FindPwActivity"></activity>
-        <activity android:name=".FindIdActivity" />
-        <activity android:name=".LoginActivity">
+        <activity android:name=".login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,8 +26,14 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignUpActivity" />
+        <activity android:name=".login.SignUpActivity" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".reservation.ReservationActivity"></activity>
+        <activity android:name=".managementcard.CardActivity"></activity>
+        <activity android:name=".managementcard.LetterActivity"></activity>
+        <activity android:name=".question.AnswerActivity"></activity>
+        <activity android:name=".login.FindPwActivity" />
+        <activity android:name=".login.FindIdActivity" />
     </application>
 
 </manifest>

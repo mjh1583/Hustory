@@ -1,4 +1,4 @@
-package com.example.hustory;
+package com.example.hustory.login;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -58,7 +58,7 @@ public class Member {
         this.role = role;
     }
 
-    // Member를 HashMap 형태로 값을 변환하여 데이터베이스에 저장하기 위한 메서드드먀
+    // Member를 HashMap 형태로 값을 변환하여 데이터베이스에 저장하기 위한 메서드
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
         result.put("email", this.email);
