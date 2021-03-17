@@ -91,4 +91,8 @@
     <string name="phone">휴대전화</string>
     <string name="find_Id">아이디 찾기</string>
     <string name="find_email">이메일(아이디)를 입력하세요</string>
+    <string name="remove">취소</string>
+    <string name="add">등록</string>
+    <string name="q_title">질문 제목을 입력하세요</string>
+    <string name="q_content">질문 내용을 입력하세요</string>
 </resources>

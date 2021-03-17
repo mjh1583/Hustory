@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.hustory.MainActivity;
 import com.example.hustory.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -59,6 +60,9 @@ public class FragmentQuestion extends Fragment {
         TextView hot_orderTXT = (TextView) view.findViewById(R.id.hot_orderTXT);
         TextView my_orderTXT = (TextView) view.findViewById(R.id.my_orderTXT);
 
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
         View.OnClickListener onClickListener = v -> {
             switch (v.getId()) {
                 case R.id.new_orderTXT:
@@ -78,8 +82,8 @@ public class FragmentQuestion extends Fragment {
         my_orderTXT.setOnClickListener(onClickListener);
 
 
-        questionAdapter.addItem("프로젝트 평가 요소가 궁금합니다.", "홍길동", "1분 전", "0");
-        questionAdapter.addItem("프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다.", "홍길동", "25분 전", "5");
+        questionAdapter.addItem("프로젝트 평가 요소가 궁금합니다.", "홍길동", "1분 전", 0);
+        questionAdapter.addItem("프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다.", "홍길동", "25분 전", 5);
 
 
         listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -119,6 +123,14 @@ public class FragmentQuestion extends Fragment {
                 }
             }
         });
+
+        fab_sub1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startAddQuestion();
+            }
+        });
+
     } // init()
 
     public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -135,5 +147,10 @@ public class FragmentQuestion extends Fragment {
             }
         }
         return view.dispatchTouchEvent(ev);
+    }
+
+    private void startAddQuestion() {
+        Intent intent = new Intent(getActivity(), AddQuestionActivity.class);
+        startActivity(intent);
     }
 }

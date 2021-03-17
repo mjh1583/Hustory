@@ -9,7 +9,9 @@ import android.widget.TextView;
 
 import com.example.hustory.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class QuestionAdapter extends BaseAdapter {
     private ArrayList<QuestionItem> listViewItemList = new ArrayList<QuestionItem>();
@@ -35,10 +37,10 @@ public class QuestionAdapter extends BaseAdapter {
 
         QuestionItem listViewItem = listViewItemList.get(position);
 
-        question_name.setText(listViewItem.getNameStr());
-        question_content.setText(listViewItem.getQuestionStr());
-        question_time.setText(listViewItem.getTimeStr());
-        answer_count.setText(listViewItem.getCountStr());
+        question_name.setText(listViewItem.getQ_title());
+        question_content.setText(listViewItem.getQ_content());
+        question_time.setText(listViewItem.getQ_time());
+        answer_count.setText(String.valueOf(listViewItem.getQ_count()));
 
         return convertView;
     }
@@ -53,13 +55,13 @@ public class QuestionAdapter extends BaseAdapter {
         return listViewItemList.get(position);
     }
 
-    public void addItem(String questionStr, String nameStr, String timeStr, String countStr) {
-        QuestionItem item = new QuestionItem();
+    public void addItem(String questionStr, String nameStr, String timeStr, int countStr) {
+        QuestionItem item = new QuestionItem(nameStr, questionStr, timeStr, countStr);
 
-        item.setNameStr(nameStr);
-        item.setQuestionStr(questionStr);
-        item.setTimeStr(timeStr);
-        item.setCountStr(countStr);
+        item.setQ_title(nameStr);
+        item.setQ_content(questionStr);
+        item.setQ_time(timeStr);
+        item.setQ_count(countStr);
 
         listViewItemList.add(item);
     }
