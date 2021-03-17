@@ -3,6 +3,7 @@ package com.kang.project;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
@@ -34,8 +35,6 @@ public class FragmentQuestion extends Fragment {
     private boolean isFabOpen = false;
 
     QuestionAdapter questionAdapter;
-    AnswerAdapter answerAdapter;
-    private Dialog dlg_question;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_question, container, false);
@@ -50,29 +49,17 @@ public class FragmentQuestion extends Fragment {
         ListView listview1 = (ListView) view.findViewById(R.id.list_question);
         listview1.setAdapter(questionAdapter);
 
-        questionAdapter.addItem("프로젝트 평가 요소가 궁금합니다.", "1분 전", "0");
-        questionAdapter.addItem("프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다.", "2021-03-16", "5");
+        questionAdapter.addItem("프로젝트 평가 요소가 궁금합니다.", "홍길동", "1분 전", "0");
+        questionAdapter.addItem("프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다.", "홍길동", "25분 전", "5");
 
 
         listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                LayoutInflater inflater = getLayoutInflater();
-                View view1 = inflater.inflate(R.layout.dialog_question, null);
-                builder.setView(view1);
+                Intent intent = new Intent(getActivity(), AnswerActivity.class);
+                startActivity(intent);
 
-                answerAdapter = new AnswerAdapter();
-                ListView listView2 = (ListView) view1.findViewById(R.id.list_answer);
-                final AlertDialog dialog = builder.create();
-
-                listView2.setAdapter(answerAdapter);
-
-                answerAdapter.addItem("프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다.", "홍길동", "1분 전");
-                answerAdapter.addItem("프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다.", "홍길동", "5분 전");
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
             }
         });
 

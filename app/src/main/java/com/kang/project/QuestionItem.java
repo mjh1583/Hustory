@@ -2,8 +2,8 @@ package com.kang.project;
 
 public class QuestionItem {
     private String QuestionStr;
+    private String NameStr;
     private String TimeStr;
-    private String CountStr;
 
     public String getQuestionStr() {
         return QuestionStr;
@@ -11,6 +11,14 @@ public class QuestionItem {
 
     public void setQuestionStr(String questionStr) {
         QuestionStr = questionStr;
+    }
+
+    public String getNameStr() {
+        return NameStr;
+    }
+
+    public void setNameStr(String nameStr) {
+        NameStr = nameStr;
     }
 
     public String getTimeStr() {
@@ -28,4 +36,7 @@ public class QuestionItem {
     public void setCountStr(String countStr) {
         CountStr = countStr;
     }
+
+    private String CountStr;
+
 }
