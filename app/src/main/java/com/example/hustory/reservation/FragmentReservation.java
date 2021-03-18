@@ -38,6 +38,8 @@ import com.example.hustory.reservation.ReservationActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,9 +55,13 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
     AfterAdapter afterAdapter;
 
     View view;
+    // 교수 학생 뷰 flag
+    private boolean flag;
+
     LinearLayout layout_flag;
     LinearLayout tab_previous;
     LinearLayout tab_after;
+    TextView reservation_state;
 
     TextView intent_reservation;
 
@@ -74,6 +80,8 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
     // firebase
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     private DatabaseReference myRef = db.getReference();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private String uid = user.getUid();
     private String professor;
     private String summary;
     private String date;
@@ -89,17 +97,57 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
     public ArrayList<String> preArr = new ArrayList<>();
     public ArrayList<String> aftArr = new ArrayList<>();
     private String time;
-    private String uid;
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        myRef.child("Member").child(uid).child("role").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                }
+                else{
+                        if(task.getResult().getValue().toString().equals("학생")){
+                            flag = true;
+                        }else{
+                            flag = false;
+                        }
+                        Log.i("role", ""+ flag);
+                }
+            }
+        });
 
+//        FirebaseDatabase.getInstance().getReference().child("Member").child(uid).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    Log.d("MainActivity", "ValueEventListener : " + dataSnapshot.child("role").getValue());
+//                    if(dataSnapshot.child("role").getValue().equals("멘토")){
+//                        flag = false;
+//                    }else {
+//                        flag = true;
+//                    }
+//                }
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Log.d("remove", "없어");
+//            }
+//        });
+//        if (flag){
+//            view = inflater.inflate(R.layout.fragment_reservation, container, false);
+//        }else {
+//            view = inflater.inflate(R.layout.fragment_reservation_prof, container, false);
+//        }
         view = inflater.inflate(R.layout.fragment_reservation, container, false);
         init();
 
         return view;
     }
+
+    // 교수일때 상담 수락 버튼 이벤트
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void init() {
@@ -114,15 +162,18 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
 
 
         layout_flag = (LinearLayout) view.findViewById(R.id.layout_flag);
-        intent_reservation = (TextView) view.findViewById(R.id.intent_reservation);
+//        if (flag){
+            intent_reservation = (TextView) view.findViewById(R.id.intent_reservation);
 
-        intent_reservation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ReservationActivity.class);
-                startActivity(intent);
-            }
-        });
+            intent_reservation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), ReservationActivity.class);
+                    startActivity(intent);
+                }
+            });
+//        }
+
 
         tab_previous = (LinearLayout) view.findViewById(R.id.tab_previous);
         tab_after = (LinearLayout) view.findViewById(R.id.tab_after);
@@ -161,14 +212,53 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
         listview2.setAdapter(afterAdapter);
 
 
-
-        FirebaseDatabase.getInstance().getReference().child("Member").child("v5N3FZkAIxTS2IpVV4ki2yUbRwJ2").child("R_List").addValueEventListener(new ValueEventListener() {
+        // 학생 예약 리스트 생성
+        FirebaseDatabase.getInstance().getReference().child("Member").child(uid).child("R_List").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 previousAdapter.clear();
                 afterAdapter.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Log.d("MainActivity", "ValueEventListener : " + dataSnapshot.getValue());
 
+                    if (dataSnapshot.getValue().equals("null")){
+                        layout_flag.setVisibility(View.VISIBLE);
+                        return;
+                    }else{
+                        layout_flag.setVisibility(View.GONE);
+                        HashMap<String, Object> member = (HashMap<String, Object>) snapshot.getValue();
+                        professor = member.get("professor").toString();
+                        summary = member.get("summary").toString();
+                        date = member.get("date").toString();
+                        way = member.get("way").toString();
+                        place = member.get("place").toString();
+                        allow = member.get("allow").toString();
+                        key = member.get("key").toString();
+                        Log.i("key", key);
+
+                        before_after_data = member.get("before_after_data").toString();
+                        if(before_after_data.equals("false")){
+                            preArr.add(key);
+                            previousAdapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.professor), professor, "\" "+summary+" \"", date, way, place, allow);
+                        }else if(before_after_data.equals("true")){
+                            aftArr.add(key);
+                            afterAdapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.professor), professor, "\" "+summary+" \"", date, way, place);
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("remove", "없어");
+            }
+        });
+        // 교수 예약 리스트
+        FirebaseDatabase.getInstance().getReference().child("Member").child(uid).child("R_List").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                previousAdapter.clear();
+                afterAdapter.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Log.d("MainActivity", "ValueEventListener : " + dataSnapshot.getValue());
 
                     if (dataSnapshot.getValue().equals("null")){
@@ -203,9 +293,9 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
             }
         });
 
-        // 자세히 다이얼로그
 
-        // 자세히 버튼 이벤트 상담 전
+        // 자세히 다이얼로그
+        // 자세히 버튼 이벤트 상담 전 학생
         listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -230,14 +320,50 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
                 Log.i("position", ""+position);
                 key = preArr.get(position);
                 Log.i("key", key);
-                myRef.child("Member").child("v5N3FZkAIxTS2IpVV4ki2yUbRwJ2").child("R_List").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                myRef.child("Member").child(uid).child("R_List").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         if (!task.isSuccessful()) {
                         }
                         else {
                             if (String.valueOf(task.getResult().getValue()).equals("null")){
-
+                                return;
+                            }else{
+                                layout_flag.setVisibility(View.GONE);
+                                for(DataSnapshot userSnapshot : task.getResult().getChildren()) {
+                                    HashMap<String, Object> member = (HashMap<String, Object>) userSnapshot.getValue();
+                                    professor = member.get("professor").toString();
+                                    summary = member.get("summary").toString();
+                                    date = member.get("date").toString();
+                                    way = member.get("way").toString();
+                                    place = member.get("place").toString();
+                                    allow = member.get("allow").toString();
+                                    contents = member.get("contents").toString();
+                                    before_after_data = member.get("before_after_data").toString();
+                                    firebase_key = member.get("key").toString();
+                                    time = member.get("time").toString();
+                                    if(before_after_data.equals("false") && key.equals(firebase_key)){
+                                        text_professor.setText(professor);
+                                        text_summary.setText(summary);
+                                        reservation_date.setText(date);
+                                        reservation_way.setText(way);
+                                        reservation_place.setText(place);
+                                        content.setText(contents);
+                                        reservation_state.setText(allow);
+                                        reservation_time.setText(time);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+                myRef.child("Member").child(uid).child("R_List").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        if (!task.isSuccessful()) {
+                        }
+                        else {
+                            if (String.valueOf(task.getResult().getValue()).equals("null")){
                                 return;
                             }else{
                                 layout_flag.setVisibility(View.GONE);
@@ -273,7 +399,7 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
         });
 
 
-        // 자세히 버튼 이벤트 상담 후
+        // 자세히 버튼 이벤트 상담 후 학생
         listview2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -298,7 +424,7 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
                 key = aftArr.get(position);
 
 
-                myRef.child("Member").child("v5N3FZkAIxTS2IpVV4ki2yUbRwJ2").child("R_List").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                myRef.child("Member").child(uid).child("R_List").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         if (!task.isSuccessful()) {
