@@ -73,7 +73,7 @@ public class QuestionAdapter extends BaseAdapter {
 
         item.setQ_title(q_title);
         item.setQ_content(q_content);
-        item.setQ_time(q_time);
+        item.setQ_time(q_date);
         item.setQ_count(q_count);
 
         listViewItemList.add(item);
@@ -84,7 +84,7 @@ public class QuestionAdapter extends BaseAdapter {
 
         item.setQ_title(q_title);
         item.setQ_content(q_content);
-        item.setQ_time(q_time);
+        item.setQ_time(q_date);
         item.setQ_count(q_count);
 
         listViewItemList.add(idx, item);
