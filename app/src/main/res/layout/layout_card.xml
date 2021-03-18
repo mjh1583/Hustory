@@ -30,13 +30,12 @@
     <ScrollView
         android:id="@+id/ScrollView1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:layout_margin="25dp"
-            android:layout_weight="1"
             android:background="@drawable/round3_background"
             android:elevation="5dp"
             android:orientation="vertical"
@@ -73,6 +72,7 @@
                         android:text="@string/test_name"
                         android:textColor="@color/black"
                         android:textSize="18sp"
+                        android:hint="@string/name"
                         android:background="@null" />
 
                     <EditText
@@ -81,6 +81,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/jalnan"
                         android:text="@string/test_birth"
+                        android:hint="@string/birth"
                         android:textSize="12sp"
                         android:background="@null" />
 
@@ -90,6 +91,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/jalnan"
                         android:text="@string/test_email"
+                        android:hint="@string/email"
                         android:textSize="12sp"
                         android:background="@null" />
 
@@ -122,12 +124,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginLeft="10dp"
                     android:fontFamily="@font/jalnan"
                     android:text="@string/education"
+                    android:hint="@string/education"
                     android:textColor="@color/black"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:background="@null" />
 
             </LinearLayout>
@@ -167,6 +170,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/jalnan"
                         android:text="@string/test_scroll"
+                        android:hint="@string/certificate"
                         android:textColor="@color/black"
                         android:textSize="12sp"
                         android:background="@null" />
@@ -209,6 +213,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/jalnan"
+                        android:hint="@string/experience"
                         android:text="@string/test_scroll"
                         android:textColor="@color/black"
                         android:textSize="12sp"
@@ -252,6 +257,7 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:fontFamily="@font/jalnan"
+                        android:hint="@string/career"
                         android:text="@string/test_scroll"
                         android:textColor="@color/black"
                         android:textSize="12sp" />

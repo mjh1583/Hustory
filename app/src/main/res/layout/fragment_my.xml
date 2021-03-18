@@ -120,6 +120,7 @@
                         android:fontFamily="@font/jalnan"
                         android:background="@null"
                         android:text="@string/test_name"
+                        android:hint="@string/name"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
@@ -130,6 +131,7 @@
                         android:backgroundTint="@color/main_color"
                         android:text="@string/test_version"
                         android:fontFamily="@font/jalnan"
+                        android:hint="@string/version"
                         android:textColor="@color/main_color"
                         android:background="@null"
                         android:textSize="12dp"/>
@@ -168,6 +170,7 @@
                         android:layout_gravity="center_horizontal"
                         android:fontFamily="@font/jalnan"
                         android:text="@string/test_school"
+                        android:hint="@string/my_school"
                         android:textColor="@color/black"
                         android:background="@null"
                         android:textSize="14sp" />
@@ -203,6 +206,7 @@
                         android:layout_gravity="center_horizontal"
                         android:fontFamily="@font/jalnan"
                         android:text="@string/test_major"
+                        android:hint="@string/my_major"
                         android:textColor="@color/black"
                         android:background="@null"
                         android:textSize="14sp" />
@@ -261,6 +265,7 @@
                         android:background="@null"
                         android:fontFamily="@font/jalnan"
                         android:text="@string/test_company_1"
+                        android:hint="@string/my_company"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
 
@@ -306,6 +311,7 @@
                         android:background="@null"
                         android:fontFamily="@font/jalnan"
                         android:text="@string/test_company_2"
+                        android:hint="@string/my_company"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
 
@@ -351,6 +357,7 @@
                         android:background="@null"
                         android:fontFamily="@font/jalnan"
                         android:text="@string/test_company_3"
+                        android:hint="@string/my_company"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
 
