@@ -1,5 +1,11 @@
 package com.kang.project;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.Window;
+import android.widget.TextView;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +20,8 @@ public class FirebaseData {
     private String allowStr;
     private String contentsStr;
     private boolean before_after_data;
-    private int i;
+    private String key;
+
 
 
     public String getUid() {
@@ -97,15 +104,15 @@ public class FirebaseData {
         this.before_after_data = before_after_data;
     }
 
-    public int getI() {
-        return i;
+    public String getKey() {
+        return key;
     }
 
-    public void setI(int i) {
-        this.i = i;
+    public void setKey(String key) {
+        this.key = key;
     }
 
-    public FirebaseData(String uid, String professorStr, String summaryStr, String dateStr, String timeStr, String wayStr, String placeStr, String allowStr, String contentsStr, boolean before_after_data, int i) {
+    public FirebaseData(String uid, String professorStr, String summaryStr, String dateStr, String timeStr, String wayStr, String placeStr, String allowStr, String contentsStr, boolean before_after_data, String key) {
         this.uid = uid;
         ProfessorStr = professorStr;
         SummaryStr = summaryStr;
@@ -116,7 +123,7 @@ public class FirebaseData {
         this.allowStr = allowStr;
         this.contentsStr = contentsStr;
         this.before_after_data = before_after_data;
-        this.i = i;
+        this.key = key;
     }
 
     public Map<String, Object> toMap(){
@@ -131,8 +138,10 @@ public class FirebaseData {
         result.put("contents", this.contentsStr);
         result.put("summary", this.SummaryStr);
         result.put("before_after_data", this.before_after_data);
-        result.put("count", this.i);
+        result.put("key", this.key);
 
         return result;
     }
+
+
 }

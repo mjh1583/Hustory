@@ -10,31 +10,24 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.Map;
 
 public class ReservationActivity extends AppCompatActivity {
@@ -52,6 +45,7 @@ public class ReservationActivity extends AppCompatActivity {
     private EditText select_place;
     private EditText select_content;
     private Spinner spinner;
+    private String key;
 
 
     // firebase
@@ -194,12 +188,34 @@ public class ReservationActivity extends AppCompatActivity {
 //            }
 //        });
 
+        // 날짜 데이터 만들기
+        long id = new Date().getTime();
+
+//        SimpleDateFormat sFormat = new SimpleDateFormat("hh시 mm분 ss초");
+//        SimpleDateFormat sFormat2 = new SimpleDateFormat("yyyy년 MM월 dd일");
+//        SimpleDateFormat sFormat3 = new SimpleDateFormat("yyyyMMdd");
+//        SimpleDateFormat sFormat4 = new SimpleDateFormat("hhmmss");
+
+        DateFormat df = new SimpleDateFormat("HH:mm:ss"); // HH=24h, hh=12h
+        String str = df.format(id);
+        Log.i("reserve", "HH:mm:ss" + str);
+
+        Date date = new Date(id);
+        Log.i("reserve", "date" + date);
+
+//
+//        String q_Num = "R" + sFormat3.format(date) + sFormat4.format(date);
+
         // 예약하기 버튼 클릭시 예약 해서 firebase 에 데이터 전송
         if(!select_date.getText().equals("날짜 설정") && !select_time.getText().equals("시간 설정")  && select_place.getText().length() != 0 && select_content.getText().length() !=0 && text_summary.getText().length() != 0){
-            firebaseData = new FirebaseData("v5N3FZkAIxTS2IpVV4ki2yUbRwJ2","홍길동", text_summary.getText().toString(), select_date.getText().toString(),select_time.getText().toString(),spinner.getSelectedItem().toString(),select_place.getText().toString(),"수락대기",select_content.getText().toString(), false, i);
+            key = "R" + id;
+            Log.i("name", String.valueOf(myRef.child("Member").child("v5N3FZkAIxTS2IpVV4ki2yUbRwJ2").child("name").get()));
+            Date d = new Date();
+            Log.i("date", String.valueOf(d));
+            firebaseData = new FirebaseData("v5N3FZkAIxTS2IpVV4ki2yUbRwJ2","홍길동", text_summary.getText().toString(), select_date.getText().toString(),select_time.getText().toString(),spinner.getSelectedItem().toString(),select_place.getText().toString(),"수락대기",select_content.getText().toString(), false, key);
             Map<String, Object> postValue = firebaseData.toMap();
-            myRef.child("Reservation").child(""+i).setValue(postValue);
-            Log.i("reserve",""+i);
+            myRef.child("Member").child("v5N3FZkAIxTS2IpVV4ki2yUbRwJ2").child("R_List").child(key).setValue(postValue);
+            Log.i("reserve",""+id);
             finish();
 
 //            myRef.child("Reservation").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {

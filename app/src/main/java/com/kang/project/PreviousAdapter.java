@@ -3,7 +3,6 @@ package com.kang.project;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.DrawableWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class PreviousAdapter extends BaseAdapter {
+    private String key;
+    public ArrayList<String> arr;
     private ArrayList<PreviousItem> listViewItemList = new ArrayList<PreviousItem>();
     public PreviousAdapter() {}
 
@@ -67,7 +68,7 @@ public class PreviousAdapter extends BaseAdapter {
         return listViewItemList.get(position);
     }
 
-    public void addItem(Drawable iconDrawable, String ProfessorStr, String SummaryStr, String DateStr, String WayStr, String PlaceStr, String allowStr) {
+    public void addItem(Drawable iconDrawable, String ProfessorStr, String SummaryStr, String DateStr, String WayStr, String PlaceStr, String allowStr, String key) {
         PreviousItem item = new PreviousItem();
 
         item.setIconDrawable(iconDrawable);
@@ -79,6 +80,10 @@ public class PreviousAdapter extends BaseAdapter {
         item.setAllowStr(allowStr);
 
         listViewItemList.add(item);
+    }
+
+    public void clear() {
+        listViewItemList.clear();
     }
 
     public void deleteItem(int position) { listViewItemList.remove(position); }

@@ -23,14 +23,14 @@
     <string name="advice_reservation">새로운 예약을 진행하세요.</string>
     <string name="go_reservation">예약 진행하기</string>
     <string name="reservation_date">상담 날짜</string>
-    <string name="test_date">02.18(목)</string>
+    <string name="test_date">날짜 설정</string>
     <string name="reservation_way">상담 방법</string>
     <string name="test_way">온라인</string>
     <string name="test_place">ZOOM</string>
     <string name="reservation_place">상담 장소</string>
     <string name="test_state">수락 대기</string>
     <string name="reservation">예약</string>
-    <string name="test_time">12:00</string>
+    <string name="test_time">시간 설정</string>
     <string name="reservation_time">상담 시간</string>
     <string name="reservation_content">상담 내용</string>
     <string name="test_version">대구 ICT산업 혁신아카데미 2021년도 3기</string>

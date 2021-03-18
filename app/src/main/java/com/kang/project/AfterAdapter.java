@@ -70,5 +70,9 @@ public class AfterAdapter extends BaseAdapter {
         listViewItemList.add(item);
     }
 
+    public void clear() {
+        listViewItemList.clear();
+    }
+
     public void deleteItem(int position) { listViewItemList.remove(position); }
 }
