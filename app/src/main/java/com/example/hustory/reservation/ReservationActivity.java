@@ -22,8 +22,11 @@ import com.example.hustory.R;
 import com.example.hustory.reservation.FirebaseData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -55,8 +58,9 @@ public class ReservationActivity extends AppCompatActivity {
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     private DatabaseReference myRef = db.getReference();
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    private ArrayList<FirebaseData> datas;
-    private long consultNum;
+    private String uid = user.getUid();
+    private String profUid;
+
 
 
 
@@ -108,8 +112,25 @@ public class ReservationActivity extends AppCompatActivity {
             }
         });
         // spinner.getSelectedItem().toString() : 스피너 값 가져오는 함수
+        // 교수 정보 가져오기
+        FirebaseDatabase.getInstance().getReference().child("Member").child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Log.d("MainActivity", "ValueEventListener : " + dataSnapshot.child("role").getValue());
+                    profUid = dataSnapshot.child("prof").getValue().toString();
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("remove", "없어");
+            }
+        });
 
     }
+
+
+
 
 
     // 날짜 정보 고르는 함수.
@@ -178,21 +199,19 @@ public class ReservationActivity extends AppCompatActivity {
         Date date = new Date(id);
         Log.i("reserve", "date" + date);
 
-//
-//        String q_Num = "R" + sFormat3.format(date) + sFormat4.format(date);
 
         // 예약하기 버튼 클릭시 예약 해서 firebase 에 데이터 전송
         if(!select_date.getText().equals("날짜 설정") && !select_time.getText().equals("시간 설정")  && select_place.getText().length() != 0 && select_content.getText().length() !=0 && text_summary.getText().length() != 0) {
             key = "R" + id;
-            Log.i("name", String.valueOf(myRef.child("Member").child("v5N3FZkAIxTS2IpVV4ki2yUbRwJ2").child("name").get()));
+            Log.i("name", String.valueOf(myRef.child("Member").child(uid).child("name").get()));
             Date d = new Date();
             Log.i("date", String.valueOf(d));
-            firebaseData = new FirebaseData("v5N3FZkAIxTS2IpVV4ki2yUbRwJ2", "홍길동", text_summary.getText().toString(), select_date.getText().toString(), select_time.getText().toString(), spinner.getSelectedItem().toString(), select_place.getText().toString(), "수락대기", select_content.getText().toString(), false, key);
+            firebaseData = new FirebaseData(uid, "홍길동", text_summary.getText().toString(), select_date.getText().toString(), select_time.getText().toString(), spinner.getSelectedItem().toString(), select_place.getText().toString(), "수락대기", select_content.getText().toString(), false, key);
             Map<String, Object> postValue = firebaseData.toMap();
-            myRef.child("Member").child("v5N3FZkAIxTS2IpVV4ki2yUbRwJ2").child("R_List").child(key).setValue(postValue);
+            myRef.child("Member").child(uid).child("R_List").child(key).setValue(postValue);
+            myRef.child("Member").child(profUid).child("R_List").child(key).setValue(postValue);
             Log.i("reserve", "" + id);
             finish();
-
         }
 
         // 미입력 항목 있을 시 토스트

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#FAFAFA"
+    android:onClick="onClick"
     android:orientation="vertical">
 
     <LinearLayout
@@ -93,9 +94,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font"
-                    android:textColor="@color/grey"
                     android:gravity="center_horizontal"
                     android:text="@string/reservation_date"
+                    android:textColor="@color/grey"
                     android:textSize="10sp" />
 
                 <TextView
@@ -129,8 +130,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font"
                     android:gravity="center_horizontal"
-                    android:textColor="@color/grey"
                     android:text="@string/reservation_way"
+                    android:textColor="@color/grey"
                     android:textSize="10sp" />
 
                 <TextView
@@ -164,8 +165,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font"
                     android:gravity="center_horizontal"
-                    android:textColor="@color/grey"
                     android:text="@string/reservation_place"
+                    android:textColor="@color/grey"
                     android:textSize="10sp" />
 
                 <TextView
@@ -192,10 +193,10 @@
             android:layout_marginRight="5dp"
             android:layout_marginBottom="15dp"
             android:background="@drawable/round2_background"
+            android:elevation="2dp"
             android:fontFamily="@font/font"
             android:gravity="center"
             android:padding="10dp"
-            android:elevation="2dp"
             android:text="@string/test_state"
             android:textColor="@color/white" />
     </LinearLayout>

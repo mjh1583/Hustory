@@ -100,7 +100,8 @@
     <string name="question_title">질문 제목을 입력하세요</string>
     <string name="question_content">질문 내용을 입력하세요</string>
     <string name="cancel">취소</string>
-
+    <string name="no_reservation_prof">대기중인 예약 내역이 없습니다.</string>
+    <string name="advice_reservation_prof">새로운 예약을 기다리세요.</string>
 
 
     <string-array name="day_of_week">
