@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class FragmentMy extends Fragment {
+    int flag = 0;
 
     Button button_card;
     Button button_letter;
@@ -34,13 +35,19 @@ public class FragmentMy extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_my, container, false);
-        init();
+        if (flag == 0) {
+            view = inflater.inflate(R.layout.fragment_my, container, false);
+            init_student();
+        } else {
+            view = inflater.inflate(R.layout.fragment_professor, container, false);
+            init_professor();
+        }
+
 
         return view;
     }
 
-    public void init() {
+    public void init_student() {
         mContext = getContext();
         fab_open = AnimationUtils.loadAnimation(mContext, R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(mContext, R.anim.fab_close);
@@ -87,6 +94,10 @@ public class FragmentMy extends Fragment {
                 startActivity(intent);
             }
         });
+    }
+
+    public void init_professor() {
+
     }
 
     public boolean dispatchTouchEvent(MotionEvent ev) {
