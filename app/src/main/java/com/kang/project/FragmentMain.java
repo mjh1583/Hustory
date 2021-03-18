@@ -93,15 +93,6 @@ public class FragmentMain extends Fragment {
         viewPager.getLayoutParams().height = height/3;
         viewPager.requestLayout();
 
-        //image_top.getLayoutParams().height = height/2;
-        //image_top.requestLayout();
-
-        //layout_reservation.getLayoutParams().height = height/5;
-        //layout_reservation.requestLayout();
-
-        //layout_question.getLayoutParams().height = height/5;
-        //layout_question.requestLayout();
-
         String str = "\" " + String.valueOf(text_summary.getText()) + " \"";
         text_summary.setText(str);
 
