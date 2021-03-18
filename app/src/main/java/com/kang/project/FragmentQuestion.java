@@ -49,8 +49,8 @@ public class FragmentQuestion extends Fragment {
         ListView listview1 = (ListView) view.findViewById(R.id.list_question);
         listview1.setAdapter(questionAdapter);
 
-        questionAdapter.addItem("프로젝트 평가 요소가 궁금합니다.", "홍길동", "1분 전", "0");
-        questionAdapter.addItem("프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다.", "홍길동", "25분 전", "5");
+        questionAdapter.addItem("\" 프로젝트 평가 요소가 궁금합니다. \"", "홍길동", "1분 전", "0");
+        questionAdapter.addItem("\" 프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다. \"", "홍길동", "25분 전", "5");
 
 
         listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -68,6 +68,7 @@ public class FragmentQuestion extends Fragment {
         fab_close = AnimationUtils.loadAnimation(mContext, R.anim.fab_close);
         fab_main = (FloatingActionButton) view.findViewById(R.id.fab_main);
         fab_sub1 = (FloatingActionButton) view.findViewById(R.id.fab_sub1);
+
         fab_sub2 = (FloatingActionButton) view.findViewById(R.id.fab_sub2);
 
         fab_main.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +89,17 @@ public class FragmentQuestion extends Fragment {
                     fab_sub2.setClickable(true);
                     isFabOpen = true;
                 }
+            }
+        });
+
+
+        fab_sub1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getActivity(), QuestionActivity.class);
+                startActivity(intent);
+
             }
         });
     }

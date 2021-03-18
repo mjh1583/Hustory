@@ -93,6 +93,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font"
+                    android:textColor="@color/grey"
                     android:gravity="center_horizontal"
                     android:text="@string/reservation_date"
                     android:textSize="10sp" />
@@ -113,7 +114,9 @@
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:background="?attr/colorButtonNormal" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/view_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -126,6 +129,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font"
                     android:gravity="center_horizontal"
+                    android:textColor="@color/grey"
                     android:text="@string/reservation_way"
                     android:textSize="10sp" />
 
@@ -145,7 +149,9 @@
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:background="?attr/colorButtonNormal" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/view_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -158,6 +164,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font"
                     android:gravity="center_horizontal"
+                    android:textColor="@color/grey"
                     android:text="@string/reservation_place"
                     android:textSize="10sp" />
 

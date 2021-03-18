@@ -34,6 +34,9 @@ public class AnswerActivity extends AppCompatActivity {
 
         answerAdapter.addItem("프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다.", "홍길동", "1분 전");
         answerAdapter.addItem("프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다.", "홍길동", "5분 전");
+        answerAdapter.addItem("프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다.", "홍길동", "5분 전");
+        answerAdapter.addItem("프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다.", "홍길동", "5분 전");
+        answerAdapter.addItem("프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다. 프로젝트 평가 요소가 궁금합니다.", "홍길동", "5분 전");
 
         button_answer = (Button) findViewById(R.id.button_answer);
         button_answer.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +51,6 @@ public class AnswerActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
-
 
 
         int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
