@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HuStory.</string>
+    <string name="app_name">HuStory</string>
     <string name="todo">TODO</string>
     <string name="hint_question">Q</string>
     <string name="new_question_1">최근 </string>
@@ -10,7 +10,7 @@
     <string name="consulting_status">상담 예약 현황</string>
     <string name="see_more"><![CDATA[자세히 >]]></string>
     <string name="professor">교수님</string>
-    <string name="test_question">프로젝트 평가 요소가 궁금합니다.</string>
+    <string name="test_question"><![CDATA[" 프로젝트 평가 요소가 궁금합니다. "]]></string>
     <string name="test_answer">가장 중요한 것은 협업 능력!</string>
     <string name="answer_time">5초 전</string>
     <string name="go_answer">답변하기</string>
@@ -64,13 +64,16 @@
     <string name="sort_new">최신순</string>
     <string name="sort_inquiry">조회순</string>
     <string name="my_question">내질문</string>
+    <string name="logout">로그아웃</string>
+    <string name="drop">탈퇴하기</string>
+    <string name="enter">등록하기</string>
     <string name="test_scroll">ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력
         ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력
         ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력
         ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력
         ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력
         ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력</string>
-
+    <string name="test">\" 프로젝트 평가 요소가 궁금합니다. \"</string>
     <string name="id">ID</string>
     <string name="pw">PW</string>
     <string name="auto_login">AUTO LOGIN</string>
@@ -80,7 +83,6 @@
     <string name="password">비밀번호</string>
     <string name="check_password">비밀번호 확인</string>
     <string name="sign_up">회원가입</string>
-    <string name="logout">로그아웃</string>
     <string name="find_id">아이디 찾기</string>
     <string name="find_pw">비밀번호 찾기</string>
     <string name="student">학생</string>
@@ -95,4 +97,7 @@
     <string name="add">등록</string>
     <string name="q_title">질문 제목을 입력하세요</string>
     <string name="q_content">질문 내용을 입력하세요</string>
+    <string name="question_title">질문 제목을 입력하세요</string>
+    <string name="question_content">질문 내용을 입력하세요</string>
+    <string name="cancel">취소</string>
 </resources>

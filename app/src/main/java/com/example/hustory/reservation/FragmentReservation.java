@@ -1,5 +1,6 @@
 package com.example.hustory.reservation;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -43,9 +44,6 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
     LinearLayout tab_after;
 
     TextView intent_reservation;
-
-    private Dialog dlg_previous;
-    private Dialog dlg_after;
 
     private Context mContext;
     private FloatingActionButton fab_main, fab_sub1, fab_sub2;
@@ -126,28 +124,31 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
         afterAdapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.professor), "홍길동", "연봉 협상에 대하여", "02.18(목)", "온라인", "ZOOM");
         afterAdapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.professor), "홍길동", "취업 가능 여부", "01.12(화)", "오프라인", "테크카페");
 
-
-        dlg_previous = new Dialog(getActivity());
-        dlg_previous.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dlg_previous.setContentView(R.layout.dialog_previous);
-        dlg_previous.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        dlg_after = new Dialog(getActivity());
-        dlg_after.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dlg_after.setContentView(R.layout.dialog_after);
-        dlg_after.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
         listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                dlg_previous.show();
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+                LayoutInflater inflater1 = getLayoutInflater();
+                View view1 = inflater1.inflate(R.layout.dialog_previous, null);
+                builder1.setView(view1);
+                final AlertDialog dialog1 = builder1.create();
+                dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog1.show();
             }
         });
 
         listview2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                dlg_after.show();
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(getActivity());
+                LayoutInflater inflater2 = getLayoutInflater();
+                View view1 = inflater2.inflate(R.layout.dialog_after, null);
+                builder2.setView(view1);
+                final AlertDialog dialog2 = builder2.create();
+                dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog2.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog2.show();
             }
         });
 

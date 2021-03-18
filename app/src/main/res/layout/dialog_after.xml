@@ -6,8 +6,15 @@
     android:layout_gravity="center"
     android:orientation="vertical"
     android:background="@drawable/round_dialog"
+    android:layout_margin="20dp"
     android:padding="15dp">
 
+    <ImageView
+        android:id="@+id/button_back"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_gravity="right"
+        app:srcCompat="@drawable/cancel"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -108,7 +115,9 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:background="?attr/colorButtonNormal" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/view_color" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -141,7 +150,9 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
-            android:background="?attr/colorButtonNormal" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/view_color" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -203,18 +214,5 @@
         </ScrollView>
 
     </LinearLayout>
-
-
-    <Button
-        android:id="@+id/button_ok"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/ok"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        android:fontFamily="@font/jalnan"
-        android:background="@drawable/round2_background"/>
 
 </LinearLayout>

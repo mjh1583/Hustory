@@ -1,74 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="20dp"
-    tools:context=".question.AddQuestionActivity">
+    android:orientation="vertical">
 
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_weight="1"
-            android:text="@string/question"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/q_titleETXT"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="@string/q_title"
-            android:importantForAutofill="no"
-            android:inputType="textPersonName" />
-
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/q_contentETXT"
+    <ImageView
+        android:id="@+id/logo_main"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="20dp"
-        android:layout_weight="1"
-        android:ems="10"
-        android:hint="@string/q_content"
-        android:importantForAutofill="no"
-        android:inputType="textPassword" />
+        android:layout_height="30dp"
+        android:layout_margin="30dp"
+
+        android:contentDescription="@string/todo"
+        android:scaleType="fitCenter"
+        android:src="@drawable/logo_main" />
+
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/jalnan"
+        android:gravity="center_horizontal"
+        android:text="@string/question"
+        android:textSize="16dp"
+        android:padding="15dp"
+        android:background="@color/main_color"
+        android:textColor="@color/white"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:layout_margin="25dp"
+        android:background="@drawable/round3_background"
+        android:elevation="5dp"
+        android:orientation="vertical"
+        android:padding="20dp">
 
-        <Button
-            android:id="@+id/removeBTN"
-            android:layout_width="wrap_content"
+        <ScrollView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="200dp"
-            android:layout_marginEnd="10dp"
-            android:layout_weight="1"
-            android:onClick="onClick"
-            android:text="@string/remove" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
 
-        <Button
-            android:id="@+id/addBTN"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            <EditText
+                android:id="@+id/q_titleETXT"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/view_color"
+                android:fontFamily="@font/jalnan"
+                android:hint="@string/question_title"
+                android:maxHeight="50dp"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+        </ScrollView>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="onClick"
-            android:text="@string/add" />
+            android:background="@drawable/stroke_dialog"
+            android:padding="10dp"
+            android:layout_margin="5dp">
+
+            <EditText
+                android:id="@+id/q_contentETXT"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:fontFamily="@font/jalnan"
+                android:gravity="top"
+                android:hint="@string/question_content"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_cancel"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="120dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/round2_background"
+                android:elevation="2dp"
+                android:fontFamily="@font/jalnan"
+                android:onClick="onClick"
+                android:text="@string/cancel"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/button_ok"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/round2_background"
+                android:elevation="2dp"
+                android:fontFamily="@font/jalnan"
+                android:onClick="onClick"
+                android:text="@string/enter"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </LinearLayout>
+
     </LinearLayout>
-
 </LinearLayout>
+

@@ -2,8 +2,11 @@ package com.example.hustory.managementcard;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,15 +15,19 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.hustory.R;
+import com.example.hustory.login.LoginActivity;
 import com.example.hustory.managementcard.CardActivity;
 import com.example.hustory.managementcard.LetterActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class FragmentMy extends Fragment {
 
@@ -33,6 +40,12 @@ public class FragmentMy extends Fragment {
     private FloatingActionButton fab_main, fab_sub1, fab_sub2;
     private Animation fab_open, fab_close;
     private boolean isFabOpen = false;
+
+    private FirebaseAuth mAuth;
+    private FirebaseUser cuurentUser;
+
+    private SharedPreferences auto;
+    private SharedPreferences.Editor auto_editor;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
@@ -89,9 +102,32 @@ public class FragmentMy extends Fragment {
                 startActivity(intent);
             }
         });
+
+
+        auto = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        auto_editor = auto.edit();
+        mAuth = FirebaseAuth.getInstance();
+        cuurentUser = mAuth.getCurrentUser();
+
+        TextView logoutTXTBTN = view.findViewById(R.id.logoutTXTBTN);
+
+        logoutTXTBTN.setOnClickListener(v -> {
+            Log.i("LogOut", "log------------out");
+
+            mAuth.signOut();
+            auto_editor.clear();
+            auto_editor.apply();
+            startLoginActivity();
+        });
+    } //init()
+
+    public void startLoginActivity () {
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        startActivity(intent);
+        getActivity().finish();
     }
 
-    public boolean dispatchTouchEvent(MotionEvent ev) {
+    public boolean dispatchTouchEvent (MotionEvent ev){
         View focusView = getActivity().getCurrentFocus();
         if (focusView != null) {
             Rect rect = new Rect();
@@ -107,3 +143,4 @@ public class FragmentMy extends Fragment {
         return view.dispatchTouchEvent(ev);
     }
 }
+

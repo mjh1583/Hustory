@@ -113,16 +113,17 @@
                     android:gravity="center_vertical"
                     android:orientation="vertical">
 
-                    <TextView
+                    <EditText
                         android:id="@+id/name_student"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/jalnan"
+                        android:background="@null"
                         android:text="@string/test_name"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/version_student"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -130,6 +131,7 @@
                         android:text="@string/test_version"
                         android:fontFamily="@font/jalnan"
                         android:textColor="@color/main_color"
+                        android:background="@null"
                         android:textSize="12dp"/>
 
                 </LinearLayout>
@@ -158,7 +160,7 @@
                         android:textColor="@color/grey"
                         android:fontFamily="@font/jalnan" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/my_school"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -167,6 +169,7 @@
                         android:fontFamily="@font/jalnan"
                         android:text="@string/test_school"
                         android:textColor="@color/black"
+                        android:background="@null"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -192,7 +195,7 @@
                         android:textColor="@color/grey"
                         android:fontFamily="@font/jalnan" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/my_major"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -201,6 +204,7 @@
                         android:fontFamily="@font/jalnan"
                         android:text="@string/test_major"
                         android:textColor="@color/black"
+                        android:background="@null"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -246,7 +250,7 @@
                         android:layout_gravity="center_vertical"
                         android:background="@color/white" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/my_company_1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -254,6 +258,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
+                        android:background="@null"
                         android:fontFamily="@font/jalnan"
                         android:text="@string/test_company_1"
                         android:textColor="@color/black"
@@ -290,7 +295,7 @@
                         android:layout_marginLeft="20dp"
                         android:background="@color/white" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/my_company_2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -298,6 +303,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
+                        android:background="@null"
                         android:fontFamily="@font/jalnan"
                         android:text="@string/test_company_2"
                         android:textColor="@color/black"
@@ -334,7 +340,7 @@
                         android:layout_marginLeft="20dp"
                         android:background="@color/white" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/my_company_3"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -342,6 +348,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
+                        android:background="@null"
                         android:fontFamily="@font/jalnan"
                         android:text="@string/test_company_3"
                         android:textColor="@color/black"
@@ -374,16 +381,67 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="30dp"
 
-                android:text="@string/letter"
-                android:textSize="16dp"
-                android:textColor="@color/white"
+                android:background="@drawable/round2_background"
+                android:elevation="7dp"
                 android:fontFamily="@font/jalnan"
                 android:padding="5dp"
+                android:text="@string/letter"
 
-                android:elevation="7dp"
-                android:background="@drawable/round2_background" />
+                android:textColor="@color/white"
+                android:textSize="16dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/save"
+                    android:textSize="10dp"
+                    android:fontFamily="@font/jalnan"
+                    android:textColor="@color/grey"/>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/view_color" />
+
+                <TextView
+                    android:id="@+id/logoutTXTBTN"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/jalnan"
+                    android:text="@string/logout"
+                    android:textColor="@color/grey"
+                    android:textSize="10dp" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@color/view_color" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/drop"
+                    android:textSize="10dp"
+                    android:fontFamily="@font/jalnan"
+                    android:textColor="@color/grey"/>
+
+
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
