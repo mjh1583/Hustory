@@ -20,27 +20,12 @@
         android:id="@+id/fab_sub1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/fab_sub2"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="5dp"
-        android:backgroundTint="#ffffff"
-        android:src="@drawable/ic_menu_search"
-        android:visibility="invisible"
-        android:elevation="7dp"
-        app:borderWidth="0dp"
-        app:fabSize="normal" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_sub2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_above="@+id/fab_main"
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="5dp"
         android:backgroundTint="#ffffff"
-        android:src="@drawable/ic_menu_my_calendar"
+        android:src="@drawable/ic_menu_search"
         android:visibility="invisible"
         android:elevation="7dp"
         app:borderWidth="0dp"
@@ -118,7 +103,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/jalnan"
-                        android:background="@null"
+                        android:backgroundTint="@color/view_color"
                         android:text="@string/test_name"
                         android:hint="@string/name"
                         android:textColor="@color/black"
@@ -162,7 +147,7 @@
                     android:gravity="center"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="20dp"
-                    android:background="@null"
+                    android:backgroundTint="@color/view_color"
                     android:fontFamily="@font/jalnan"
                     android:hint="@string/test_agency"
                     android:text="@string/test_agency"
@@ -198,7 +183,7 @@
                     android:text="@string/test_department"
                     android:hint="@string/department"
                     android:textColor="@color/black"
-                    android:background="@null"
+                    android:backgroundTint="@color/view_color"
                     android:textSize="16sp" />
 
                 <View
@@ -230,7 +215,7 @@
                     android:text="@string/test_spot"
                     android:hint="@string/spot"
                     android:textColor="@color/black"
-                    android:background="@null"
+                    android:backgroundTint="@color/view_color"
                     android:textSize="16sp" />
 
             </LinearLayout>

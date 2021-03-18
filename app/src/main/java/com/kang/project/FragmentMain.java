@@ -27,10 +27,10 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class FragmentMain extends Fragment {
-    int flag = 0;
+    int flag_content = 0;
+    int flag = 1;
 
     View view;
-    ImageView image_top;
     ViewPager viewPager;
     TextView text_summary;
     SwipeAdapter adapter;
@@ -51,16 +51,19 @@ public class FragmentMain extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        view = inflater.inflate(R.layout.fragment_main, container, false);
-        init();
+        if (flag == 1) {
+            view = inflater.inflate(R.layout.fragment_main, container, false);
+            init_student();
+        } else if (flag == 2) {
+            view = inflater.inflate(R.layout.fragment_main_professor, container, false);
+            init_professor();
+        }
 
         return view;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void init() {
-        //image_top = (ImageView) view.findViewById(R.id.image_top);
+    public void init_student() {
         text_summary = (TextView) view.findViewById(R.id.main_summary);
         viewPager = (ViewPager) view.findViewById(R.id.image_banner);
 
@@ -71,7 +74,6 @@ public class FragmentMain extends Fragment {
         go_reservation = (TextView) view.findViewById(R.id.go_reservation);
 
         layout_reservation = (LinearLayout) view.findViewById(R.id.reservation);
-        //layout_question = (LinearLayout) view.findViewById(R.id.question);
 
         adapter = new SwipeAdapter(getContext());
         viewPager.setAdapter(adapter);
@@ -124,7 +126,100 @@ public class FragmentMain extends Fragment {
             }
         });
 
-        if (flag == 1) {
+        if (flag_content == 1) {
+            image_professor.setVisibility(View.GONE);
+            main_professor.setVisibility(View.GONE);
+            title_professor.setVisibility(View.GONE);
+            main_summary.setVisibility(View.GONE);
+            go_reservation.setVisibility(View.GONE);
+
+            TextView text_no = new TextView(getContext());
+            text_no.setText("진행중인 예약 내역이 없습니다.");
+            text_no.setTextColor(Color.parseColor("#FFFFFF"));
+            text_no.setTextSize(14);
+            text_no.setGravity(Gravity.CENTER);
+            layout_reservation.addView(text_no);
+
+            LinearLayout.LayoutParams layoutParams1 = (LinearLayout.LayoutParams) text_no.getLayoutParams();
+            layoutParams1.topMargin = 80;
+            text_no.setLayoutParams(layoutParams1);
+
+            TextView text_go = new TextView(getContext());
+            text_go.setText("새로운 예약을 진행하세요");
+            text_go.setTextSize(12);
+            text_go.setGravity(Gravity.CENTER);
+            layout_reservation.addView(text_go);
+
+            LinearLayout.LayoutParams layoutParams2 = (LinearLayout.LayoutParams) text_go.getLayoutParams();
+            layoutParams2.bottomMargin = 80;
+            text_go.setLayoutParams(layoutParams2);
+
+            Typeface typeface = getResources().getFont(R.font.jalnan);
+            text_no.setTypeface(typeface);
+            text_go.setTypeface(typeface);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void init_professor() {
+        text_summary = (TextView) view.findViewById(R.id.main_summary);
+        viewPager = (ViewPager) view.findViewById(R.id.image_banner);
+
+        image_professor = (ImageView) view.findViewById(R.id.image_professor);
+        main_professor = (TextView) view.findViewById(R.id.main_professor);
+        title_professor = (TextView) view.findViewById(R.id.title_professor);
+        main_summary = (TextView) view.findViewById(R.id.main_summary);
+        go_reservation = (TextView) view.findViewById(R.id.go_reservation);
+
+        layout_reservation = (LinearLayout) view.findViewById(R.id.reservation);
+
+        adapter = new SwipeAdapter(getContext());
+        viewPager.setAdapter(adapter);
+
+        int dpValue = 35;
+        float d = getResources().getDisplayMetrics().density;
+        int margin = (int) (dpValue * d);
+
+        viewPager.setClipToPadding(false);
+        viewPager.setPadding(margin, 0, margin, 0);
+        viewPager.setPageMargin(margin/2);
+
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+
+        viewPager.getLayoutParams().height = height/3;
+        viewPager.requestLayout();
+
+        String str = "\" " + String.valueOf(text_summary.getText()) + " \"";
+        text_summary.setText(str);
+
+        mContext = getContext();
+        fab_open = AnimationUtils.loadAnimation(mContext, R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(mContext, R.anim.fab_close);
+        fab_main = (FloatingActionButton) view.findViewById(R.id.fab_main);
+        fab_sub1 = (FloatingActionButton) view.findViewById(R.id.fab_sub1);
+
+        fab_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isFabOpen) {
+                    fab_main.setImageResource(R.drawable.booking);
+                    fab_sub1.startAnimation(fab_close);
+                    fab_sub1.setClickable(false);
+                    isFabOpen = false;
+                } else {
+                    fab_main.setImageResource(R.drawable.booking);
+                    fab_sub1.startAnimation(fab_open);
+                    fab_sub1.setClickable(true);
+                    isFabOpen = true;
+                }
+            }
+        });
+
+        if (flag_content == 1) {
             image_professor.setVisibility(View.GONE);
             main_professor.setVisibility(View.GONE);
             title_professor.setVisibility(View.GONE);

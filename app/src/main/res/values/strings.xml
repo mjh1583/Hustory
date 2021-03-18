@@ -21,6 +21,7 @@
     <string name="go"><![CDATA[>]]></string>
     <string name="no_reservation">진행중인 예약 내역이 없습니다.</string>
     <string name="advice_reservation">새로운 예약을 진행하세요.</string>
+    <string name="advice_reservation_professor">새로운 예약을 기다리세요.</string>
     <string name="go_reservation">예약 진행하기</string>
     <string name="reservation_date">상담 날짜</string>
     <string name="test_date">02.18(목)</string>
@@ -90,6 +91,8 @@
     <string name="test_agency">첨단정보통신융합산업기술원</string>
     <string name="test_department">3D융합기술지원센터</string>
     <string name="test_spot">센터장/산학협력중점교수</string>
+    <string name="previous">이전 상담 내역</string>
+    <string name="accept">수락</string>
 
     <string name="test_scroll">ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력
         ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력

@@ -21,7 +21,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class FragmentMy extends Fragment {
-    int flag = 0;
+    int flag = 1;
 
     Button button_card;
     Button button_letter;
@@ -35,7 +35,7 @@ public class FragmentMy extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        if (flag == 0) {
+        if (flag == 1) {
             view = inflater.inflate(R.layout.fragment_my, container, false);
             init_student();
         } else {
@@ -97,7 +97,28 @@ public class FragmentMy extends Fragment {
     }
 
     public void init_professor() {
+        mContext = getContext();
+        fab_open = AnimationUtils.loadAnimation(mContext, R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(mContext, R.anim.fab_close);
+        fab_main = (FloatingActionButton) view.findViewById(R.id.fab_main);
+        fab_sub1 = (FloatingActionButton) view.findViewById(R.id.fab_sub1);
 
+        fab_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isFabOpen) {
+                    fab_main.setImageResource(R.drawable.booking);
+                    fab_sub1.startAnimation(fab_close);
+                    fab_sub1.setClickable(false);
+                    isFabOpen = false;
+                } else {
+                    fab_main.setImageResource(R.drawable.booking);
+                    fab_sub1.startAnimation(fab_open);
+                    fab_sub1.setClickable(true);
+                    isFabOpen = true;
+                }
+            }
+        });
     }
 
     public boolean dispatchTouchEvent(MotionEvent ev) {
