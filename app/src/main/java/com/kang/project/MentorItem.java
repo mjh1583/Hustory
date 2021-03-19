@@ -2,18 +2,10 @@ package com.kang.project;
 
 import android.graphics.drawable.Drawable;
 
-public class CardItem {
-    private Drawable iconDrawable;
+public class MentorItem {
     private String NameStr;
     private String VersionStr;
-
-    public Drawable getIconDrawable() {
-        return iconDrawable;
-    }
-
-    public void setIconDrawable(Drawable iconDrawable) {
-        this.iconDrawable = iconDrawable;
-    }
+    private Boolean CheckBool;
 
     public String getNameStr() {
         return NameStr;
@@ -31,4 +23,11 @@ public class CardItem {
         VersionStr = versionStr;
     }
 
+    public Boolean getCheckBool() {
+        return CheckBool;
+    }
+
+    public void setCheckBool(Boolean checkBool) {
+        CheckBool = checkBool;
+    }
 }

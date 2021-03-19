@@ -32,6 +32,7 @@
         <activity android:name=".question.AnswerActivity" />
         <activity android:name=".login.FindPwActivity" />
         <activity android:name=".login.FindIdActivity" />
+        <activity android:name=".MentorActivity" />
     </application>
 
 </manifest>

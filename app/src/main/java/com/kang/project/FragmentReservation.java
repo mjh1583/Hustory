@@ -31,7 +31,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class FragmentReservation extends Fragment implements TabHost.OnTabChangeListener {
     int flag_content = 0;
-    int flag = 1;
+    int flag = 2;
 
     PreviousAdapter previousAdapter;
     AfterAdapter afterAdapter;;

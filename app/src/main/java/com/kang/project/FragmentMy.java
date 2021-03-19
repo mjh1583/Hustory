@@ -28,10 +28,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.kang.project.login.LoginActivity;
 
 public class FragmentMy extends Fragment {
-    int flag = 1;
+    int flag = 2;
 
     Button button_card;
     Button button_letter;
+    Button button_mentor;
 
     View view;
 
@@ -126,6 +127,21 @@ public class FragmentMy extends Fragment {
     }
 
     public void init_professor() {
+
+        button_mentor = (Button) view.findViewById(R.id.button_mentor);
+        button_mentor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getActivity(), MentorActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+
+
+
         mContext = getContext();
         fab_open = AnimationUtils.loadAnimation(mContext, R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(mContext, R.anim.fab_close);
