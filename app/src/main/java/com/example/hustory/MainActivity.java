@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,9 +18,19 @@ import android.widget.EditText;
 import com.example.hustory.managementcard.FragmentMy;
 import com.example.hustory.question.FragmentQuestion;
 import com.example.hustory.reservation.FragmentReservation;
+import com.example.hustory.userInfo.UserInfo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "MainActivity";
 
     private FragmentManager fragmentManager = getSupportFragmentManager();
     private FragmentMain fragmentMain = new FragmentMain();
@@ -34,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         init();
+
+        // 현재 로그인한 유저 정보 저장
+        saveUser();
     }
 
     class ItemSelectedListener implements BottomNavigationView.OnNavigationItemSelectedListener{
@@ -89,5 +103,28 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return super.dispatchTouchEvent( event );
+    }
+
+    // 현재 로그인한 유저 정보 저장
+    private void saveUser() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = db.getReference();
+
+        // 로그인한 유저의 이름을 저장
+        myRef.child("Member").child(currentUser.getUid()).child("name").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserInfo.CUR_USER_NAME = snapshot.getValue().toString();
+                Log.i(TAG, UserInfo.CUR_USER_NAME);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

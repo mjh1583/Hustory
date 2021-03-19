@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.hustory.R;
+import com.example.hustory.util.DataStringFormat;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
@@ -41,7 +42,7 @@ public class QuestionAdapter extends BaseAdapter {
 
         question_name.setText(listViewItem.getQ_title());
         question_content.setText(listViewItem.getQ_title());
-        question_time.setText(listViewItem.getQ_time());
+        question_time.setText(listViewItem.getQ_diffTime());
         answer_count.setText(String.valueOf(listViewItem.getQ_count()));
 
         return convertView;
@@ -57,34 +58,16 @@ public class QuestionAdapter extends BaseAdapter {
         return listViewItemList.get(position);
     }
 
-    public void addItem(String questionStr, String nameStr, String timeStr, String countStr) {
-        QuestionItem item = new QuestionItem(nameStr, questionStr, timeStr, countStr);
-
-        item.setQ_title(nameStr);
-        item.setQ_content(questionStr);
-        item.setQ_time(timeStr);
-        item.setQ_count(countStr);
-
-        listViewItemList.add(item);
-    }
-
-    public void addItem(String id, String q_Num, String q_title, String q_content, String q_date, String q_time, String q_count, String q_like, String q_dislike) {
-        QuestionItem item = new QuestionItem(id, q_Num, q_title, q_content, q_date, q_time, q_count, q_like, q_dislike);
+    public void addItemDESC(int idx, String id, String q_Num, String q_title, String q_content, String q_date, String q_time, String q_count, String q_diffTime) {
+        QuestionItem item = new QuestionItem(id, q_Num, q_title, q_content, q_date, q_time, q_count, q_diffTime);
 
         item.setQ_title(q_title);
         item.setQ_content(q_content);
-        item.setQ_time(q_date);
-        item.setQ_count(q_count);
 
-        listViewItemList.add(item);
-    }
+        // 작성 시간과 현재 시간의 차이를 계산하여 값을 넘겨줌
+        q_diffTime = DataStringFormat.CreateDataWithCheck(q_diffTime);
 
-    public void addItemDESC(int idx, String id, String q_Num, String q_title, String q_content, String q_date, String q_time, String q_count, String q_like, String q_dislike) {
-        QuestionItem item = new QuestionItem(id, q_Num, q_title, q_content, q_date, q_time, q_count, q_like, q_dislike);
-
-        item.setQ_title(q_title);
-        item.setQ_content(q_content);
-        item.setQ_time(q_date);
+        item.setQ_diffTime(q_diffTime);
         item.setQ_count(q_count);
 
         listViewItemList.add(idx, item);

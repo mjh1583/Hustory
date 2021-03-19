@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.hustory.R;
+import com.example.hustory.util.DataStringFormat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -19,7 +20,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.Date;
 
 public class AddQuestionActivity extends AppCompatActivity {
@@ -64,32 +64,30 @@ public class AddQuestionActivity extends AppCompatActivity {
                 q_contentETXT.setText("");
                 q_titleETXT.setText("");
                 break;
-            case R.id.button_ok:
+            case R.id.answer_AddBTN:
                 title = q_titleETXT.getText().toString();
                 content = q_contentETXT.getText().toString();
 
                 if(title.length() > 0 && content.length() > 0) {
                     Date date = new Date();
 
-                    LocalDateTime cur = LocalDateTime.now();
-
                     Log.i("시간 : ", String.valueOf(date.getTime()));
 
-                    SimpleDateFormat sFormat = new SimpleDateFormat("hh시 mm분 ss초");
+                    SimpleDateFormat sFormat = new SimpleDateFormat("HH시 mm분 ss초");
                     SimpleDateFormat sFormat2 = new SimpleDateFormat("yyyy년 MM월 dd일");
-                    SimpleDateFormat sFormat3 = new SimpleDateFormat("yyyyMMdd");
-                    SimpleDateFormat sFormat4 = new SimpleDateFormat("hhmmss");
 
-                    Log.i("cur : ", cur.format(DateTimeFormatter.ofPattern("HH mm ss")));
-                    String q_Num = "Q" + sFormat3.format(date) + sFormat4.format(date);
+                    // Q_Num 을 생성하기 위한 날짜/시간 데이터 처리
+                    SimpleDateFormat sFormat3 = new SimpleDateFormat("yyyyMMddHHmmss");
+
+                    String q_Num = "Q" + sFormat3.format(date);
 
                     QuestionItem data =  new QuestionItem(q_Num, userId,
                             q_titleETXT.getText().toString(),
                             q_contentETXT.getText().toString(),
                             sFormat2.format(date),
                             sFormat.format(date),
-                            "0", "0", "0"
-                    );
+                            "0",
+                            sFormat3.format(date));
 
                     Log.i("data", data.toString());
                     myRef.child("Member").child(userId).child("Q_List").child(q_Num).setValue(data);

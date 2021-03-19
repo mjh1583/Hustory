@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.hustory.R;
+import com.example.hustory.util.DataStringFormat;
 
 import java.util.ArrayList;
 
@@ -34,9 +35,9 @@ public class AnswerAdapter extends BaseAdapter {
 
         AnswerItem listViewItem = listViewItemList.get(position);
 
-        answer_content.setText(listViewItem.getContentStr());
-        answer_name.setText(listViewItem.getNameStr());
-        answer_time.setText(listViewItem.getTimeStr());
+        answer_content.setText(listViewItem.getA_content());
+        answer_name.setText(listViewItem.getA_writer());
+        answer_time.setText(listViewItem.getA_diffTime());
 
         return convertView;
     }
@@ -51,14 +52,23 @@ public class AnswerAdapter extends BaseAdapter {
         return listViewItemList.get(position);
     }
 
-    public void addItem(String contentStr, String nameStr, String timeStr) {
-        AnswerItem item = new AnswerItem();
+    public void addItem(String a_Num, String a_content, String a_date, String a_time, String a_writer, String id, String a_diffTime) {
+        AnswerItem item = new AnswerItem(a_Num, a_content, a_date, a_time, a_writer, id, a_diffTime);
 
-        item.setContentStr(contentStr);
-        item.setNameStr(nameStr);
-        item.setTimeStr(timeStr);
+        item.setA_Num(a_Num);
+        item.setA_content(a_content);
+
+        a_diffTime = DataStringFormat.CreateDataWithCheck(a_diffTime);
+
+        item.setA_diffTime(a_diffTime);
+        item.setA_writer(a_writer);
+        item.setId(id);
 
         listViewItemList.add(item);
+    }
+
+    public void clear() {
+        listViewItemList.clear();
     }
 
     public void deleteItem(int position) { listViewItemList.remove(position); }

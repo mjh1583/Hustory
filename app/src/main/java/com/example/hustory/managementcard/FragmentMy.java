@@ -25,6 +25,7 @@ import com.example.hustory.R;
 import com.example.hustory.login.LoginActivity;
 import com.example.hustory.managementcard.CardActivity;
 import com.example.hustory.managementcard.LetterActivity;
+import com.example.hustory.userInfo.UserInfo;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

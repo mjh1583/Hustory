@@ -10,10 +10,9 @@ public class QuestionItem {
     private String q_date;
     private String q_time;
     private String q_count;
-    private String q_like;
-    private String q_dislike;
+    private String q_diffTime;
 
-    public QuestionItem(String q_Num, String id, String q_title, String q_content, String q_date, String q_time, String q_count, String q_like, String q_dislike) {
+    public QuestionItem(String q_Num, String id, String q_title, String q_content, String q_date, String q_time, String q_count, String q_diffTime) {
         this.q_Num = q_Num;
         this.id = id;
         this.q_title = q_title;
@@ -21,15 +20,7 @@ public class QuestionItem {
         this.q_date = q_date;
         this.q_time = q_time;
         this.q_count = q_count;
-        this.q_like = q_like;
-        this.q_dislike = q_dislike;
-    }
-
-    public QuestionItem(String q_title, String q_content, String q_date, String q_count) {
-        this.q_title = q_title;
-        this.q_content = q_content;
-        this.q_date = q_date;
-        this.q_count = q_count;
+        this.q_diffTime = q_diffTime;
     }
 
     public String getQ_Num() {
@@ -88,20 +79,12 @@ public class QuestionItem {
         this.q_count = q_count;
     }
 
-    public String getQ_like() {
-        return q_like;
+    public String getQ_diffTime() {
+        return q_diffTime;
     }
 
-    public void setQ_like(String q_like) {
-        this.q_like = q_like;
-    }
-
-    public String getQ_dislike() {
-        return q_dislike;
-    }
-
-    public void setQ_dislike(String q_dislike) {
-        this.q_dislike = q_dislike;
+    public void setQ_diffTime(String q_diffTime) {
+        this.q_diffTime = q_diffTime;
     }
 
     @NonNull
@@ -114,7 +97,6 @@ public class QuestionItem {
                 this.getQ_date() + "\n" +
                 this.getQ_time() + "\n" +
                 this.getQ_count() + "\n" +
-                this.getQ_like() + "\n" +
-                this.getQ_dislike();
+                this.getQ_diffTime();
     }
 }
