@@ -63,4 +63,8 @@ public class MentorAdapter extends BaseAdapter {
         }
 
         public void deleteItem(int position) { listViewItemList.remove(position); }
+
+        public void clear() {
+        listViewItemList.clear();
     }
+}
