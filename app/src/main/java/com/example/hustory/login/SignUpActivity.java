@@ -1,10 +1,14 @@
 package com.example.hustory.login;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -38,7 +42,6 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText phoneETXT;
 
     private Button signUpBTN;
-    private Button loginBTN;
 
     private RadioButton studentBTN;
     private RadioButton mentorBTN;
@@ -61,7 +64,7 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.layout_sign);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -78,7 +81,6 @@ public class SignUpActivity extends AppCompatActivity {
         phoneETXT = findViewById(R.id.phoneETXT);
 
         signUpBTN = findViewById(R.id.signUpBTN);
-        loginBTN = findViewById(R.id.loginBTN);
 
         studentBTN = findViewById(R.id.studentBTN);
         mentorBTN = findViewById(R.id.mentorBTN);
@@ -88,16 +90,12 @@ public class SignUpActivity extends AppCompatActivity {
                 case R.id.signUpBTN:
                     signUp();
                     break;
-                case R.id.loginBTN:
-                    startLoginAcivity();
-                    break;
                 default:
                     break;
             }
         };
 
         signUpBTN.setOnClickListener(onClickListener);
-        loginBTN.setOnClickListener(onClickListener);
 
         CompoundButton.OnCheckedChangeListener onCheckedChangeListener = (buttonView, isChecked) -> {
             switch (buttonView.getId()) {
@@ -112,6 +110,12 @@ public class SignUpActivity extends AppCompatActivity {
 
         studentBTN.setOnCheckedChangeListener(onCheckedChangeListener);
         mentorBTN.setOnCheckedChangeListener(onCheckedChangeListener);
+
+        int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
+        int newUiOptions = uiOptions;
+        newUiOptions ^= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        newUiOptions ^= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        getWindow().getDecorView().setSystemUiVisibility(newUiOptions);
     }
 
 
@@ -138,12 +142,8 @@ public class SignUpActivity extends AppCompatActivity {
                                     Log.d(TAG, userId);
 
                                     // firebase에 데이터 저장
-                                    //HashMap<String, Object> childUpdates = new HashMap<>();
                                     Member member = new Member(email, password, name, phone, role);
-                                    //Map<String, Object> postValue = member.toMap();
                                     myRef.child("Member").child(userId).setValue(member);
-                                    //childUpdates.put("/Member/" + myRef.child("Member").push().getKey(), postValue);
-                                    //myRef.updateChildren(childUpdates);
 
                                     startToast("회원가입을 성공했습니다.");
                                     startLoginAcivity();
@@ -205,5 +205,22 @@ public class SignUpActivity extends AppCompatActivity {
         else {
             return true;
         }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
     }
 }

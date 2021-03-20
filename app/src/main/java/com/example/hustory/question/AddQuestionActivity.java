@@ -3,23 +3,23 @@ package com.example.hustory.question;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.hustory.R;
-import com.example.hustory.util.DataStringFormat;
+import com.example.hustory.userInfo.UserInfo;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class AddQuestionActivity extends AppCompatActivity {
@@ -39,7 +39,7 @@ public class AddQuestionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_question);
+        setContentView(R.layout.layout_question);
 
         init();
     }
@@ -51,6 +51,12 @@ public class AddQuestionActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         userId = currentUser.getUid();
+
+        int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
+        int newUiOptions = uiOptions;
+        newUiOptions ^= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        newUiOptions ^= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        getWindow().getDecorView().setSystemUiVisibility(newUiOptions);
     }
 
     private void makeToast(String msg) {
@@ -71,8 +77,6 @@ public class AddQuestionActivity extends AppCompatActivity {
                 if(title.length() > 0 && content.length() > 0) {
                     Date date = new Date();
 
-                    Log.i("시간 : ", String.valueOf(date.getTime()));
-
                     SimpleDateFormat sFormat = new SimpleDateFormat("HH시 mm분 ss초");
                     SimpleDateFormat sFormat2 = new SimpleDateFormat("yyyy년 MM월 dd일");
 
@@ -87,9 +91,9 @@ public class AddQuestionActivity extends AppCompatActivity {
                             sFormat2.format(date),
                             sFormat.format(date),
                             "0",
-                            sFormat3.format(date));
+                            sFormat3.format(date),
+                            UserInfo.CUR_USER_NAME);
 
-                    Log.i("data", data.toString());
                     myRef.child("Member").child(userId).child("Q_List").child(q_Num).setValue(data);
                     myRef.child("Question").child(q_Num).setValue(data);
                     finish();
@@ -99,6 +103,22 @@ public class AddQuestionActivity extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        View focusView = getCurrentFocus();
+        if (focusView != null) {
+            Rect rect = new Rect();
+            focusView.getGlobalVisibleRect(rect);
+            int x = (int) ev.getX(), y = (int) ev.getY();
+            if (!rect.contains(x, y)) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                if (imm != null)
+                    imm.hideSoftInputFromWindow(focusView.getWindowToken(), 0);
+                focusView.clearFocus();
+            }
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
 }

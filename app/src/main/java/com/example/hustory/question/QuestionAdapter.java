@@ -58,8 +58,8 @@ public class QuestionAdapter extends BaseAdapter {
         return listViewItemList.get(position);
     }
 
-    public void addItemDESC(int idx, String id, String q_Num, String q_title, String q_content, String q_date, String q_time, String q_count, String q_diffTime) {
-        QuestionItem item = new QuestionItem(id, q_Num, q_title, q_content, q_date, q_time, q_count, q_diffTime);
+    public void addItemDESC(int idx, String id, String q_Num, String q_title, String q_content, String q_date, String q_time, String q_count, String q_diffTime, String q_writer) {
+        QuestionItem item = new QuestionItem(id, q_Num, q_title, q_content, q_date, q_time, q_count, q_diffTime, q_writer);
 
         item.setQ_title(q_title);
         item.setQ_content(q_content);

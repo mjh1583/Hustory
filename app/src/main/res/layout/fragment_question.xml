@@ -89,17 +89,17 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/round5_background"
-            android:elevation="3dp"
-            android:fontFamily="@font/jalnan"
-            android:gravity="center_horizontal"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="5dp"
             android:text="@string/sort_new"
+            android:background="@drawable/round5_background"
             android:textColor="@color/white"
-            android:textSize="12dp" />
+            android:gravity="center_horizontal"
+            android:elevation="3dp"
+            android:textSize="12dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:fontFamily="@font/jalnan"/>
 
         <TextView
             android:id="@+id/hot_orderTXT"
@@ -108,17 +108,17 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/round6_background"
-            android:elevation="3dp"
-            android:fontFamily="@font/jalnan"
-            android:gravity="center_horizontal"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="5dp"
             android:text="@string/sort_inquiry"
+            android:background="@drawable/round6_background"
             android:textColor="@color/main_color"
-            android:textSize="12dp" />
+            android:gravity="center_horizontal"
+            android:elevation="3dp"
+            android:textSize="12dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:fontFamily="@font/jalnan"/>
 
         <TextView
             android:id="@+id/my_orderTXT"
@@ -127,17 +127,17 @@
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/round6_background"
-            android:elevation="3dp"
-            android:fontFamily="@font/jalnan"
-            android:gravity="center_horizontal"
-            android:paddingLeft="10dp"
-            android:paddingTop="5dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="5dp"
             android:text="@string/my_question"
+            android:background="@drawable/round6_background"
             android:textColor="@color/main_color"
-            android:textSize="12dp" />
+            android:gravity="center_horizontal"
+            android:elevation="3dp"
+            android:textSize="12dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:fontFamily="@font/jalnan"/>
 
     </LinearLayout>
 

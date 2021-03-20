@@ -2,9 +2,13 @@ package com.example.hustory.question;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Rect;
 
+import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,11 +18,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 
@@ -60,11 +66,15 @@ public class FragmentQuestion extends Fragment {
     TextView new_orderTXT;
     TextView hot_orderTXT;
     TextView my_orderTXT;
+    LinearLayout sort;
 
     QuestionAdapter questionAdapter;
 
+    Bundle bundle = getArguments();
+
     private static int FLAG = 0;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_question, container, false);
 
@@ -76,15 +86,11 @@ public class FragmentQuestion extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //FirebaseQuery.questionAdapter.notifyDataSetChanged();
         arrayClear();
 
-        //FirebaseQuery.questionAdapter.clear();
         switch (FLAG) {
             case 0:
                 // 최신순 정렬
-                //FirebaseQuery.new_order();
-                //FirebaseQuery.questionAdapter.notifyDataSetChanged();
                 myRef.child("Question").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -101,16 +107,10 @@ public class FragmentQuestion extends Fragment {
                                 String q_count = member.get("q_count").toString();
                                 String q_diffTime = member.get("q_diffTime").toString();
 
-                                myRef.child("Member").child(id).child("name").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                        String name = (String) task.getResult().getValue();
-                                        Log.i("name ", name);
-                                        name_Arr.add(0, name);
-                                    }
-                                });
+                                String q_writer = member.get("q_writer").toString();
 
-                                questionAdapter.addItemDESC(0, id, q_Num, q_title, q_content, q_date, q_time, q_count, q_diffTime);
+                                questionAdapter.addItemDESC(0, id, q_Num, q_title, q_content, q_date, q_time, q_count, q_diffTime, q_writer);
+                                name_Arr.add(0, q_writer);
                                 key_Arr.add(0, q_Num);
                                 count_Arr.add(0, q_count);
                                 id_Arr.add(0, id);
@@ -146,21 +146,10 @@ public class FragmentQuestion extends Fragment {
                                 String q_time = member.get("q_time").toString();
                                 String q_count = member.get("q_count").toString();
                                 String q_diffTime = member.get("q_diffTime").toString();
+                                String q_writer = member.get("q_writer").toString();
 
-                                myRef.child("Member").child(id).child("name").addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        String name = (String) snapshot.getValue();
-                                        Log.i("name ", name);
-                                        name_Arr.add(0, name);
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
-                                questionAdapter.addItemDESC(0, id, q_Num, q_title, q_content, q_date, q_time, q_count, q_diffTime);
+                                questionAdapter.addItemDESC(0, id, q_Num, q_title, q_content, q_date, q_time, q_count, q_diffTime, q_writer);
+                                name_Arr.add(0, q_writer);
                                 key_Arr.add(0, q_Num);
                                 count_Arr.add(0, q_count);
                                 id_Arr.add(0, id);
@@ -194,21 +183,10 @@ public class FragmentQuestion extends Fragment {
                                 String q_time = member.get("q_time").toString();
                                 String q_count = member.get("q_count").toString();
                                 String q_diffTime = member.get("q_diffTime").toString();
+                                String q_writer = member.get("q_writer").toString();
 
-                                myRef.child("Member").child(id).child("name").addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        String name = (String) snapshot.getValue();
-                                        Log.i("name ", name);
-                                        name_Arr.add(0, name);
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
-                                questionAdapter.addItemDESC(0, id, q_Num, q_title, q_content, q_date, q_time, q_count,q_diffTime);
+                                questionAdapter.addItemDESC(0, id, q_Num, q_title, q_content, q_date, q_time, q_count, q_diffTime, q_writer);
+                                name_Arr.add(0, q_writer);
                                 key_Arr.add(0, q_Num);
                                 count_Arr.add(0, q_count);
                                 id_Arr.add(0, id);
@@ -229,6 +207,7 @@ public class FragmentQuestion extends Fragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void init() {
         questionAdapter = new QuestionAdapter();
         ListView listview1 = (ListView) view.findViewById(R.id.list_question);
@@ -245,12 +224,12 @@ public class FragmentQuestion extends Fragment {
         arrayClear();
 
         // 처음 리스트뷰 세팅
-        myRef.child("Question").addValueEventListener(new ValueEventListener() {
-            @Override
+        // Question에 있는 질문들 다 가져와서 최신순으로 정렬하여 출력
+        myRef.child("Question").orderByChild("q_diffTime").addValueEventListener(new ValueEventListener() {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.i(TAG, "onDataChange()");
-                if(snapshot != null) {
-                    for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                if (snapshot != null) {
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         HashMap<String, Object> member = (HashMap<String, Object>) dataSnapshot.getValue();
                         String id = member.get("id").toString();
                         String q_Num = member.get("q_Num").toString();
@@ -260,29 +239,20 @@ public class FragmentQuestion extends Fragment {
                         String q_time = member.get("q_time").toString();
                         String q_count = member.get("q_count").toString();
                         String q_diffTime = member.get("q_diffTime").toString();
+                        String q_writer = member.get("q_writer").toString();
 
-                        myRef.child("Member").child(id).child("name").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                String name = (String) task.getResult().getValue();
-                                Log.i("name ", name);
-                                name_Arr.add(0, name);
-                            }
-                        });
-
-                        questionAdapter.addItemDESC(0, id, q_Num, q_title, q_content, q_date, q_time, q_count, q_diffTime);
+                        questionAdapter.addItemDESC(0, id, q_Num, q_title, q_content, q_date, q_time, q_count, q_diffTime, q_writer);
+                        name_Arr.add(0, q_writer);
                         key_Arr.add(0, q_Num);
                         count_Arr.add(0, q_count);
                         id_Arr.add(0, id);
                     }
+                    questionAdapter.notifyDataSetChanged();
                 }
                 else {
                     Log.i(TAG, "Firebase Data 찾지 못함!!");
-                    questionAdapter.clear();
                 }
-                questionAdapter.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
@@ -303,7 +273,7 @@ public class FragmentQuestion extends Fragment {
                     changeBTN_bg(v.getId());
 
                     // Question에 있는 질문들 다 가져와서 최신순으로 정렬하여 출력
-                    myRef.child("Question").addValueEventListener(new ValueEventListener() {
+                    myRef.child("Question").orderByChild("q_diffTime").addValueEventListener(new ValueEventListener() {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             Log.i(TAG, "onDataChange()");
                             if (snapshot != null) {
@@ -317,21 +287,10 @@ public class FragmentQuestion extends Fragment {
                                     String q_time = member.get("q_time").toString();
                                     String q_count = member.get("q_count").toString();
                                     String q_diffTime = member.get("q_diffTime").toString();
+                                    String q_writer = member.get("q_writer").toString();
 
-                                    myRef.child("Member").child(id).child("name").addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            String name = (String) snapshot.getValue();
-                                            Log.i("name ", name);
-                                            name_Arr.add(0, name);
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-
-                                        }
-                                    });
-                                    questionAdapter.addItemDESC(0, id, q_Num, q_title, q_content, q_date, q_time, q_count, q_diffTime);
+                                    questionAdapter.addItemDESC(0, id, q_Num, q_title, q_content, q_date, q_time, q_count, q_diffTime, q_writer);
+                                    name_Arr.add(0, q_writer);
                                     key_Arr.add(0, q_Num);
                                     count_Arr.add(0, q_count);
                                     id_Arr.add(0, id);
@@ -371,21 +330,10 @@ public class FragmentQuestion extends Fragment {
                                     String q_time = member.get("q_time").toString();
                                     String q_count = member.get("q_count").toString();
                                     String q_diffTime = member.get("q_diffTime").toString();
+                                    String q_writer = member.get("q_writer").toString();
 
-                                    myRef.child("Member").child(id).child("name").addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            String name = (String) snapshot.getValue();
-                                            Log.i("name ", name);
-                                            name_Arr.add(0, name);
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-
-                                        }
-                                    });
-                                    questionAdapter.addItemDESC(0, id, q_Num, q_title, q_content, q_date, q_time, q_count, q_diffTime);
+                                    questionAdapter.addItemDESC(0, id, q_Num, q_title, q_content, q_date, q_time, q_count, q_diffTime, q_writer);
+                                    name_Arr.add(0, q_writer);
                                     key_Arr.add(0, q_Num);
                                     count_Arr.add(0, q_count);
                                     id_Arr.add(0, id);
@@ -424,21 +372,10 @@ public class FragmentQuestion extends Fragment {
                                     String q_time = member.get("q_time").toString();
                                     String q_count = member.get("q_count").toString();
                                     String q_diffTime = member.get("q_diffTime").toString();
+                                    String q_writer = member.get("q_writer").toString();
 
-                                    myRef.child("Member").child(id).child("name").addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            String name = (String) snapshot.getValue();
-                                            Log.i("name ", name);
-                                            name_Arr.add(0, name);
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-
-                                        }
-                                    });
-                                    questionAdapter.addItemDESC(0, id, q_Num, q_title, q_content, q_date, q_time, q_count, q_diffTime);
+                                    questionAdapter.addItemDESC(0, id, q_Num, q_title, q_content, q_date, q_time, q_count, q_diffTime, q_writer);
+                                    name_Arr.add(0, q_writer);
                                     key_Arr.add(0, q_Num);
                                     count_Arr.add(0, q_count);
                                     id_Arr.add(0, id);
@@ -474,11 +411,12 @@ public class FragmentQuestion extends Fragment {
 
                 // 아이템을 클릭하면 조회수 1 증가
                 int count = Integer.parseInt(count_Arr.get(position)) + 1;
-                Log.i("count", "" + count);
+                //Log.i("count", "" + count);
                 myRef.child("Member").child(writer_id).child("Q_List").child(q_Num).child("q_count").setValue(count);
                 myRef.child("Question").child(q_Num).child("q_count").setValue(count);
 
                 // 현재 클릭된 아이템의 질문번호(q_Num)과 작성자 이름, id를 넘겨줌
+                Log.i(TAG, "현재 글쓴이 : " + name);
                 intent.putExtra("q_Num", q_Num);
                 intent.putExtra("name", name);
                 intent.putExtra("writerId", writer_id);
@@ -486,6 +424,131 @@ public class FragmentQuestion extends Fragment {
                 startActivity(intent);
             }
         });
+
+        // search ------------
+        DisplayMetrics dm = getResources().getDisplayMetrics();
+        int size = Math.round(20 * dm.density);
+
+        Typeface typeface = getResources().getFont(R.font.jalnan);
+        sort = (LinearLayout) view.findViewById(R.id.sort);
+
+        if(bundle != null){
+            String data = bundle.getString("KEY_SEARCH");
+
+            TextView sort_search = new TextView(getContext());
+            sort_search.setText("Q  " + data);
+            sort_search.setTextColor(Color.parseColor("#FFFFFF"));
+            sort_search.setTextSize(12);
+            sort_search.setTypeface(typeface);
+            sort_search.setBackgroundResource(R.drawable.round5_background);
+            sort_search.setPadding((int) (10 * dm.density), (int) (5 * dm.density),
+                    (int) (10 * dm.density), (int) (5 * dm.density));
+            sort.addView(sort_search);
+
+            LinearLayout.LayoutParams layoutParams1 = (LinearLayout.LayoutParams) sort_search.getLayoutParams();
+            layoutParams1.leftMargin = (int) (5 * dm.density);
+            layoutParams1.topMargin = (int) (5 * dm.density);
+            layoutParams1.bottomMargin = (int) (10 * dm.density);
+
+            sort_search.setLayoutParams(layoutParams1);
+
+            new_orderTXT.setBackground(getResources().getDrawable(R.drawable.round6_background));
+            hot_orderTXT.setBackground(getResources().getDrawable(R.drawable.round6_background));
+            my_orderTXT.setBackground(getResources().getDrawable(R.drawable.round6_background));
+            new_orderTXT.setTextColor(getResources().getColor(R.color.main_color));
+            hot_orderTXT.setTextColor(getResources().getColor(R.color.main_color));
+            my_orderTXT.setTextColor(getResources().getColor(R.color.main_color));
+
+            //Log.i("data ", data);
+
+            arrayClear();
+
+            myRef.child("Question").orderByChild("q_title").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Log.i(TAG, "onDataChange()");
+                    if (snapshot != null) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            HashMap<String, Object> member = (HashMap<String, Object>) dataSnapshot.getValue();
+                            String id = member.get("id").toString();
+                            String q_Num = member.get("q_Num").toString();
+                            String q_title = member.get("q_title").toString();
+                            String q_content = member.get("q_content").toString();
+                            String q_date = member.get("q_date").toString();
+                            String q_time = member.get("q_time").toString();
+                            String q_count = member.get("q_count").toString();
+                            String q_diffTime = member.get("q_diffTime").toString();
+                            String q_writer = member.get("q_writer").toString();
+
+                            if (q_title.indexOf(data) != -1) {
+                                questionAdapter.addItemDESC(0, id, q_Num, q_title, q_content, q_date, q_time, q_count, q_diffTime, q_writer);
+                                name_Arr.add(0, q_writer);
+                                key_Arr.add(0, q_Num);
+                                count_Arr.add(0, q_count);
+                                id_Arr.add(0, id);
+                            }
+                        }
+                        questionAdapter.notifyDataSetChanged();
+                    }
+                    else {
+                        Log.i(TAG, "Firebase Data 찾지 못함!!");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            sort_search.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sort_search.setVisibility(View.GONE);
+                    new_orderTXT.setBackground(getResources().getDrawable(R.drawable.round5_background));
+                    new_orderTXT.setTextColor(getResources().getColor(R.color.white));
+
+                    myRef.child("Question").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            Log.i(TAG, "onDataChange()");
+                            if (snapshot != null) {
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    HashMap<String, Object> member = (HashMap<String, Object>) dataSnapshot.getValue();
+                                    String id = member.get("id").toString();
+                                    String q_Num = member.get("q_Num").toString();
+                                    String q_title = member.get("q_title").toString();
+                                    String q_content = member.get("q_content").toString();
+                                    String q_date = member.get("q_date").toString();
+                                    String q_time = member.get("q_time").toString();
+                                    String q_count = member.get("q_count").toString();
+                                    String q_diffTime = member.get("q_diffTime").toString();
+                                    String q_writer = member.get("q_writer").toString();
+
+                                    questionAdapter.addItemDESC(0, id, q_Num, q_title, q_content, q_date, q_time, q_count, q_diffTime, q_writer);
+                                    name_Arr.add(0, q_writer);
+                                    key_Arr.add(0, q_Num);
+                                    count_Arr.add(0, q_count);
+                                    id_Arr.add(0, id);
+                                }
+                            } else {
+                                Log.i(TAG, "Firebase Data 찾지 못함!!");
+                                questionAdapter.clear();
+                            }
+                            questionAdapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            });
+
+        } else {
+            Log.i("data", "null");
+        }  // search ------------
 
         mContext = getContext();
         fab_open = AnimationUtils.loadAnimation(mContext, R.anim.fab_open);

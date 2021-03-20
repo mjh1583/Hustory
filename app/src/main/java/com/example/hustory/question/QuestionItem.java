@@ -11,8 +11,9 @@ public class QuestionItem {
     private String q_time;
     private String q_count;
     private String q_diffTime;
+    private String q_writer;
 
-    public QuestionItem(String q_Num, String id, String q_title, String q_content, String q_date, String q_time, String q_count, String q_diffTime) {
+    public QuestionItem(String q_Num, String id, String q_title, String q_content, String q_date, String q_time, String q_count, String q_diffTime, String q_writer) {
         this.q_Num = q_Num;
         this.id = id;
         this.q_title = q_title;
@@ -21,6 +22,7 @@ public class QuestionItem {
         this.q_time = q_time;
         this.q_count = q_count;
         this.q_diffTime = q_diffTime;
+        this.q_writer = q_writer;
     }
 
     public String getQ_Num() {
@@ -87,6 +89,14 @@ public class QuestionItem {
         this.q_diffTime = q_diffTime;
     }
 
+    public String getQ_writer() {
+        return q_writer;
+    }
+
+    public void setQ_writer(String q_writer) {
+        this.q_writer = q_writer;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -97,6 +107,7 @@ public class QuestionItem {
                 this.getQ_date() + "\n" +
                 this.getQ_time() + "\n" +
                 this.getQ_count() + "\n" +
-                this.getQ_diffTime();
+                this.getQ_diffTime() + "\n" +
+                this.getQ_writer();
     }
 }

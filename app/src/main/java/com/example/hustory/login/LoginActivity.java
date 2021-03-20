@@ -1,11 +1,15 @@
 package com.example.hustory.login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -42,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView find_Id_TXT;
     private TextView find_Pw_TXT;
 
-    private Button login_signUpBTN;
+    private TextView login_signUpBTN;
     private Button login_loginBTN;
     private CheckBox auto_loginBTN;
 
@@ -61,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.layout_login);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -124,6 +128,12 @@ public class LoginActivity extends AppCompatActivity {
         login_signUpBTN.setOnClickListener(onClickListener);
         find_Id_TXT.setOnClickListener(onClickListener);
         find_Pw_TXT.setOnClickListener(onClickListener);
+
+        int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
+        int newUiOptions = uiOptions;
+        newUiOptions ^= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        newUiOptions ^= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        getWindow().getDecorView().setSystemUiVisibility(newUiOptions);
     }
 
     private void login() {
@@ -142,6 +152,7 @@ public class LoginActivity extends AppCompatActivity {
                             auto_login(false);
                         }
 
+                        currentUser = mAuth.getCurrentUser();
                         startToast("로그인에 성공하였습니다.");
                         startMainActivity();
                     }
@@ -196,5 +207,22 @@ public class LoginActivity extends AppCompatActivity {
             auto_editor.clear();
         }
         auto_editor.apply();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
     }
 }

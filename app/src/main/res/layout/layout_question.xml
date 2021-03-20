@@ -37,6 +37,14 @@
         android:orientation="vertical"
         android:padding="20dp">
 
+        <ImageView
+            android:id="@+id/button_cancel"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_gravity="right"
+            android:onClick="onClick"
+            app:srcCompat="@drawable/cancel" />
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,12 +55,14 @@
                 android:id="@+id/q_titleETXT"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/view_color"
+                android:maxHeight="50dp"
+                android:textSize="14sp"
+                android:textColor="@color/black"
                 android:fontFamily="@font/jalnan"
                 android:hint="@string/question_title"
-                android:maxHeight="50dp"
-                android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:privateImeOptions="defaultInputmode=korean"
+                android:singleLine="true"
+                android:backgroundTint="@color/view_color"/>
 
         </ScrollView>
 
@@ -68,53 +78,31 @@
                 android:id="@+id/q_contentETXT"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@null"
-                android:fontFamily="@font/jalnan"
                 android:gravity="top"
-                android:hint="@string/question_content"
+                android:textSize="12sp"
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:fontFamily="@font/jalnan"
+                android:privateImeOptions="defaultInputmode=korean"
+                android:hint="@string/question_content"
+                android:background="@null"/>
 
         </ScrollView>
 
-        <LinearLayout
+        <Button
+            android:id="@+id/answer_AddBTN"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/button_cancel"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="120dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/round2_background"
-                android:elevation="2dp"
-                android:fontFamily="@font/jalnan"
-                android:onClick="onClick"
-                android:text="@string/cancel"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-            <Button
-                android:id="@+id/answer_AddBTN"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/round2_background"
-                android:elevation="2dp"
-                android:fontFamily="@font/jalnan"
-                android:onClick="onClick"
-                android:text="@string/enter"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-        </LinearLayout>
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/round2_background"
+            android:elevation="2dp"
+            android:fontFamily="@font/jalnan"
+            android:onClick="onClick"
+            android:text="@string/enter"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
 
     </LinearLayout>
-</LinearLayout>
 
+</LinearLayout>

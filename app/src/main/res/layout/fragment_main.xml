@@ -83,21 +83,23 @@
             android:layout_margin="20dp"
             android:layout_weight="1"
 
-            android:paddingLeft="10dp"
-            android:paddingTop="10dp"
-            android:paddingRight="35dp"
-            android:paddingBottom="10dp"
-
-            android:textSize="14sp"
+            android:background="@drawable/round_background"
+            android:elevation="5dp"
+            android:ems="10"
             android:fontFamily="@font/jalnan"
 
-            android:ems="10"
             android:hint="@string/hint_question"
             android:importantForAutofill="no"
-            android:inputType="textPersonName"
 
-            android:elevation="5dp"
-            android:background="@drawable/round_background" />
+            android:inputType="text"
+            android:paddingLeft="15dp"
+            android:paddingTop="10dp"
+            android:paddingRight="15dp"
+
+            android:paddingBottom="10dp"
+            android:privateImeOptions="defaultInputmode=korean"
+            android:singleLine="true"
+            android:textSize="14sp" />
 
         <ImageView
             android:id="@+id/go_question"
@@ -405,10 +407,8 @@
                         android:id="@+id/go_reservation"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_gravity="bottom"
-                        android:layout_marginRight="9dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="7dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="20dp"
 
                         android:gravity="center_horizontal|center_vertical"
                         android:text="@string/dday_reservation"

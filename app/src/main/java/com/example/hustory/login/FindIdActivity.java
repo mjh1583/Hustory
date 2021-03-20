@@ -1,12 +1,18 @@
 package com.example.hustory.login;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,10 +34,7 @@ public class FindIdActivity extends AppCompatActivity {
     private EditText find_nameETXT;
     private EditText find_phoneETXT;
 
-    private TextView find_Id_ResultTXT;
-
     private Button find_IdBTN;
-    private Button find_PwBTN;
 
     private FirebaseDatabase db;
     private DatabaseReference myRef;
@@ -41,7 +44,7 @@ public class FindIdActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_find_id);
+        setContentView(R.layout.layout_find_id);
 
         init();
     }
@@ -53,10 +56,7 @@ public class FindIdActivity extends AppCompatActivity {
         find_nameETXT = findViewById(R.id.find_nameETXT);
         find_phoneETXT = findViewById(R.id.find_phoneETXT);
 
-        find_Id_ResultTXT = findViewById(R.id.find_Id_ResultTXT);
-
         find_IdBTN = findViewById(R.id.find_IdBTN);
-        find_PwBTN = findViewById(R.id.find_PwBTN);
 
         View.OnClickListener onClickListener = v -> {
             switch (v.getId()) {
@@ -65,8 +65,11 @@ public class FindIdActivity extends AppCompatActivity {
                     find_phone = find_phoneETXT.getText().toString();
 
                     myRef.child("Member").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @RequiresApi(api = Build.VERSION_CODES.O)
                         @Override
                         public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            int flag = 0;
+
                             if (!task.isSuccessful()) {
                                 Log.i("firebase", "Error getting data", task.getException());
                             }
@@ -80,21 +83,15 @@ public class FindIdActivity extends AppCompatActivity {
                                     String phone = member.get("phone").toString();
 
                                     if(name.equals(find_name) && phone.equals(find_phone)) {
-                                        find_Id_ResultTXT.setText("아이디는 " + member.get("email").toString() + " 입니다.");
+                                        flag = 1;
+                                        startToast("아이디는 " + member.get("email").toString() + " 입니다.");
                                     }
                                 }
-                                if(find_Id_ResultTXT.getText().length() > 0) {
-                                    startToast("아이디를 찾았습니다.");
-                                }
-                                else {
-                                    startToast("이름과 휴대전화와 일치하는 아이디가 없습니다.");
-                                }
+                                if(flag == 0)
+                                    startToast("일치하는 아이디가 없습니다.");
                             }
                         }
                     });
-                    break;
-                case R.id.find_PwBTN:
-                    startFindPwActivity();
                     break;
                 default:
                     break;
@@ -102,16 +99,33 @@ public class FindIdActivity extends AppCompatActivity {
         };
 
         find_IdBTN.setOnClickListener(onClickListener);
-        find_PwBTN.setOnClickListener(onClickListener);
+
+        int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
+        int newUiOptions = uiOptions;
+        newUiOptions ^= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        newUiOptions ^= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        getWindow().getDecorView().setSystemUiVisibility(newUiOptions);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void startToast(String message) {
         Toast.makeText(FindIdActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 
-    private void startFindPwActivity() {
-        Intent intent =  new Intent(this, FindPwActivity.class);
-        startActivity(intent);
-        finish();
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
     }
 }

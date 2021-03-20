@@ -3,13 +3,11 @@ package com.example.hustory.login;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hustory.R;
@@ -22,6 +20,11 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
+import android.content.Context;
+import android.graphics.Rect;
+import android.view.MotionEvent;
+import android.view.inputmethod.InputMethodManager;
+
 public class FindPwActivity extends AppCompatActivity {
 
     private static final String TAG = "FindIdActivity";
@@ -30,9 +33,6 @@ public class FindPwActivity extends AppCompatActivity {
     private EditText find_Pw_find_phoneETXT;
     private EditText find_Pw_find_IdETXT;
 
-    private TextView find_Pw_find_Id_ResultTXT;
-
-    private Button go_loginBTN;
     private Button find_Pw_find_PwBTN;
 
     private FirebaseDatabase db;
@@ -47,7 +47,7 @@ public class FindPwActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_find_pw);
+        setContentView(R.layout.layout_find_pw);
 
         init();
     }
@@ -61,9 +61,6 @@ public class FindPwActivity extends AppCompatActivity {
         find_Pw_find_phoneETXT = findViewById(R.id.find_Pw_find_phoneETXT);
         find_Pw_find_IdETXT = findViewById(R.id.find_Pw_find_IdETXT);
 
-        find_Pw_find_Id_ResultTXT = findViewById(R.id.find_Pw_find_Id_ResultTXT);
-
-        go_loginBTN = findViewById(R.id.go_loginBTN);
         find_Pw_find_PwBTN = findViewById(R.id.find_Pw_find_PwBTN);
 
         View.OnClickListener onClickListener = v -> {
@@ -76,6 +73,8 @@ public class FindPwActivity extends AppCompatActivity {
                     myRef.child("Member").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DataSnapshot> task) {
+                            int flag = 0;
+
                             if (!task.isSuccessful()) {
                                 Log.i("firebase", "Error getting data", task.getException());
                             }
@@ -83,6 +82,7 @@ public class FindPwActivity extends AppCompatActivity {
                                 Log.i("firebase", String.valueOf(task.getResult().getValue()));
 
                                 for(DataSnapshot userSnapshot : task.getResult().getChildren()) {
+
                                     HashMap<String, Object> member = (HashMap<String, Object>) userSnapshot.getValue();
 
                                     String name = member.get("name").toString();
@@ -90,37 +90,47 @@ public class FindPwActivity extends AppCompatActivity {
                                     String email = member.get("email").toString();
 
                                     if(name.equals(find_name) && phone.equals(find_phone) && email.equals(find_email)) {
-                                        find_Pw_find_Id_ResultTXT.setText("비밀번호는 " + member.get("pw").toString() + " 입니다.");
+                                        flag = 1;
+                                        startToast("비밀번호는 " + member.get("pw").toString() + " 입니다.");
                                     }
                                 }
-                                if(find_Pw_find_Id_ResultTXT.getText().length() > 0) {
-                                    startToast("비밀번호를 찾았습니다.");
-                                }
-                                else {
-                                    startToast("아이디, 휴대전화, 이름을 다시 확인해주세요.");
-                                }
+                                if(flag == 0)
+                                    startToast("입력 내용을 다시 확인해주세요.");
                             }
                         }
                     });
-                    break;
-                case R.id.go_loginBTN:
-                    startLoginActivity();
                     break;
                 default:
                     break;
             }
         };
         find_Pw_find_PwBTN.setOnClickListener(onClickListener);
-        go_loginBTN.setOnClickListener(onClickListener);
+
+        int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
+        int newUiOptions = uiOptions;
+        newUiOptions ^= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        newUiOptions ^= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        getWindow().getDecorView().setSystemUiVisibility(newUiOptions);
     }
 
     private void startToast(String message) {
         Toast.makeText(FindPwActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 
-    private void startLoginActivity() {
-        Intent intent =  new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        finish();
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
     }
 }

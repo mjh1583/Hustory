@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.hustory.R;
-import com.example.hustory.reservation.AfterItem;
 
 import java.util.ArrayList;
 
@@ -71,6 +70,9 @@ public class AfterAdapter extends BaseAdapter {
         item.setPlaceStr(PlaceStr);
 
         listViewItemList.add(item);
+    }
+    public void clear() {
+        listViewItemList.clear();
     }
 
     public void deleteItem(int position) { listViewItemList.remove(position); }

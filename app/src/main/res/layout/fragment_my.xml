@@ -108,7 +108,7 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:orientation="vertical">
@@ -117,9 +117,13 @@
                         android:id="@+id/name_student"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:backgroundTint="@color/view_color"
                         android:fontFamily="@font/jalnan"
-                        android:background="@null"
+                        android:hint="@string/name"
+                        android:paddingTop="0dp"
                         android:text="@string/test_name"
+                        android:privateImeOptions="defaultInputmode=korean"
+                        android:singleLine="true"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
 
@@ -127,11 +131,14 @@
                         android:id="@+id/version_student"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:backgroundTint="@color/main_color"
                         android:text="@string/test_version"
                         android:fontFamily="@font/jalnan"
+                        android:hint="@string/version"
+                        android:paddingTop="0dp"
                         android:textColor="@color/main_color"
-                        android:background="@null"
+                        android:backgroundTint="@color/view_color"
+                        android:privateImeOptions="defaultInputmode=korean"
+                        android:singleLine="true"
                         android:textSize="12dp"/>
 
                 </LinearLayout>
@@ -164,12 +171,14 @@
                         android:id="@+id/my_school"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
                         android:layout_gravity="center_horizontal"
                         android:fontFamily="@font/jalnan"
                         android:text="@string/test_school"
+                        android:hint="@string/my_school"
                         android:textColor="@color/black"
-                        android:background="@null"
+                        android:backgroundTint="@color/view_color"
+                        android:privateImeOptions="defaultInputmode=korean"
+                        android:singleLine="true"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -199,12 +208,14 @@
                         android:id="@+id/my_major"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
                         android:layout_gravity="center_horizontal"
                         android:fontFamily="@font/jalnan"
                         android:text="@string/test_major"
+                        android:hint="@string/my_major"
                         android:textColor="@color/black"
-                        android:background="@null"
+                        android:backgroundTint="@color/view_color"
+                        android:privateImeOptions="defaultInputmode=korean"
+                        android:singleLine="true"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -256,11 +267,13 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_margin="10dp"
                         android:background="@null"
                         android:fontFamily="@font/jalnan"
+                        android:privateImeOptions="defaultInputmode=korean"
+                        android:singleLine="true"
                         android:text="@string/test_company_1"
+                        android:hint="@string/my_company"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
 
@@ -301,12 +314,14 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_margin="10dp"
                         android:background="@null"
                         android:fontFamily="@font/jalnan"
                         android:text="@string/test_company_2"
+                        android:hint="@string/my_company"
                         android:textColor="@color/black"
+                        android:privateImeOptions="defaultInputmode=korean"
+                        android:singleLine="true"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -346,12 +361,14 @@
                         android:layout_height="wrap_content"
                         android:gravity="center_horizontal"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
+                        android:layout_margin="10dp"
                         android:background="@null"
                         android:fontFamily="@font/jalnan"
                         android:text="@string/test_company_3"
+                        android:hint="@string/my_company"
                         android:textColor="@color/black"
+                        android:privateImeOptions="defaultInputmode=korean"
+                        android:singleLine="true"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -419,10 +436,10 @@
                     android:id="@+id/logoutTXTBTN"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/jalnan"
                     android:text="@string/logout"
-                    android:textColor="@color/grey"
-                    android:textSize="10dp" />
+                    android:textSize="10dp"
+                    android:fontFamily="@font/jalnan"
+                    android:textColor="@color/grey"/>
 
                 <View
                     android:layout_width="1dp"

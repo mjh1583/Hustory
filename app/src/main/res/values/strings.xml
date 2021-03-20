@@ -21,16 +21,17 @@
     <string name="go"><![CDATA[>]]></string>
     <string name="no_reservation">진행중인 예약 내역이 없습니다.</string>
     <string name="advice_reservation">새로운 예약을 진행하세요.</string>
+    <string name="advice_reservation_professor">새로운 예약을 기다리세요.</string>
     <string name="go_reservation">예약 진행하기</string>
     <string name="reservation_date">상담 날짜</string>
-    <string name="test_date">02.18(목)</string>
+    <string name="test_date">날짜 설정</string>
     <string name="reservation_way">상담 방법</string>
     <string name="test_way">온라인</string>
     <string name="test_place">ZOOM</string>
     <string name="reservation_place">상담 장소</string>
     <string name="test_state">수락 대기</string>
     <string name="reservation">예약</string>
-    <string name="test_time">12:00</string>
+    <string name="test_time">시간 설정</string>
     <string name="reservation_time">상담 시간</string>
     <string name="reservation_content">상담 내용</string>
     <string name="test_version">대구 ICT산업 혁신아카데미 2021년도 3기</string>
@@ -67,6 +68,33 @@
     <string name="logout">로그아웃</string>
     <string name="drop">탈퇴하기</string>
     <string name="enter">등록하기</string>
+    <string name="question_title">제목</string>
+    <string name="question_content">무엇이 궁금한가요?</string>
+    <string name="name">이름</string>
+    <string name="version">기수</string>
+    <string name="birth">생년월일</string>
+    <string name="email">이메일</string>
+    <string name="answer_content">답변을 작성해주세요.</string>
+    <string name="id">아이디 또는 이메일</string>
+    <string name="pw">비밀번호</string>
+    <string name="pw_check">비밀번호 확인</string>
+    <string name="login">로그인</string>
+    <string name="signup">회원가입</string>
+    <string name="Auto">AUTO LOGIN</string>
+    <string name="find_id">아이디 찾기</string>
+    <string name="find_pw">비밀번호 찾기</string>
+    <string name="student">학생</string>
+    <string name="mentor">멘토</string>
+    <string name="agency">소속기관</string>
+    <string name="department">소속부서</string>
+    <string name="spot">담당직위</string>
+    <string name="test_agency">첨단정보통신융합산업기술원</string>
+    <string name="test_department">3D융합기술지원센터</string>
+    <string name="test_spot">센터장/산학협력중점교수</string>
+    <string name="previous">이전 상담 내역</string>
+    <string name="accept">수락</string>
+    <string name="mentor_student">멘토 관리</string>
+
     <string name="test_scroll">ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력
         ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력
         ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력
@@ -74,30 +102,21 @@
         ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력
         ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력 ICT 전문기술능력을 활용한 프로젝트 진행 경험 및 경력</string>
     <string name="test">\" 프로젝트 평가 요소가 궁금합니다. \"</string>
-    <string name="id">ID</string>
-    <string name="pw">PW</string>
-    <string name="auto_login">AUTO LOGIN</string>
-    <string name="login">LOGIN</string>
-    <string name="sign_in">SIGN IN</string>
-    <string name="email">이메일</string>
-    <string name="password">비밀번호</string>
-    <string name="check_password">비밀번호 확인</string>
-    <string name="sign_up">회원가입</string>
-    <string name="find_id">아이디 찾기</string>
-    <string name="find_pw">비밀번호 찾기</string>
-    <string name="student">학생</string>
-    <string name="mentor">멘토</string>
-    <string name="name_editText">이름을 입력하세요</string>
-    <string name="phone_editText">-를 입력하지 말고 번호를 입력하세요</string>
-    <string name="name">이름</string>
-    <string name="phone">휴대전화</string>
-    <string name="find_Id">아이디 찾기</string>
-    <string name="find_email">이메일(아이디)를 입력하세요</string>
-    <string name="remove">취소</string>
-    <string name="add">등록</string>
-    <string name="q_title">질문 제목을 입력하세요</string>
-    <string name="q_content">질문 내용을 입력하세요</string>
-    <string name="question_title">질문 제목을 입력하세요</string>
-    <string name="question_content">질문 내용을 입력하세요</string>
-    <string name="cancel">취소</string>
+    <string name="enter_phone">전화번호를 입력하세요. ( \'-\' 제외)</string>
+
+
+    <string-array name="day_of_week">
+        <item>일</item>
+        <item>월</item>
+        <item>화</item>
+        <item>수</item>
+        <item>목</item>
+        <item>금</item>
+        <item>토</item>
+    </string-array>
+
+    <string-array name="on_off_line">
+        <item>오프라인</item>
+        <item>온라인</item>
+    </string-array>
 </resources>

@@ -1,17 +1,12 @@
 package com.example.hustory;
 
 import android.content.Context;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import androidx.annotation.RequiresApi;
 import androidx.viewpager.widget.PagerAdapter;
 
 public class SwipeAdapter extends PagerAdapter {

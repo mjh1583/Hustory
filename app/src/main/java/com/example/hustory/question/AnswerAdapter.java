@@ -13,7 +13,7 @@ import com.example.hustory.util.DataStringFormat;
 import java.util.ArrayList;
 
 public class AnswerAdapter extends BaseAdapter {
-    private ArrayList<AnswerItem> listViewItemList = new ArrayList<AnswerItem>();
+    private ArrayList<AnswerItem> listViewItemList = new ArrayList<>();
     public AnswerAdapter() {}
 
     @Override

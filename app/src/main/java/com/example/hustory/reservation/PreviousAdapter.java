@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.hustory.R;
-import com.example.hustory.reservation.PreviousItem;
 
 import java.util.ArrayList;
 
@@ -81,6 +80,9 @@ public class PreviousAdapter extends BaseAdapter {
         item.setAllowStr(allowStr);
 
         listViewItemList.add(item);
+    }
+    public void clear() {
+        listViewItemList.clear();
     }
 
     public void deleteItem(int position) { listViewItemList.remove(position); }
