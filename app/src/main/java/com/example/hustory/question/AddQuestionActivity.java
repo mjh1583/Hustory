@@ -1,11 +1,13 @@
 package com.example.hustory.question;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -14,10 +16,14 @@ import android.widget.Toast;
 
 import com.example.hustory.R;
 import com.example.hustory.userInfo.UserInfo;
+import com.example.hustory.util.SendMail;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -96,6 +102,7 @@ public class AddQuestionActivity extends AppCompatActivity {
 
                     myRef.child("Member").child(userId).child("Q_List").child(q_Num).setValue(data);
                     myRef.child("Question").child(q_Num).setValue(data);
+
                     finish();
                 }
                 else {

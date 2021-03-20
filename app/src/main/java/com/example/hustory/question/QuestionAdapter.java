@@ -10,15 +10,15 @@ import android.widget.TextView;
 
 import com.example.hustory.R;
 import com.example.hustory.util.DataStringFormat;
-import com.google.firebase.auth.FirebaseAuth;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class QuestionAdapter extends BaseAdapter {
+    private static final String TAG = "QuestionAdapter";
     private ArrayList<QuestionItem> listViewItemList = new ArrayList<QuestionItem>();
-    public QuestionAdapter() {}
+    public QuestionAdapter() {
+        listViewItemList.clear();
+    }
 
     @Override
     public int getCount() { return listViewItemList.size(); }
@@ -36,14 +36,14 @@ public class QuestionAdapter extends BaseAdapter {
         TextView question_content = (TextView) convertView.findViewById(R.id.question_content);
         TextView question_name = (TextView) convertView.findViewById(R.id.question_name);
         TextView question_time = (TextView) convertView.findViewById(R.id.question_time);
-        TextView answer_count = (TextView) convertView.findViewById(R.id.answer_count);
+        TextView q_countTXT = (TextView) convertView.findViewById(R.id.q_countTXT);
 
         QuestionItem listViewItem = listViewItemList.get(position);
 
-        question_name.setText(listViewItem.getQ_title());
+        question_name.setText(listViewItem.getQ_writer());
         question_content.setText(listViewItem.getQ_title());
         question_time.setText(listViewItem.getQ_diffTime());
-        answer_count.setText(String.valueOf(listViewItem.getQ_count()));
+        q_countTXT.setText(String.valueOf(listViewItem.getQ_count()));
 
         return convertView;
     }
@@ -63,6 +63,7 @@ public class QuestionAdapter extends BaseAdapter {
 
         item.setQ_title(q_title);
         item.setQ_content(q_content);
+        item.setQ_writer(q_writer);
 
         // 작성 시간과 현재 시간의 차이를 계산하여 값을 넘겨줌
         q_diffTime = DataStringFormat.CreateDataWithCheck(q_diffTime);
@@ -76,6 +77,8 @@ public class QuestionAdapter extends BaseAdapter {
     public void deleteItem(int position) { listViewItemList.remove(position); }
 
     public void clear() {
+        Log.i(TAG, "clear 전 list 크기 : " + listViewItemList.size());
         listViewItemList.clear();
+        Log.i(TAG, "clear 후 list 크기 : " + listViewItemList.size());
     }
 }

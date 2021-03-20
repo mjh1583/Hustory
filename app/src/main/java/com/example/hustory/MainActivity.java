@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -43,6 +44,13 @@ public class MainActivity extends AppCompatActivity {
         setTheme(R.style.Theme_Hustory);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // 이메일을 보내기 위한 쓰레드 정책 설정
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                        .permitDiskReads()
+                        .permitDiskWrites()
+                        .permitNetwork().build());
+
 
         init();
 

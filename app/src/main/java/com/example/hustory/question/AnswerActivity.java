@@ -74,7 +74,6 @@ public class AnswerActivity extends AppCompatActivity {
 
     private AlertDialog dialog;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
