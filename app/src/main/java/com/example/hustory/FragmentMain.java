@@ -1,11 +1,13 @@
 package com.example.hustory;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,8 +29,21 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.hustory.firebasedatebase.FirebaseUtility;
+import com.example.hustory.managementcard.FragmentMy;
+import com.example.hustory.question.AnswerActivity;
 import com.example.hustory.question.FragmentQuestion;
+import com.example.hustory.reservation.FragmentReservation;
+import com.example.hustory.util.DataStringFormat;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+
 
 public class FragmentMain extends Fragment {
     int flag_content = 0;
@@ -54,7 +70,10 @@ public class FragmentMain extends Fragment {
     private Animation fab_open, fab_close;
     private boolean isFabOpen = false;
 
-    private FragmentQuestion fragmentQuestion = new FragmentQuestion();
+    private String q_Num;
+    private String q_count;
+    private String writer_id;
+    private String q_writer;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -71,6 +90,8 @@ public class FragmentMain extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void init_student() {
+        initQuestionSection();
+
         text_summary = (TextView) view.findViewById(R.id.main_summary);
         viewPager = (ViewPager) view.findViewById(R.id.image_banner);
 
@@ -188,6 +209,8 @@ public class FragmentMain extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void init_professor() {
+        initQuestionSection();
+
         text_summary = (TextView) view.findViewById(R.id.main_summary);
         viewPager = (ViewPager) view.findViewById(R.id.image_banner);
 
@@ -277,5 +300,83 @@ public class FragmentMain extends Fragment {
             text_no.setTypeface(typeface);
             text_go.setTypeface(typeface);
         }
+    }
+
+    // 메인화면에 가장 최근의 질문글을 보여줌
+    public void initQuestionSection() {
+        TextView question_name = view.findViewById(R.id.question_name);
+        TextView question_time = view.findViewById(R.id.question_time);
+        TextView question_content = view.findViewById(R.id.question_content);
+        TextView q_countTXT = view.findViewById(R.id.q_countTXT);
+
+        FirebaseUtility.myRef.child("Question").limitToLast(1).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot != null) {
+                    for(DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        HashMap<String, Object> member = (HashMap<String, Object>) dataSnapshot.getValue();
+
+                        Log.i("q_num", dataSnapshot.getKey());
+                        q_Num = dataSnapshot.getKey().toString();
+
+                        q_writer = member.get("q_writer").toString();
+                        String q_content = member.get("q_title").toString();
+                        q_count = member.get("q_count").toString();
+                        String q_diffTime = member.get("q_diffTime").toString();
+                        writer_id = member.get("id").toString();
+
+                        q_diffTime = DataStringFormat.CreateDataWithCheck(q_diffTime);
+
+                        question_name.setText(q_writer);
+                        question_time.setText(q_diffTime);
+                        question_content.setText(q_content);
+                        q_countTXT.setText(q_count);
+                    }
+                }
+                else {
+                    question_name.setText("");
+                    question_time.setText("");
+                    question_content.setText("등록된 질문이 없습니다.");
+                    q_countTXT.setText("");
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        TextView view_all = view.findViewById(R.id.view_all);
+
+        // 전체보기 누르면 질문 프래그먼트로 전환
+        view_all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).replaceQuestion();
+            }
+        });
+
+
+        TextView new_answer = view.findViewById(R.id.new_answer);
+
+        // 답변하기 버튼을 누르면 답변 창으로 이동
+        new_answer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AnswerActivity.class);
+
+                // 아이템을 클릭하면 조회수 1 증가
+                int count = Integer.parseInt(q_count) + 1;
+                FirebaseUtility.myRef.child("Member").child(writer_id).child("Q_List").child(q_Num).child("q_count").setValue(count);
+                FirebaseUtility.myRef.child("Question").child(q_Num).child("q_count").setValue(count);
+
+                // 현재 클릭된 아이템의 질문번호(q_Num)과 작성자 이름, id를 넘겨줌
+                intent.putExtra("q_Num", q_Num);
+                intent.putExtra("name", q_writer);
+                intent.putExtra("writerId", writer_id);
+
+                startActivity(intent);
+            }
+        });
     }
 }

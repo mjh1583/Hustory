@@ -15,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.hustory.managementcard.FragmentMy;
 import com.example.hustory.question.FragmentQuestion;
@@ -80,6 +81,11 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         }
+    }
+
+    public void replaceQuestion() {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.frameLayout, fragmentQuestion).commitAllowingStateLoss();
     }
 
     public void init() {

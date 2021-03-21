@@ -36,7 +36,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -302,6 +301,47 @@ public class AnswerActivity extends AppCompatActivity {
                         del_builder.show();
                     }
                     break;
+//                case R.id.button_mod_answer:
+//                    // 글쓴이와 로그인한 사람이 같으면 답글 수정 가능
+//                    if(q_person_name.getText().toString().equals(UserInfo.CUR_USER_NAME)) {
+//                        // 다이얼 로그 만들고 보여주기
+//                        AlertDialog.Builder builder2 = new AlertDialog.Builder(AnswerActivity.this);
+//                        LayoutInflater inflater2 = getLayoutInflater();
+//                        View view2 = inflater2.inflate(R.layout.dialog_question, null);
+//                        builder2.setView(view2);
+//                        dialog = builder2.create();
+//                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//                        dialog.show();
+//
+//                        // 다이얼 로그 초기화 및 클릭 리스너 생성
+//                        initAnswerDialog();
+//                    }
+//                    break;
+//                case R.id.button_del_answer:
+//                    if(q_person_name.getText().toString().equals(UserInfo.CUR_USER_NAME)) {
+//                        AlertDialog.Builder del_builder = new AlertDialog.Builder(AnswerActivity.this);
+//                        del_builder.setTitle("삭제 확인");
+//                        del_builder.setMessage("삭제하시겠습니까?");
+//
+//                        del_builder.setNegativeButton("예", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                myRef.child("Question").child(q_Num).child("A_List").child("").removeValue();
+//                                myRef.child("Member").child(writerId).child("Q_List").child(q_Num).child("A_List").child("").removeValue();
+//                                finish();
+//                            }
+//                        });
+//
+//                        del_builder.setPositiveButton("아니오", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//
+//                            }
+//                        });
+//
+//                        del_builder.show();
+//                    }
+//                    break;
 
             }
         };

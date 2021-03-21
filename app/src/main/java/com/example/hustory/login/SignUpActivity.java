@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText phoneETXT;
 
     private Button signUpBTN;
+    private ImageView button_back;
 
     private RadioButton studentBTN;
     private RadioButton mentorBTN;
@@ -85,17 +87,22 @@ public class SignUpActivity extends AppCompatActivity {
         studentBTN = findViewById(R.id.studentBTN);
         mentorBTN = findViewById(R.id.mentorBTN);
 
+        button_back = findViewById(R.id.button_back);
+
         View.OnClickListener onClickListener = v -> {
             switch (v.getId()) {
                 case R.id.signUpBTN:
                     signUp();
                     break;
+                case R.id.button_back:
+                    startLoginAcivity();
                 default:
                     break;
             }
         };
 
         signUpBTN.setOnClickListener(onClickListener);
+        button_back.setOnClickListener(onClickListener);
 
         CompoundButton.OnCheckedChangeListener onCheckedChangeListener = (buttonView, isChecked) -> {
             switch (buttonView.getId()) {

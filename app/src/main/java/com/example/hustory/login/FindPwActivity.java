@@ -3,11 +3,13 @@ package com.example.hustory.login;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.hustory.R;
@@ -34,6 +36,8 @@ public class FindPwActivity extends AppCompatActivity {
     private EditText find_Pw_find_IdETXT;
 
     private Button find_Pw_find_PwBTN;
+    private ImageView button_back;
+
 
     private FirebaseDatabase db;
     private DatabaseReference myRef;
@@ -62,6 +66,8 @@ public class FindPwActivity extends AppCompatActivity {
         find_Pw_find_IdETXT = findViewById(R.id.find_Pw_find_IdETXT);
 
         find_Pw_find_PwBTN = findViewById(R.id.find_Pw_find_PwBTN);
+
+        button_back = findViewById(R.id.button_back);
 
         View.OnClickListener onClickListener = v -> {
             switch (v.getId()) {
@@ -100,11 +106,14 @@ public class FindPwActivity extends AppCompatActivity {
                         }
                     });
                     break;
+                case R.id.button_back:
+                    startLoginActivity();
                 default:
                     break;
             }
         };
         find_Pw_find_PwBTN.setOnClickListener(onClickListener);
+        button_back.setOnClickListener(onClickListener);
 
         int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
         int newUiOptions = uiOptions;
@@ -115,6 +124,12 @@ public class FindPwActivity extends AppCompatActivity {
 
     private void startToast(String message) {
         Toast.makeText(FindPwActivity.this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void startLoginActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override

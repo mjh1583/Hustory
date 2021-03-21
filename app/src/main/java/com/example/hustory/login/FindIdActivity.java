@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,7 @@ public class FindIdActivity extends AppCompatActivity {
     private EditText find_phoneETXT;
 
     private Button find_IdBTN;
+    private ImageView button_back;
 
     private FirebaseDatabase db;
     private DatabaseReference myRef;
@@ -57,6 +59,7 @@ public class FindIdActivity extends AppCompatActivity {
         find_phoneETXT = findViewById(R.id.find_phoneETXT);
 
         find_IdBTN = findViewById(R.id.find_IdBTN);
+        button_back = findViewById(R.id.button_back);
 
         View.OnClickListener onClickListener = v -> {
             switch (v.getId()) {
@@ -93,12 +96,15 @@ public class FindIdActivity extends AppCompatActivity {
                         }
                     });
                     break;
+                case R.id.button_back:
+                    startLoginActivity();
                 default:
                     break;
             }
         };
 
         find_IdBTN.setOnClickListener(onClickListener);
+        button_back.setOnClickListener(onClickListener);
 
         int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
         int newUiOptions = uiOptions;
@@ -110,6 +116,12 @@ public class FindIdActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void startToast(String message) {
         Toast.makeText(FindIdActivity.this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void startLoginActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override
