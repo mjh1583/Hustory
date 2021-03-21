@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Project">
-        <activity android:name=".question.AddQuestionActivity"></activity>
+        <activity android:name=".reservation.ReviseActivity"></activity>
+        <activity android:name=".question.AddQuestionActivity" />
         <activity android:name=".login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,7 +34,7 @@
         <activity android:name=".login.FindPwActivity" />
         <activity android:name=".login.FindIdActivity" />
         <activity android:name=".MentorActivity" />
-        <activity android:name=".reservation.ReservationActivity"/>
+        <activity android:name=".reservation.ReservationActivity" />
     </application>
 
 </manifest>

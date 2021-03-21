@@ -39,10 +39,11 @@ public class CompareDate {
                     if(arr.size()>0 && flag == 1){
                         for (int i = 0; i<arr.size(); i++){
                             Log.i("compare", "i : " + i);
-                            createTime = Long.parseLong(arr.get(i));
+                            createTime = Long.valueOf(snapshot.child(uid).child("R_List").child(arr.get(i)).child("reservedate").getValue().toString());
+                            Log.i("compare", createTime.toString());
                             currentTime = new Date().getTime();
-                            Log.i("compare", "비교" + createTime.compareTo(currentTime));
-                            if (createTime.compareTo(currentTime) > 0){
+                            Log.i("compare", "비교" + createTime + " : " + currentTime);
+                            if (createTime.compareTo(currentTime) < 0){
                                 myRef.child("Member").child(uid).child("R_List").child(arr.get(i)).child("before_after_data").setValue("true");
                                 myRef.child("Member").child(other_uid).child("student").child(uid).child("R_List").child(arr.get(i)).child("before_after_data").setValue("true");
                             }else{

@@ -39,12 +39,12 @@
             android:id="@+id/list_mentor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:layout_margin="20dp"
-            android:dividerHeight="0px"
-            android:divider="#FFFFFF"
+            android:layout_weight="1"
             android:background="@color/white"
-            android:choiceMode="multipleChoice"/>
+            android:choiceMode="multipleChoice"
+            android:divider="#FFFFFF"
+            android:dividerHeight="0px" />
 
         <Button
             android:id="@+id/button_modify"

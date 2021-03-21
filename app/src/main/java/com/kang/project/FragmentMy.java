@@ -31,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kang.project.login.LoginActivity;
 import com.kang.project.reservation.CardActivity;
+import com.kang.project.reservation.GetRole;
 
 public class FragmentMy extends Fragment {
     int flag;

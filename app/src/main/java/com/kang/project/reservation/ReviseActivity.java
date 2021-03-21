@@ -2,6 +2,7 @@ package com.kang.project.reservation;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,15 +31,15 @@ import com.kang.project.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 
-public class ReservationActivity extends AppCompatActivity {
+public class ReviseActivity extends AppCompatActivity {
     // 요일 변수
     private String[] dayArray;
     private boolean before_after_data;
-    private long id;
     private String reservedate;
 
     // 예약수를 세는 변수
@@ -64,7 +65,8 @@ public class ReservationActivity extends AppCompatActivity {
     private String profUid;
     private String professor;
     private String student;
-    private String version_student;
+    private ArrayList<String> arr;
+    private int position;
 
 
 
@@ -95,6 +97,13 @@ public class ReservationActivity extends AppCompatActivity {
         select_content = findViewById(R.id.select_content);
         spinner = (Spinner)findViewById(R.id.onOffSpiner);
 
+        // intent 받아오기
+        Intent intent = getIntent();
+        arr = intent.getExtras().getStringArrayList("arr");
+        position = intent.getExtras().getInt("position");
+
+
+
         // 이름 설정 함수
         myRef.child("Member").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -102,9 +111,12 @@ public class ReservationActivity extends AppCompatActivity {
                 profUid = snapshot.child(uid).child("prof").getValue().toString();
                 professor = snapshot.child(profUid).child("name").getValue().toString();
                 student = snapshot.child(uid).child("name").getValue().toString();
-                version_student = snapshot.child(uid).child("management").child("1").child("version_student").getValue().toString();
-                Log.i("version", version_student);
                 text_professor.setText(professor);
+                text_summary.setText(snapshot.child(uid).child("R_List").child(arr.get(position)).child("summary").getValue().toString());
+                select_date.setText(snapshot.child(uid).child("R_List").child(arr.get(position)).child("date").getValue().toString());
+                select_time.setText(snapshot.child(uid).child("R_List").child(arr.get(position)).child("time").getValue().toString());
+                select_place.setText(snapshot.child(uid).child("R_List").child(arr.get(position)).child("place").getValue().toString());
+                select_content.setText(snapshot.child(uid).child("R_List").child(arr.get(position)).child("contents").getValue().toString());
             }
 
             @Override
@@ -165,14 +177,11 @@ public class ReservationActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 int DOF = (dayOfMonth - day) % 7;
-//                showToast(year + ":"+ month+1  + ":" +dayOfMonth + ":" + dayArray[dayOfWeek] );
-                int month2 = +month+1;
-                Date date = new Date(year, month2, dayOfMonth);
+
+                Date date = new Date(year, month+1, dayOfMonth);
                 SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-                Log.i("year"," :"+ year);
                 reservedate = format.format(date);
                 select_date.setText((month+1)+"."+dayOfMonth+"("+dayArray[dayOfWeek+DOF]+")");
-                Log.i("date", date.toString());
                 view.setMinDate(minDate);
             }
         },year,month,day);
@@ -206,12 +215,13 @@ public class ReservationActivity extends AppCompatActivity {
         // 날짜 데이터 만들기
 
 
+
+
 //         예약하기 버튼 클릭시 예약 해서 firebase 에 데이터 전송
         if(!select_date.getText().equals("날짜 설정") && !select_time.getText().equals("시간 설정")  && select_place.getText().length() != 0 && select_content.getText().length() !=0 && text_summary.getText().length() != 0) {
 //             로그인한 유저의 이름을 저장
 
-            id = System.currentTimeMillis();
-            key =  "" + id;
+            key =  arr.get(position);
             // 학생 데이터 저장
             firebaseData = new FirebaseData(uid, professor, text_summary.getText().toString(), select_date.getText().toString(), select_time.getText().toString(), spinner.getSelectedItem().toString(), select_place.getText().toString(), "수락대기", select_content.getText().toString(), false, key, student, reservedate);
             Map<String, Object> postValue = firebaseData.toMap();
@@ -221,7 +231,6 @@ public class ReservationActivity extends AppCompatActivity {
             myRef.child("Member").child(profUid).child("R_List").child(key).setValue(postValue);
             myRef.child("Member").child(profUid).child("student").child(uid).child("R_List").child(key).setValue(postValue);
             myRef.child("Member").child(profUid).child("student").child(uid).child("name").setValue(student);
-            myRef.child("Member").child(profUid).child("student").child(uid).child("version_student").setValue(version_student);
 
             // e-mail 보내기
             SendMail mailServer = new SendMail();

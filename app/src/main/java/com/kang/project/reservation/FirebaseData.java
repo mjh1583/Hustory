@@ -16,6 +16,7 @@ public class FirebaseData {
     private boolean before_after_data;
     private String key;
     private String student;
+    private String reservedate;
 
 
     public String getUid() {
@@ -114,7 +115,15 @@ public class FirebaseData {
         this.student = student;
     }
 
-    public FirebaseData(String uid, String professorStr, String summaryStr, String dateStr, String timeStr, String wayStr, String placeStr, String allowStr, String contentsStr, boolean before_after_data, String key, String student) {
+    public String getReservedate() {
+        return reservedate;
+    }
+
+    public void setReservedate(String reservedate) {
+        this.reservedate = reservedate;
+    }
+
+    public FirebaseData(String uid, String professorStr, String summaryStr, String dateStr, String timeStr, String wayStr, String placeStr, String allowStr, String contentsStr, boolean before_after_data, String key, String student, String reservedate) {
         this.uid = uid;
         ProfessorStr = professorStr;
         SummaryStr = summaryStr;
@@ -127,6 +136,7 @@ public class FirebaseData {
         this.before_after_data = before_after_data;
         this.key = key;
         this.student = student;
+        this.reservedate = reservedate;
     }
 
     public Map<String, Object> toMap(){
@@ -143,6 +153,7 @@ public class FirebaseData {
         result.put("summary", this.SummaryStr);
         result.put("before_after_data", this.before_after_data);
         result.put("key", this.key);
+        result.put("reservedate", this.reservedate);
 
         return result;
     }

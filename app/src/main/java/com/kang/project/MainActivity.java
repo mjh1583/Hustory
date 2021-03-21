@@ -67,6 +67,21 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        myRef.child("Member").child(uid).child("R_List").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue() != null){
+                    GetRole.CONTENT_FLAG = 0;
+                }else {
+                    GetRole.CONTENT_FLAG = 1;
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         init();
     }
 

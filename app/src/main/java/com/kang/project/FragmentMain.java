@@ -24,13 +24,27 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kang.project.question.FragmentQuestion;
+import com.kang.project.reservation.CompareDate;
+import com.kang.project.reservation.GetRole;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 
 public class FragmentMain extends Fragment {
     int flag_content = 0;
@@ -57,14 +71,28 @@ public class FragmentMain extends Fragment {
     private Animation fab_open, fab_close;
     private boolean isFabOpen = false;
 
+    private FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private DatabaseReference myRef = db.getReference();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private String uid = user.getUid();
+
+    private  String professor;
+    private  String summary;
+    private  String before_after_data;
+    private  String reservedate;
+    Date date = new Date(2021,12,31,00,00);
+    SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+    String testDate = format.format(date);
+    private  long check_reservedate = Long.parseLong(testDate);
+
     private FragmentQuestion fragmentQuestion = new FragmentQuestion();
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (flag == 1) {
+        if (GetRole.FLAG == 1) {
             view = inflater.inflate(R.layout.fragment_main, container, false);
             init_student();
-        } else if (flag == 2) {
+        } else if (GetRole.FLAG == 2) {
             view = inflater.inflate(R.layout.fragment_main_professor, container, false);
             init_professor();
         }
@@ -82,6 +110,34 @@ public class FragmentMain extends Fragment {
         title_professor = (TextView) view.findViewById(R.id.title_professor);
         main_summary = (TextView) view.findViewById(R.id.main_summary);
         go_reservation = (TextView) view.findViewById(R.id.go_reservation);
+        FirebaseDatabase.getInstance().getReference().child("Member").child(uid).child("R_List").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        HashMap<String, Object> member = (HashMap<String, Object>) snapshot.getValue();
+                        professor = member.get("professor").toString();
+                        summary = member.get("summary").toString();
+                        before_after_data = member.get("before_after_data").toString();
+                        reservedate = member.get("reservedate").toString();
+                        long currentTime = new Date().getTime();
+
+                        if(before_after_data.equals("false") && Long.valueOf(reservedate).compareTo(check_reservedate) < 0){
+                            Log.i("test", "크다"+reservedate);
+                            main_professor.setText(professor);
+                            main_summary.setText(summary);
+                            CreateDataWithCheck(reservedate);
+                            check_reservedate = Long.valueOf(reservedate);
+
+                        }else {
+                            Log.i("test", "작다"+Long.valueOf(reservedate).compareTo(check_reservedate));
+                        }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("remove", "없어");
+            }
+        });
 
         layout_reservation = (LinearLayout) view.findViewById(R.id.reservation);
 
@@ -155,7 +211,7 @@ public class FragmentMain extends Fragment {
             }
         });
 
-        if (flag_content == 1) {
+        if (GetRole.CONTENT_FLAG == 1) {
             image_professor.setVisibility(View.GONE);
             main_professor.setVisibility(View.GONE);
             title_professor.setVisibility(View.GONE);
@@ -187,6 +243,42 @@ public class FragmentMain extends Fragment {
             text_no.setTypeface(typeface);
             text_go.setTypeface(typeface);
         }
+    }
+
+    public static String CreateDataWithCheck(String dataString) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = null;
+
+
+        long curTime = System.currentTimeMillis();
+        long regTime = Long.parseLong(dataString);
+        long diffTime = (regTime - curTime) / 1000;
+        long _SEC = 1000;
+        long _MIN = _SEC*60;
+        long _HOUR = _MIN*60;
+        long _DAY = _HOUR*24;
+
+        String msg = null;
+        Log.i("msg", "cur"+ curTime);
+        Log.i("msg", ""+ diffTime);
+        if(diffTime < _SEC) {
+            msg = "방금 전";
+        }
+        else if((diffTime /= _SEC) < _MIN) {
+            msg = diffTime + "분 전";
+        }
+        else if((diffTime /= _MIN) < _HOUR) {
+            msg = diffTime + "시간 전";
+        }
+        else if((diffTime /= _HOUR) < _DAY) {
+            msg = diffTime + "일 전";
+        }
+        else {
+            format = new SimpleDateFormat("yyyy-MM-dd");
+            msg = format.format(date);
+        }
+        Log.i("msg", msg);
+        return msg;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -248,7 +340,7 @@ public class FragmentMain extends Fragment {
             }
         });
 
-        if (flag_content == 1) {
+        if (GetRole.CONTENT_FLAG == 1) {
             image_professor.setVisibility(View.GONE);
             main_professor.setVisibility(View.GONE);
             title_professor.setVisibility(View.GONE);

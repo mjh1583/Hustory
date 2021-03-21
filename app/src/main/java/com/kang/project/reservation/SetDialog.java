@@ -13,8 +13,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kang.project.R;
 
 import java.util.ArrayList;
@@ -37,6 +39,11 @@ public class SetDialog {
     private String contents;
     private String firebase_key;
     private String time;
+    private String verstudent;
+    private String school;
+    private String major;
+    private String company_1, company_2, company_3;
+    private Button button_previous;
 
     public void SetDialogStudent(View view1, ArrayList<String> arr, int position, LinearLayout layout, String uid) {
         // dialog 세팅
@@ -84,18 +91,6 @@ public class SetDialog {
                                 reservation_state.setText(allow);
                                 reservation_time.setText(time);
                             }else {
-                                TextView text_professor = (TextView) view1.findViewById(R.id.text_professor);
-                                TextView text_summary = (TextView) view1.findViewById(R.id.text_summary);
-                                TextView reservation_date = (TextView) view1.findViewById(R.id.reservation_date);
-                                TextView reservation_way = (TextView) view1.findViewById(R.id.reservation_way);
-                                TextView reservation_place = (TextView) view1.findViewById(R.id.reservation_place);
-                                TextView content = (TextView) view1.findViewById(R.id.content);
-                                text_professor.setText(professor);
-                                text_summary.setText(summary);
-                                reservation_date.setText(date);
-                                reservation_way.setText(way);
-                                reservation_place.setText(place);
-                                content.setText(contents);
                             }
                         }
                     }
@@ -170,6 +165,70 @@ public class SetDialog {
                 }
             }
         });
+    }
+
+    public void SetDialogCard (View view1, int position, ArrayList<String> arr, ArrayList<String> nameArr) {
+
+        key = arr.get(position);
+        student = nameArr.get(position);
+
+        // view 세팅
+        myRef.child("Member").child(key).child("management").child("1").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                TextView version_student = (TextView) view1.findViewById(R.id.version_student);
+                TextView my_school = (TextView) view1.findViewById(R.id.my_school);
+                TextView my_major = (TextView) view1.findViewById(R.id.my_major);
+                TextView my_company_1 = (TextView) view1.findViewById(R.id.my_company_1 );
+                TextView my_company_2 = (TextView) view1.findViewById(R.id.my_company_2);
+                TextView my_company_3 = (TextView) view1.findViewById(R.id.my_company_3);
+                TextView name_student = (TextView) view1.findViewById(R.id.name_student);
+                if(snapshot.getValue() != null) {
+                    if(snapshot.child("version_student").getValue() != null){
+                        verstudent = snapshot.child("version_student").getValue().toString();
+                        version_student.setText(verstudent);
+                        Log.i("snap", "마제환");
+                    }else if (snapshot.child("my_school").getValue() != null){
+                        school = snapshot.child("my_school").getValue().toString();
+                        my_school.setText(school);
+                    }else if (snapshot.child("my_major").getValue() != null){
+                        major = snapshot.child("my_major").getValue().toString();
+                        my_major.setText(major);
+                    }else if(snapshot.child("my_company_1").getValue() != null){
+                        company_1 = snapshot.child("my_company_1").getValue().toString();
+                        my_company_1.setText(company_1);
+                    }else if(snapshot.child("my_company_2").getValue() != null){
+                        company_2 = snapshot.child("my_company_2").getValue().toString();
+                        my_company_2.setText(company_2);
+                    }else if(snapshot.child("my_company_3").getValue() != null){
+                        company_3 = snapshot.child("my_company_3").getValue().toString();
+                        my_company_3.setText(company_3);
+                    }
+                }else {
+                    Log.i("snap", "마제환2");
+                    verstudent = "";
+                    school = "";
+                    major = "";
+                    company_1 = "";
+                    company_2 = "";
+                    company_3 = "";
+                    version_student.setText(verstudent);
+                    my_school.setText(school);
+                    my_major.setText(major);
+                    my_company_1.setText(company_1);
+                    my_company_2.setText(company_2);
+                    my_company_3.setText(company_3);
+                    name_student.setText(student);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
     }
 
 
