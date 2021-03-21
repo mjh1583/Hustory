@@ -368,8 +368,10 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
                     Log.d("MainActivity", "ValueEventListener : " + dataSnapshot.getValue());
                     if (dataSnapshot.getValue().equals("null")){
                         layout_status.setVisibility(View.VISIBLE);
+                        Log.i("view", "null");
                         return;
                     }else{
+                        Log.i("view", "view");
                         layout_status.setVisibility(View.GONE);
                         HashMap<String, Object> member2 = (HashMap<String, Object>) snapshot.getValue();
                         student = member2.get("student").toString();
@@ -381,14 +383,16 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
                         key = member2.get("key").toString();
                         Log.i("key", key);
                         before_after_data = member2.get("before_after_data").toString();
+                        Log.i("view", before_after_data);
                         if(before_after_data.equals("false")){
                             Log.i("view", "화면 만들기");
                             preArr.add(key);
                             statusAdapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.student), student, "\" "+summary+" \"", date, way, place, allow);
                         }else if(before_after_data.equals("true")){
+                            Log.i("view", "화면 안만듬");
                             return;
                         }
-                        new CompareDate().Compare(preArr, GetRole.FLAG);
+//                        new CompareDate().Compare(preArr, GetRole.FLAG);
                     }
                 }
             }

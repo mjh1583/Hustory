@@ -41,6 +41,11 @@ public class ReviseActivity extends AppCompatActivity {
     private String[] dayArray;
     private boolean before_after_data;
     private String reservedate;
+    private int reserve_hour;
+    private int reserve_time;
+    private int reserve_year;
+    private int reserve_month;
+    private int reserve_day;
 
     // 예약수를 세는 변수
     private int i;
@@ -168,6 +173,7 @@ public class ReviseActivity extends AppCompatActivity {
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK) - 1;
+
         c.set(year, month, day);
         // 지나간 날짜를 선택하지 못하게 하기위해 오늘 날짜를 받아옴.
         long minDate = c.getTime().getTime();
@@ -177,6 +183,9 @@ public class ReviseActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 int DOF = (dayOfMonth - day) % 7;
+                reserve_year = year;
+                reserve_month = month;
+                reserve_day = dayOfMonth;
 
                 Date date = new Date(year, month+1, dayOfMonth);
                 SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -204,6 +213,8 @@ public class ReviseActivity extends AppCompatActivity {
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 select_time.setText(hourOfDay + ":" + minute);
 //                showToast(hourOfDay + ":" + minute);
+                reserve_time = minute;
+                reserve_hour = hourOfDay;
             }
         }, hour,minute, false);
         timeDialog.show();
@@ -220,10 +231,14 @@ public class ReviseActivity extends AppCompatActivity {
 //         예약하기 버튼 클릭시 예약 해서 firebase 에 데이터 전송
         if(!select_date.getText().equals("날짜 설정") && !select_time.getText().equals("시간 설정")  && select_place.getText().length() != 0 && select_content.getText().length() !=0 && text_summary.getText().length() != 0) {
 //             로그인한 유저의 이름을 저장
+            Date date = new Date();
+            Calendar reserve = Calendar.getInstance();
+            reserve.set(reserve_year,reserve_month,reserve_day,reserve_hour,reserve_time);
+            reservedate = String.valueOf(reserve.getTimeInMillis());
 
             key =  arr.get(position);
             // 학생 데이터 저장
-            firebaseData = new FirebaseData(uid, professor, text_summary.getText().toString(), select_date.getText().toString(), select_time.getText().toString(), spinner.getSelectedItem().toString(), select_place.getText().toString(), "수락대기", select_content.getText().toString(), false, key, student, reservedate);
+            firebaseData = new FirebaseData(uid, professor, text_summary.getText().toString(), select_date.getText().toString(), select_time.getText().toString(), spinner.getSelectedItem().toString(), select_place.getText().toString(), "수락대기", select_content.getText().toString(), false, key, student, reservedate, Integer.toString(reserve_day), Integer.toString(reserve_month));
             Map<String, Object> postValue = firebaseData.toMap();
             myRef.child("Member").child(uid).child("R_List").child(key).setValue(postValue);
 

@@ -46,6 +46,7 @@ public class CompareDate {
                             if (createTime.compareTo(currentTime) < 0){
                                 myRef.child("Member").child(uid).child("R_List").child(arr.get(i)).child("before_after_data").setValue("true");
                                 myRef.child("Member").child(other_uid).child("student").child(uid).child("R_List").child(arr.get(i)).child("before_after_data").setValue("true");
+                                myRef.child("Member").child(other_uid).child("R_List").child(arr.get(i)).child("before_after_data").setValue("true");
                             }else{
                                 return;
                             }

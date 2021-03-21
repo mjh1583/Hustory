@@ -40,6 +40,11 @@ public class ReservationActivity extends AppCompatActivity {
     private boolean before_after_data;
     private long id;
     private String reservedate;
+    private int reserve_hour;
+    private int reserve_time;
+    private int reserve_year;
+    private int reserve_month;
+    private int reserve_day;
 
     // 예약수를 세는 변수
     private int i;
@@ -165,14 +170,10 @@ public class ReservationActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 int DOF = (dayOfMonth - day) % 7;
-//                showToast(year + ":"+ month+1  + ":" +dayOfMonth + ":" + dayArray[dayOfWeek] );
-                int month2 = +month+1;
-                Date date = new Date(year, month2, dayOfMonth);
-                SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-                Log.i("year"," :"+ year);
-                reservedate = format.format(date);
+                reserve_year = year;
+                reserve_month = month;
+                reserve_day = dayOfMonth;
                 select_date.setText((month+1)+"."+dayOfMonth+"("+dayArray[dayOfWeek+DOF]+")");
-                Log.i("date", date.toString());
                 view.setMinDate(minDate);
             }
         },year,month,day);
@@ -195,6 +196,8 @@ public class ReservationActivity extends AppCompatActivity {
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 select_time.setText(hourOfDay + ":" + minute);
 //                showToast(hourOfDay + ":" + minute);
+                reserve_time = minute;
+                reserve_hour = hourOfDay;
             }
         }, hour,minute, false);
         timeDialog.show();
@@ -209,11 +212,15 @@ public class ReservationActivity extends AppCompatActivity {
 //         예약하기 버튼 클릭시 예약 해서 firebase 에 데이터 전송
         if(!select_date.getText().equals("날짜 설정") && !select_time.getText().equals("시간 설정")  && select_place.getText().length() != 0 && select_content.getText().length() !=0 && text_summary.getText().length() != 0) {
 //             로그인한 유저의 이름을 저장
+            Date date = new Date();
+            Calendar reserve = Calendar.getInstance();
+            reserve.set(reserve_year,reserve_month,reserve_day,reserve_hour,reserve_time);
+            reservedate = String.valueOf(reserve.getTimeInMillis());
 
             id = System.currentTimeMillis();
             key =  "" + id;
             // 학생 데이터 저장
-            firebaseData = new FirebaseData(uid, professor, text_summary.getText().toString(), select_date.getText().toString(), select_time.getText().toString(), spinner.getSelectedItem().toString(), select_place.getText().toString(), "수락대기", select_content.getText().toString(), false, key, student, reservedate);
+            firebaseData = new FirebaseData(uid, professor, text_summary.getText().toString(), select_date.getText().toString(), select_time.getText().toString(), spinner.getSelectedItem().toString(), select_place.getText().toString(), "수락대기", select_content.getText().toString(), false, key, student, reservedate, Integer.toString(reserve_day), Integer.toString(reserve_month));
             Map<String, Object> postValue = firebaseData.toMap();
             myRef.child("Member").child(uid).child("R_List").child(key).setValue(postValue);
 

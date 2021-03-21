@@ -43,12 +43,11 @@ import com.kang.project.reservation.CompareDate;
 import com.kang.project.reservation.GetRole;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
 public class FragmentMain extends Fragment {
-    int flag_content = 0;
-    int flag = 1;
 
     EditText edit_question;
     ImageView go_question;
@@ -77,13 +76,16 @@ public class FragmentMain extends Fragment {
     private String uid = user.getUid();
 
     private  String professor;
+    private String student;
     private  String summary;
     private  String before_after_data;
     private  String reservedate;
+    private String reserve_month;
+    private String reserve_day;
     Date date = new Date(2021,12,31,00,00);
     SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
     String testDate = format.format(date);
-    private  long check_reservedate = Long.parseLong(testDate);
+    private  long check_reservedate;
 
     private FragmentQuestion fragmentQuestion = new FragmentQuestion();
 
@@ -102,6 +104,7 @@ public class FragmentMain extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void init_student() {
+        check_reservedate = Long.parseLong(testDate);
         text_summary = (TextView) view.findViewById(R.id.main_summary);
         viewPager = (ViewPager) view.findViewById(R.id.image_banner);
 
@@ -115,17 +118,19 @@ public class FragmentMain extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         HashMap<String, Object> member = (HashMap<String, Object>) snapshot.getValue();
-                        professor = member.get("professor").toString();
+                        student = member.get("student").toString();
                         summary = member.get("summary").toString();
                         before_after_data = member.get("before_after_data").toString();
                         reservedate = member.get("reservedate").toString();
+                        reserve_month = member.get("reserve_month").toString();
+                        reserve_day = member.get("reserve_day").toString();
                         long currentTime = new Date().getTime();
 
                         if(before_after_data.equals("false") && Long.valueOf(reservedate).compareTo(check_reservedate) < 0){
                             Log.i("test", "크다"+reservedate);
-                            main_professor.setText(professor);
+                            main_professor.setText(student);
                             main_summary.setText(summary);
-                            CreateDataWithCheck(reservedate);
+                            go_reservation.setText(CreateDataWithCheck(reserve_month, reserve_day));
                             check_reservedate = Long.valueOf(reservedate);
 
                         }else {
@@ -245,44 +250,21 @@ public class FragmentMain extends Fragment {
         }
     }
 
-    public static String CreateDataWithCheck(String dataString) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-        Date date = null;
+    public static String CreateDataWithCheck(String reserve_month, String reserve_day) {
+        Calendar c = Calendar.getInstance();
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
 
-
-        long curTime = System.currentTimeMillis();
-        long regTime = Long.parseLong(dataString);
-        long diffTime = (regTime - curTime) / 1000;
-        long _SEC = 1000;
-        long _MIN = _SEC*60;
-        long _HOUR = _MIN*60;
-        long _DAY = _HOUR*24;
-
-        String msg = null;
-        Log.i("msg", "cur"+ curTime);
-        Log.i("msg", ""+ diffTime);
-        if(diffTime < _SEC) {
-            msg = "방금 전";
-        }
-        else if((diffTime /= _SEC) < _MIN) {
-            msg = diffTime + "분 전";
-        }
-        else if((diffTime /= _MIN) < _HOUR) {
-            msg = diffTime + "시간 전";
-        }
-        else if((diffTime /= _HOUR) < _DAY) {
-            msg = diffTime + "일 전";
-        }
-        else {
-            format = new SimpleDateFormat("yyyy-MM-dd");
-            msg = format.format(date);
-        }
+        String msg = "D-" + (Integer.parseInt(reserve_day) - day);
         Log.i("msg", msg);
+
+
         return msg;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void init_professor() {
+        check_reservedate = Long.parseLong(testDate);
         text_summary = (TextView) view.findViewById(R.id.main_summary);
         viewPager = (ViewPager) view.findViewById(R.id.image_banner);
 
@@ -291,6 +273,42 @@ public class FragmentMain extends Fragment {
         title_professor = (TextView) view.findViewById(R.id.title_professor);
         main_summary = (TextView) view.findViewById(R.id.main_summary);
         go_reservation = (TextView) view.findViewById(R.id.go_reservation);
+
+        image_professor = (ImageView) view.findViewById(R.id.image_professor);
+        main_professor = (TextView) view.findViewById(R.id.main_professor);
+        title_professor = (TextView) view.findViewById(R.id.title_professor);
+        main_summary = (TextView) view.findViewById(R.id.main_summary);
+        go_reservation = (TextView) view.findViewById(R.id.go_reservation);
+        FirebaseDatabase.getInstance().getReference().child("Member").child(uid).child("R_List").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    HashMap<String, Object> member = (HashMap<String, Object>) snapshot.getValue();
+                    professor = member.get("professor").toString();
+                    summary = member.get("summary").toString();
+                    before_after_data = member.get("before_after_data").toString();
+                    reservedate = member.get("reservedate").toString();
+                    reserve_month = member.get("reserve_month").toString();
+                    reserve_day = member.get("reserve_day").toString();
+                    long currentTime = new Date().getTime();
+
+                    if(before_after_data.equals("false") && Long.valueOf(reservedate).compareTo(check_reservedate) < 0){
+                        Log.i("test", "크다"+reservedate);
+                        main_professor.setText(professor);
+                        main_summary.setText(summary);
+                        go_reservation.setText(CreateDataWithCheck(reserve_month, reserve_day));
+                        check_reservedate = Long.valueOf(reservedate);
+
+                    }else {
+                        Log.i("test", "작다"+Long.valueOf(reservedate).compareTo(check_reservedate));
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("remove", "없어");
+            }
+        });
 
         layout_reservation = (LinearLayout) view.findViewById(R.id.reservation);
 

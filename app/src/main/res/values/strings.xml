@@ -105,6 +105,7 @@
     <string name="enter_phone">전화번호를 입력하세요. ( \'-\' 제외)</string>
 
 
+
     <string-array name="day_of_week">
         <item>일</item>
         <item>월</item>
