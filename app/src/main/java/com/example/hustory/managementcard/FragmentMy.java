@@ -28,6 +28,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.hustory.MentorActivity;
 import com.example.hustory.R;
 import com.example.hustory.login.LoginActivity;
@@ -56,7 +57,7 @@ import java.util.HashMap;
 import static android.app.Activity.RESULT_OK;
 
 public class FragmentMy extends Fragment {
-    int flag;
+    int flag = 1;
 
     Button button_card;
     Button button_letter;
@@ -70,11 +71,12 @@ public class FragmentMy extends Fragment {
     private FirebaseAuth firebaseAuth;
 
     private DatabaseReference mDatabase;
-    TextView save;
-    EditText my_school, my_major, my_company_1, my_company_2, my_company_3;
-    private TextView version_student;
+    private TextView save;
     private TextView delete;
+    private TextView logout;
 
+    private TextView version_student;
+    EditText my_school, my_major, my_company_1, my_company_2, my_company_3, name_student, my_agency, my_spot, my_department;
 
     private Uri filePath;
 
@@ -95,7 +97,8 @@ public class FragmentMy extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        getRole(uid);
+        Log.i("getRole", "" + flag);
+        getRole(UserInfo.UID);
 
         if (flag == 1) {
             view = inflater.inflate(R.layout.fragment_my, container, false);
@@ -113,8 +116,10 @@ public class FragmentMy extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.child("role").toString().equals("학생")){
+                    Log.i("role", "" + flag);
                     flag = 1;
                 }else {
+                    Log.i("role", "" + flag);
                     flag = 2;
                 }
             }
@@ -199,6 +204,7 @@ public class FragmentMy extends Fragment {
         my_company_1 = (EditText) view.findViewById(R.id.my_company_1);
         my_company_2 = (EditText) view.findViewById(R.id.my_company_2);
         my_company_3 = (EditText) view.findViewById(R.id.my_company_3);
+
         version_student=(TextView)view.findViewById(R.id.version_student);
         save = (TextView) view.findViewById(R.id.save);
         button_card = (Button) view.findViewById(R.id.button_card);
@@ -247,7 +253,10 @@ public class FragmentMy extends Fragment {
     } //init_student()
 
     public void init_professor() {
-
+        name_student = (EditText) view.findViewById(R.id.name_student);
+        my_agency = (EditText) view.findViewById(R.id.my_agency);
+        my_department = (EditText) view.findViewById(R.id.my_department);
+        my_spot = (EditText) view.findViewById(R.id.my_spot);
         button_mentor = (Button) view.findViewById(R.id.button_mentor);
         button_mentor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -297,6 +306,98 @@ public class FragmentMy extends Fragment {
             auto_editor.apply();
             startLoginActivity();
         });
+
+        delete = (TextView)view.findViewById(R.id.delete);
+        name_student = (EditText) view.findViewById(R.id.name_student);
+        my_department = (EditText) view.findViewById(R.id.my_department);
+        my_agency = (EditText) view.findViewById(R.id.my_agency);
+        my_spot= (EditText) view.findViewById(R.id.my_spot);
+        save = (TextView) view.findViewById(R.id.save);
+        imageview = (ImageView) view.findViewById(R.id.icon_student);
+
+        FirebaseStorage storage = FirebaseStorage.getInstance("gs://hustory-82cc1.appspot.com");
+        StorageReference storageRef = storage.getReference();
+        storageRef.child("images/0xAmXnqcqaT96ir6tr77ifGTc4D2").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                //이미지 로드 성공시
+
+                Glide.with(mContext.getApplicationContext())
+                        .load(uri)
+                        .into(imageview);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                //이미지 로드 실패시
+                Toast.makeText(mContext.getApplicationContext(), "실패", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        imageview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //이미지를 선택
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "이미지를 선택하세요."), 0);
+            }
+        });
+
+        TextView logoutTXTBTN2 = view.findViewById(R.id.logoutTXTBTN);
+
+        logoutTXTBTN2.setOnClickListener(v -> {
+            Log.i("LogOut", "log------------out");
+
+            mAuth.signOut();
+            auto_editor.clear();
+            auto_editor.apply();
+            startLoginActivity();
+        });
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String getUsername_student = name_student.getText().toString();
+                String getUsermy_department = my_department.getText().toString();
+                String getUsermy_agency = my_agency.getText().toString();
+                String getUsermy_spot = my_spot.getText().toString();
+
+                uploadFile();
+
+                //hashmap 만들기
+                HashMap result = new HashMap<>();
+                result.put("name_student", getUsername_student);
+                result.put("my_department", getUsermy_department);
+                result.put("my_agency", getUsermy_agency);
+                result.put("my_spot", getUsermy_spot);
+
+                writeNewUser1(UserInfo.UID, getUsername_student,getUsermy_agency,getUsermy_spot,getUsermy_department);
+
+            }
+        });
+    }
+
+    private void writeNewUser1(String userId, String name_student, String my_agency, String my_department, String my_spot) {
+        professor professor = new professor(name_student,my_agency,my_department,my_spot);
+
+        myRef.child("Member").child(userId).child("management").setValue(professor)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Write was successful!
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Write failed
+
+                    }
+                });
     }
 
     public void startLoginActivity () {

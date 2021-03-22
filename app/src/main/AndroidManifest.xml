@@ -40,6 +40,7 @@
         <activity android:name=".login.FindPwActivity" />
         <activity android:name=".login.FindIdActivity" />
         <activity android:name=".question.ModQuestionActivity"/>
+        <activity android:name=".MentorActivity"/>
 
     </application>
 
