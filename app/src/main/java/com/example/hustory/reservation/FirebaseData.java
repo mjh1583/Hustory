@@ -19,6 +19,7 @@ public class FirebaseData {
     private String reservedate;
     private String reserve_day;
     private String reserve_month;
+    private String porf_uid;
 
 
     public String getUid() {
@@ -141,7 +142,15 @@ public class FirebaseData {
         this.reserve_month = reserve_month;
     }
 
-    public FirebaseData(String uid, String professorStr, String summaryStr, String dateStr, String timeStr, String wayStr, String placeStr, String allowStr, String contentsStr, boolean before_after_data, String key, String student, String reservedate, String reserve_day, String reserve_month) {
+    public String getPorf_uid() {
+        return porf_uid;
+    }
+
+    public void setPorf_uid(String porf_uid) {
+        this.porf_uid = porf_uid;
+    }
+
+    public FirebaseData(String uid, String professorStr, String summaryStr, String dateStr, String timeStr, String wayStr, String placeStr, String allowStr, String contentsStr, boolean before_after_data, String key, String student, String reservedate, String reserve_day, String reserve_month, String porf_uid) {
         this.uid = uid;
         ProfessorStr = professorStr;
         SummaryStr = summaryStr;
@@ -157,6 +166,7 @@ public class FirebaseData {
         this.reservedate = reservedate;
         this.reserve_day = reserve_day;
         this.reserve_month = reserve_month;
+        this.porf_uid = porf_uid;
     }
 
     public Map<String, Object> toMap(){
@@ -176,6 +186,7 @@ public class FirebaseData {
         result.put("reservedate", this.reservedate);
         result.put("reserve_day", this.reserve_day);
         result.put("reserve_month", this.reserve_month);
+        result.put("prof_uid", this.porf_uid);
 
         return result;
     }

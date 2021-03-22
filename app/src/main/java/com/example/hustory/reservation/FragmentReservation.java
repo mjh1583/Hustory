@@ -90,6 +90,8 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
     private ArrayList<String> keyArr = new ArrayList<>();
     private ArrayList<String> nameArr = new ArrayList<>();
     private String version_student;
+    private String prof_uid;
+    private String student_uid;
 
 
     public ArrayList<String> preArr = new ArrayList<>();
@@ -183,14 +185,15 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
                         allow = member.get("allow").toString();
                         key = member.get("key").toString();
                         before_after_data = member.get("before_after_data").toString();
+                        prof_uid = member.get("prof_uid").toString();
                         if(before_after_data.equals("false")){
                             Log.i("false","상담전" + preArr.size());
                             preArr.add(key);
-                            previousAdapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.professor), professor, "\" "+summary+" \"", date, way, place, allow);
+                            previousAdapter.addItem(prof_uid, professor, "\" "+summary+" \"", date, way, place, allow);
                         }else if(before_after_data.equals("true")){
                             Log.i("false","상담후");
                             aftArr.add(key);
-                            afterAdapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.professor), professor, "\" "+summary+" \"", date, way, place);
+                            afterAdapter.addItem(prof_uid, professor, "\" "+summary+" \"", date, way, place);
                         }
                         new CompareDate().Compare(preArr, GetRole.FLAG);
                     }else {
@@ -378,13 +381,14 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
                             place = member2.get("place").toString();
                             allow = member2.get("allow").toString();
                             key = member2.get("key").toString();
+                            student_uid = member2.get("uid").toString();
                             Log.i("key", key);
                             before_after_data = member2.get("before_after_data").toString();
                             Log.i("view", before_after_data);
                             if(before_after_data.equals("false")){
                                 Log.i("view", "화면 만들기");
                                 preArr.add(key);
-                                statusAdapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.student), student, "\" "+summary+" \"", date, way, place, allow);
+                                statusAdapter.addItem(student_uid, student, "\" "+summary+" \"", date, way, place, allow);
                             }else if(before_after_data.equals("true")){
                                 Log.i("view", "화면 안만듬");
                             }
@@ -418,7 +422,8 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
                             nameArr.add(student_name);
                             version_student = member2.get("version_student").toString();
                             Log.i("version_student", version_student);
-                            cardAdapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.student), student_name, version_student);
+                            student_uid = member2.get("uid").toString();
+                            cardAdapter.addItem(student_uid, student_name, version_student);
                         }
                     }
                 }

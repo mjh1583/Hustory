@@ -219,7 +219,7 @@ public class ReservationActivity extends AppCompatActivity {
             id = System.currentTimeMillis();
             key =  "" + id;
             // 학생 데이터 저장
-            firebaseData = new FirebaseData(uid, professor, text_summary.getText().toString(), select_date.getText().toString(), select_time.getText().toString(), spinner.getSelectedItem().toString(), select_place.getText().toString(), "수락대기", select_content.getText().toString(), false, key, student, reservedate, Integer.toString(reserve_day), Integer.toString(reserve_month));
+            firebaseData = new FirebaseData(uid, professor, text_summary.getText().toString(), select_date.getText().toString(), select_time.getText().toString(), spinner.getSelectedItem().toString(), select_place.getText().toString(), "수락대기", select_content.getText().toString(), false, key, student, reservedate, Integer.toString(reserve_day), Integer.toString(reserve_month), profUid);
             Map<String, Object> postValue = firebaseData.toMap();
             myRef.child("Member").child(uid).child("R_List").child(key).setValue(postValue);
 
@@ -228,6 +228,7 @@ public class ReservationActivity extends AppCompatActivity {
             myRef.child("Member").child(profUid).child("student").child(uid).child("R_List").child(key).setValue(postValue);
             myRef.child("Member").child(profUid).child("student").child(uid).child("name").setValue(student);
             myRef.child("Member").child(profUid).child("student").child(uid).child("version_student").setValue(version_student);
+            myRef.child("Member").child(profUid).child("student").child(uid).child("uid").setValue(uid);
 
             // e-mail 보내기
             SendMail mailServer = new SendMail();

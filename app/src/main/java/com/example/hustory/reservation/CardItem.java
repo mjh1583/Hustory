@@ -3,16 +3,16 @@ package com.example.hustory.reservation;
 import android.graphics.drawable.Drawable;
 
 public class CardItem {
-    private Drawable iconDrawable;
+    private String id;
     private String NameStr;
     private String VersionStr;
 
-    public Drawable getIconDrawable() {
-        return iconDrawable;
+    public String getId() {
+        return id;
     }
 
-    public void setIconDrawable(Drawable iconDrawable) {
-        this.iconDrawable = iconDrawable;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNameStr() {
@@ -31,4 +31,9 @@ public class CardItem {
         VersionStr = versionStr;
     }
 
+    public CardItem(String id, String nameStr, String versionStr) {
+        this.id = id;
+        NameStr = nameStr;
+        VersionStr = versionStr;
+    }
 }
