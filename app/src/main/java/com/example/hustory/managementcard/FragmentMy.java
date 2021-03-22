@@ -28,6 +28,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.hustory.MentorActivity;
 import com.example.hustory.R;
 import com.example.hustory.login.LoginActivity;
 import com.example.hustory.managementcard.CardActivity;
@@ -39,8 +40,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -52,9 +56,11 @@ import java.util.HashMap;
 import static android.app.Activity.RESULT_OK;
 
 public class FragmentMy extends Fragment {
+    int flag;
 
     Button button_card;
     Button button_letter;
+    Button button_mentor;
 
     View view;
 
@@ -79,19 +85,50 @@ public class FragmentMy extends Fragment {
 
     private FirebaseAuth mAuth;
     private FirebaseUser cuurentUser;
+    private FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private DatabaseReference myRef = db.getReference();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private String uid = user.getUid();
 
     private SharedPreferences auto;
     private SharedPreferences.Editor auto_editor;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_my, container, false);
-        init();
+        getRole(uid);
+
+        if (flag == 1) {
+            view = inflater.inflate(R.layout.fragment_my, container, false);
+            init_student();
+        } else {
+            view = inflater.inflate(R.layout.fragment_professor, container, false);
+            init_professor();
+        }
 
         return view;
     }
 
-    public void init() {
+    public int getRole (String uid) {
+        myRef.child("Member").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.child("role").toString().equals("학생")){
+                    flag = 1;
+                }else {
+                    flag = 2;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        return flag;
+    }
+
+
+    public void init_student() {
         mContext = getContext();
         fab_open = AnimationUtils.loadAnimation(mContext, R.anim.fab_open);
         fab_close = AnimationUtils.loadAnimation(mContext, R.anim.fab_close);
@@ -207,7 +244,60 @@ public class FragmentMy extends Fragment {
 
             }
         });
-    } //init()
+    } //init_student()
+
+    public void init_professor() {
+
+        button_mentor = (Button) view.findViewById(R.id.button_mentor);
+        button_mentor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getActivity(), MentorActivity.class);
+                startActivity(intent);
+
+            }
+        });
+
+        mContext = getContext();
+        fab_open = AnimationUtils.loadAnimation(mContext, R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(mContext, R.anim.fab_close);
+        fab_main = (FloatingActionButton) view.findViewById(R.id.fab_main);
+        fab_sub1 = (FloatingActionButton) view.findViewById(R.id.fab_sub1);
+
+        fab_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isFabOpen) {
+                    fab_main.setImageResource(R.drawable.booking);
+                    fab_sub1.startAnimation(fab_close);
+                    fab_sub1.setClickable(false);
+                    isFabOpen = false;
+                } else {
+                    fab_main.setImageResource(R.drawable.booking);
+                    fab_sub1.startAnimation(fab_open);
+                    fab_sub1.setClickable(true);
+                    isFabOpen = true;
+                }
+            }
+        });
+
+        auto = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        auto_editor = auto.edit();
+        mAuth = FirebaseAuth.getInstance();
+        cuurentUser = mAuth.getCurrentUser();
+
+        TextView logoutTXTBTN = view.findViewById(R.id.logoutTXTBTN);
+
+        logoutTXTBTN.setOnClickListener(v -> {
+            Log.i("LogOut", "log------------out");
+
+            mAuth.signOut();
+            auto_editor.clear();
+            auto_editor.apply();
+            startLoginActivity();
+        });
+    }
 
     public void startLoginActivity () {
         Intent intent = new Intent(getActivity(), LoginActivity.class);

@@ -34,19 +34,26 @@ import com.example.hustory.managementcard.FragmentMy;
 import com.example.hustory.question.AnswerActivity;
 import com.example.hustory.question.FragmentQuestion;
 import com.example.hustory.reservation.FragmentReservation;
+import com.example.hustory.reservation.GetRole;
 import com.example.hustory.util.DataStringFormat;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 
 public class FragmentMain extends Fragment {
-    int flag_content = 0;
     int flag = 1;
 
     EditText edit_question;
@@ -75,12 +82,31 @@ public class FragmentMain extends Fragment {
     private String writer_id;
     private String q_writer;
 
+    private FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private DatabaseReference myRef = db.getReference();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private String uid = user.getUid();
+
+    private  String professor;
+    private String student;
+    private  String summary;
+    private  String before_after_data;
+    private  String reservedate;
+    private String reserve_month;
+    private String reserve_day;
+    Date date = new Date(2022,12,31,00,00);
+    SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+    String testDate = format.format(date);
+    private  long check_reservedate;
+
+    private FragmentQuestion fragmentQuestion = new FragmentQuestion();
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (flag == 1) {
+        if (GetRole.FLAG  == 1) {
             view = inflater.inflate(R.layout.fragment_main, container, false);
             init_student();
-        } else if (flag == 2) {
+        } else if (GetRole.FLAG  == 2) {
             view = inflater.inflate(R.layout.fragment_main_professor, container, false);
             init_professor();
         }
@@ -92,6 +118,8 @@ public class FragmentMain extends Fragment {
     public void init_student() {
         initQuestionSection();
 
+        check_reservedate = Long.parseLong(testDate);
+
         text_summary = (TextView) view.findViewById(R.id.main_summary);
         viewPager = (ViewPager) view.findViewById(R.id.image_banner);
 
@@ -100,6 +128,37 @@ public class FragmentMain extends Fragment {
         title_professor = (TextView) view.findViewById(R.id.title_professor);
         main_summary = (TextView) view.findViewById(R.id.main_summary);
         go_reservation = (TextView) view.findViewById(R.id.go_reservation);
+
+        FirebaseDatabase.getInstance().getReference().child("Member").child(uid).child("R_List").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    HashMap<String, Object> member = (HashMap<String, Object>) snapshot.getValue();
+                    student = member.get("student").toString();
+                    summary = member.get("summary").toString();
+                    before_after_data = member.get("before_after_data").toString();
+                    reservedate = member.get("reservedate").toString();
+                    reserve_month = member.get("reserve_month").toString();
+                    reserve_day = member.get("reserve_day").toString();
+                    long currentTime = new Date().getTime();
+
+                    if(before_after_data.equals("false") && Long.valueOf(reservedate).compareTo(check_reservedate) < 0){
+                        Log.i("test", "크다"+reservedate);
+                        main_professor.setText(student);
+                        main_summary.setText(summary);
+                        go_reservation.setText(CreateDataWithCheck(reserve_month, reserve_day));
+                        check_reservedate = Long.valueOf(reservedate);
+
+                    }else {
+                        Log.i("test", "작다"+Long.valueOf(reservedate).compareTo(check_reservedate));
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("remove", "없어");
+            }
+        });
 
         layout_reservation = (LinearLayout) view.findViewById(R.id.reservation);
 
@@ -173,7 +232,7 @@ public class FragmentMain extends Fragment {
             }
         });
 
-        if (flag_content == 1) {
+        if (GetRole.CONTENT_FLAG == 0) {
             image_professor.setVisibility(View.GONE);
             main_professor.setVisibility(View.GONE);
             title_professor.setVisibility(View.GONE);
@@ -207,10 +266,23 @@ public class FragmentMain extends Fragment {
         }
     }
 
+    public static String CreateDataWithCheck(String reserve_month, String reserve_day) {
+        Calendar c = Calendar.getInstance();
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        String msg = "D-" + (Integer.parseInt(reserve_day) - day);
+        Log.i("msg", msg);
+
+
+        return msg;
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void init_professor() {
         initQuestionSection();
 
+        check_reservedate = Long.parseLong(testDate);
         text_summary = (TextView) view.findViewById(R.id.main_summary);
         viewPager = (ViewPager) view.findViewById(R.id.image_banner);
 
@@ -219,6 +291,37 @@ public class FragmentMain extends Fragment {
         title_professor = (TextView) view.findViewById(R.id.title_professor);
         main_summary = (TextView) view.findViewById(R.id.main_summary);
         go_reservation = (TextView) view.findViewById(R.id.go_reservation);
+
+        FirebaseDatabase.getInstance().getReference().child("Member").child(uid).child("R_List").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    HashMap<String, Object> member = (HashMap<String, Object>) snapshot.getValue();
+                    professor = member.get("professor").toString();
+                    summary = member.get("summary").toString();
+                    before_after_data = member.get("before_after_data").toString();
+                    reservedate = member.get("reservedate").toString();
+                    reserve_month = member.get("reserve_month").toString();
+                    reserve_day = member.get("reserve_day").toString();
+                    long currentTime = new Date().getTime();
+
+                    if(before_after_data.equals("false") && Long.valueOf(reservedate).compareTo(check_reservedate) < 0){
+                        Log.i("test", "크다"+reservedate);
+                        main_professor.setText(professor);
+                        main_summary.setText(summary);
+                        go_reservation.setText(CreateDataWithCheck(reserve_month, reserve_day));
+                        check_reservedate = Long.valueOf(reservedate);
+
+                    }else {
+                        Log.i("test", "작다"+Long.valueOf(reservedate).compareTo(check_reservedate));
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("remove", "없어");
+            }
+        });
 
         layout_reservation = (LinearLayout) view.findViewById(R.id.reservation);
 
@@ -268,7 +371,7 @@ public class FragmentMain extends Fragment {
             }
         });
 
-        if (flag_content == 1) {
+        if (GetRole.CONTENT_FLAG == 0) {
             image_professor.setVisibility(View.GONE);
             main_professor.setVisibility(View.GONE);
             title_professor.setVisibility(View.GONE);

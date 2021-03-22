@@ -359,10 +359,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
 
-                                android:text="@string/professor"
-                                android:textSize="14sp"
+                                android:fontFamily="@font/jalnan"
+                                android:text="@string/student"
                                 android:textColor="@color/white"
-                                android:fontFamily="@font/jalnan" />
+                                android:textSize="14sp" />
 
                         </LinearLayout>
 

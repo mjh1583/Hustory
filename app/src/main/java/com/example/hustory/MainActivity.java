@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.example.hustory.managementcard.FragmentMy;
 import com.example.hustory.question.FragmentQuestion;
 import com.example.hustory.reservation.FragmentReservation;
+import com.example.hustory.reservation.GetRole;
 import com.example.hustory.userInfo.UserInfo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
     private FragmentMy fragmentMy = new FragmentMy();
     private FragmentQuestion fragmentQuestion = new FragmentQuestion();
 
+    private FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private DatabaseReference myRef = db.getReference();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private String uid = user.getUid();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_Hustory);
@@ -51,6 +57,36 @@ public class MainActivity extends AppCompatActivity {
                         .permitDiskReads()
                         .permitDiskWrites()
                         .permitNetwork().build());
+
+        myRef.child("Member").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.child("role").getValue().toString().equals("학생")){
+                    GetRole.FLAG = 1;
+                }else {
+                    GetRole.FLAG = 2;
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        myRef.child("Member").child(uid).child("R_List").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.getValue().equals("null")){
+                    GetRole.CONTENT_FLAG = 0;
+                }else {
+                    GetRole.CONTENT_FLAG = 1;
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
         init();

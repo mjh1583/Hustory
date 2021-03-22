@@ -17,6 +17,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TabHost;
@@ -38,14 +39,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FragmentReservation extends Fragment implements TabHost.OnTabChangeListener {
-    int flag_content = 0;
-    int flag;
-
     PreviousAdapter previousAdapter;
     AfterAdapter afterAdapter;;
     StatusAdapter statusAdapter;
@@ -62,6 +59,11 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
 
     TextView intent_reservation;
 
+    private Button button_previous;
+    private ImageView button_back;
+    private ImageView button_del;
+    private ImageView button_mod;
+
     private Context mContext;
     private FloatingActionButton fab_main, fab_sub1, fab_sub2;
     private Animation fab_open, fab_close;
@@ -73,6 +75,7 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private String uid = user.getUid();
     private String professor;
+    private String student;
     private String summary;
     private String date;
     private String way;
@@ -82,6 +85,11 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
     private String key;
     private String contents;
     private String firebase_key;
+    private String student_name;
+    private String student_key;
+    private ArrayList<String> keyArr = new ArrayList<>();
+    private ArrayList<String> nameArr = new ArrayList<>();
+    private String version_student;
 
 
     public ArrayList<String> preArr = new ArrayList<>();
@@ -90,38 +98,21 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        getRole(uid);
-
-        if (flag == 1) {
+        // 학생인지 교수인지 알아내는 함수수
+        if (GetRole.FLAG == 1) {
             view = inflater.inflate(R.layout.fragment_reservation, container, false);
             init_student();
-        } else if (flag == 2) {
+        } else if (GetRole.FLAG == 2) {
             view = inflater.inflate(R.layout.fragment_reservation_professor, container, false);
             init_professor();
         }
 
+
+
         return view;
     }
 
-    // 학생인지 교수인지 알아내는 함수수
-   public int getRole (String uid) {
-        myRef.child("Member").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.child("role").toString().equals("학생")){
-                    flag = 1;
-                }else {
-                    flag = 2;
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        return flag;
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void init_student() {
@@ -178,10 +169,11 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
                 afterAdapter.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     if (preArr.size() == 0){
-//                        layout_flag.setVisibility(View.VISIBLE);
+                        layout_flag.setVisibility(View.VISIBLE);
+                        Log.i("false","상담전" + preArr.size());
                     }
                     if(!dataSnapshot.getValue().equals("null")){
-//                        layout_flag.setVisibility(View.GONE);
+                        layout_flag.setVisibility(View.GONE);
                         HashMap<String, Object> member = (HashMap<String, Object>) snapshot.getValue();
                         professor = member.get("professor").toString();
                         summary = member.get("summary").toString();
@@ -192,13 +184,15 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
                         key = member.get("key").toString();
                         before_after_data = member.get("before_after_data").toString();
                         if(before_after_data.equals("false")){
+                            Log.i("false","상담전" + preArr.size());
                             preArr.add(key);
                             previousAdapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.professor), professor, "\" "+summary+" \"", date, way, place, allow);
                         }else if(before_after_data.equals("true")){
+                            Log.i("false","상담후");
                             aftArr.add(key);
                             afterAdapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.professor), professor, "\" "+summary+" \"", date, way, place);
                         }
-                        new CompareDate().Compare(preArr, flag);
+                        new CompareDate().Compare(preArr, GetRole.FLAG);
                     }else {
                         Log.i("compare", "null");
                     }
@@ -227,10 +221,34 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
                 final AlertDialog dialog1 = builder1.create();
                 dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                new SetDialog().SetDialogStudent(view1, preArr, position, layout_flag);
+                new SetDialog().SetDialogStudent(view1, preArr, position, layout_flag, uid);
+                Log.i("key", preArr.get(position));
                 dialog1.show();
+
+                // 취소버튼 클릭
+                button_del = dialog1.findViewById(R.id.button_del);
+                button_del.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog1.cancel();
+                    }
+                });
+
+                button_mod = dialog1.findViewById(R.id.button_mod);
+                button_mod.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), ReviseActivity.class);
+                        intent.putExtra("arr", preArr);
+                        intent.putExtra("position", position);
+                        dialog1.cancel();
+                        startActivity(intent);
+                    }
+                });
             }
         });
+
+
 
         listview2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -243,8 +261,16 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
                 final AlertDialog dialog2 = builder2.create();
                 dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog2.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                new SetDialog().SetDialogStudent(view1, aftArr, position, layout_flag);
+                new SetDialog().SetDialogStudent(view1, aftArr, position, layout_flag, uid);
                 dialog2.show();
+
+                button_del = dialog2.findViewById(R.id.button_del);
+                button_del.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog2.cancel();
+                    }
+                });
             }
         });
 
@@ -260,7 +286,7 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getActivity(), ReservationActivity.class);
+                Intent intent = new Intent(getActivity(),ReservationActivity.class);
                 startActivity(intent);
             }
         });
@@ -329,20 +355,22 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
         ListView listview1 = (ListView) view.findViewById(R.id.list_status);
         listview1.setAdapter(statusAdapter);
 
+        // 교수용 상담 현황 뷰
         FirebaseDatabase.getInstance().getReference().child("Member").child(uid).child("R_List").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 statusAdapter.clear();
-                cardAdapter.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Log.d("MainActivity", "ValueEventListener : " + dataSnapshot.getValue());
                     if (dataSnapshot.getValue().equals("null")){
                         layout_status.setVisibility(View.VISIBLE);
+                        Log.i("view", "null");
                         return;
                     }else{
+                        Log.i("view", "view");
                         layout_status.setVisibility(View.GONE);
                         HashMap<String, Object> member2 = (HashMap<String, Object>) snapshot.getValue();
-                        professor = member2.get("professor").toString();
+                        student = member2.get("student").toString();
                         summary = member2.get("summary").toString();
                         date = member2.get("date").toString();
                         way = member2.get("way").toString();
@@ -351,15 +379,46 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
                         key = member2.get("key").toString();
                         Log.i("key", key);
                         before_after_data = member2.get("before_after_data").toString();
+                        Log.i("view", before_after_data);
                         if(before_after_data.equals("false")){
                             Log.i("view", "화면 만들기");
                             preArr.add(key);
-                            statusAdapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.student), professor, "\" "+summary+" \"", date, way, place, allow);
+                            statusAdapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.student), student, "\" "+summary+" \"", date, way, place, allow);
                         }else if(before_after_data.equals("true")){
-                            aftArr.add(key);
-                            cardAdapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.student), "홍길동", "대구 ICT산업 혁신아카데미 2021년도 3기");
+                            Log.i("view", "화면 안만듬");
                         }
-                        new CompareDate().Compare(preArr, flag);
+//                        new CompareDate().Compare(preArr, GetRole.FLAG);
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("remove", "없어");
+            }
+        });
+
+        // 교수용 관리카드
+        FirebaseDatabase.getInstance().getReference().child("Member").child(uid).child("student").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                cardAdapter.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Log.d("MainActivity", "ValueEventListener : " + dataSnapshot.getValue());
+                    if (dataSnapshot.getValue().equals("null")){
+                        layout_status.setVisibility(View.VISIBLE);
+                        return;
+                    }else{
+                        HashMap<String, Object> member2 = (HashMap<String, Object>) snapshot.getValue();
+                        layout_status.setVisibility(View.GONE);
+                        student_key = snapshot.getKey();
+                        Log.i("student", student_key);
+                        keyArr.add(student_key);
+                        student_name = member2.get("name").toString();
+                        Log.i("student", student_name);
+                        nameArr.add(student_name);
+                        version_student = member2.get("version_student").toString();
+                        Log.i("version_student", version_student);
+                        cardAdapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.student), student_name, version_student);
                     }
                 }
             }
@@ -389,7 +448,7 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
                 dialog1.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog1.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-                new SetDialog().SetDialogProfessor(view1, preArr, position, layout_status);
+                new SetDialog().SetDialogProfessor(view1, preArr, position, layout_status, uid);
 
                 dialog1.show();
 
@@ -402,9 +461,17 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
                     @Override
                     public void onClick(View v) {
                         if(button.getText().toString().equals("수락대기")){
-                            new AcceptClick().Click(preArr, position, "FCR1dfS2XqWV7rdpXvrmFsYURU72", "BSSpxq2WkFewZ8gEty9ZDR7nma92");
+                            new AcceptClick().Click(preArr, position, uid);
                             button.setText("상담대기");
                         }
+                    }
+                });
+
+                button_back = dialog1.findViewById(R.id.button_back);
+                button_back.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog1.cancel();
                     }
                 });
 
@@ -421,9 +488,22 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
                 final AlertDialog dialog2 = builder2.create();
                 dialog2.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog2.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                new SetDialog().SetDialogCard(view1, position, keyArr, nameArr);
                 dialog2.show();
+
+                button_del = dialog2.findViewById(R.id.button_del);
+                button_del.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog2.cancel();
+                    }
+                });
+
+
             }
         });
+
+
 
 
         mContext = getContext();
@@ -469,4 +549,10 @@ public class FragmentReservation extends Fragment implements TabHost.OnTabChange
         tp_select.setTextColor(Color.parseColor("#FAFAFA"));
         tab.getTabWidget().getChildAt(tab.getCurrentTab()).setBackgroundColor(Color.parseColor("#2F5596"));
     }
+
+    public void onExitDialog (View v){
+
+    }
+
+
 }

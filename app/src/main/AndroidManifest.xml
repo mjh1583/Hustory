@@ -33,6 +33,7 @@
         <activity android:name=".login.SignUpActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".reservation.ReservationActivity" />
+        <activity android:name=".reservation.ReviseActivity"/>
         <activity android:name=".managementcard.CardActivity" />
         <activity android:name=".managementcard.LetterActivity" />
         <activity android:name=".question.AnswerActivity" />

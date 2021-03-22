@@ -15,7 +15,10 @@ public class FirebaseData {
     private String contentsStr;
     private boolean before_after_data;
     private String key;
-
+    private String student;
+    private String reservedate;
+    private String reserve_day;
+    private String reserve_month;
 
 
     public String getUid() {
@@ -106,7 +109,39 @@ public class FirebaseData {
         this.key = key;
     }
 
-    public FirebaseData(String uid, String professorStr, String summaryStr, String dateStr, String timeStr, String wayStr, String placeStr, String allowStr, String contentsStr, boolean before_after_data, String key) {
+    public String getStudent() {
+        return student;
+    }
+
+    public void setStudent(String student) {
+        this.student = student;
+    }
+
+    public String getReservedate() {
+        return reservedate;
+    }
+
+    public void setReservedate(String reservedate) {
+        this.reservedate = reservedate;
+    }
+
+    public String getReserve_day() {
+        return reserve_day;
+    }
+
+    public void setReserve_day(String reserve_day) {
+        this.reserve_day = reserve_day;
+    }
+
+    public String getReserve_month() {
+        return reserve_month;
+    }
+
+    public void setReserve_month(String reserve_month) {
+        this.reserve_month = reserve_month;
+    }
+
+    public FirebaseData(String uid, String professorStr, String summaryStr, String dateStr, String timeStr, String wayStr, String placeStr, String allowStr, String contentsStr, boolean before_after_data, String key, String student, String reservedate, String reserve_day, String reserve_month) {
         this.uid = uid;
         ProfessorStr = professorStr;
         SummaryStr = summaryStr;
@@ -118,12 +153,17 @@ public class FirebaseData {
         this.contentsStr = contentsStr;
         this.before_after_data = before_after_data;
         this.key = key;
+        this.student = student;
+        this.reservedate = reservedate;
+        this.reserve_day = reserve_day;
+        this.reserve_month = reserve_month;
     }
 
     public Map<String, Object> toMap(){
         HashMap<String, Object> result = new HashMap<>();
         result.put("uid", this.uid);
         result.put("professor", this.ProfessorStr);
+        result.put("student",this.student);
         result.put("date", this.DateStr);
         result.put("time",this.TimeStr);
         result.put("way", this.WayStr);
@@ -133,6 +173,9 @@ public class FirebaseData {
         result.put("summary", this.SummaryStr);
         result.put("before_after_data", this.before_after_data);
         result.put("key", this.key);
+        result.put("reservedate", this.reservedate);
+        result.put("reserve_day", this.reserve_day);
+        result.put("reserve_month", this.reserve_month);
 
         return result;
     }
