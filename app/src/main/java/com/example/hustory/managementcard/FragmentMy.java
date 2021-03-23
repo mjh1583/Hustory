@@ -97,9 +97,11 @@ public class FragmentMy extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         if (GetRole.FLAG == 1) {
+            Log.i("flag", ""+GetRole.FLAG);
             view = inflater.inflate(R.layout.fragment_my, container, false);
             init_student();
         } else {
+            Log.i("flag", ""+GetRole.FLAG);
             view = inflater.inflate(R.layout.fragment_professor, container, false);
             init_professor();
         }
@@ -509,7 +511,7 @@ public class FragmentMy extends Fragment {
         mDatabase.child("Member").child(UserInfo.UID).child("management").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot != null) {
+                if(dataSnapshot.getValue() != null) {
                     name_student = (EditText) view.findViewById(R.id.name_student1);
                     my_agency = (EditText) view.findViewById(R.id.my_agency);
                     my_department = (EditText) view.findViewById(R.id.my_department);
