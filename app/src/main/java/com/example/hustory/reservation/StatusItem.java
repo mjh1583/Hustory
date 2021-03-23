@@ -1,9 +1,7 @@
 package com.example.hustory.reservation;
 
-import android.graphics.drawable.Drawable;
-
 public class StatusItem {
-    private Drawable iconDrawable;
+    private String id;
     private String StudentStr;
     private String SummaryStr;
     private String DateStr;
@@ -11,12 +9,13 @@ public class StatusItem {
     private String PlaceStr;
     private String allowStr;
 
-    public Drawable getIconDrawable() {
-        return iconDrawable;
+
+    public String getId() {
+        return id;
     }
 
-    public void setIconDrawable(Drawable iconDrawable) {
-        this.iconDrawable = iconDrawable;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getStudentStr() {
@@ -64,6 +63,16 @@ public class StatusItem {
     }
 
     public void setAllowStr(String allowStr) {
+        this.allowStr = allowStr;
+    }
+
+    public StatusItem(String id, String studentStr, String summaryStr, String dateStr, String wayStr, String placeStr, String allowStr) {
+        this.id = id;
+        StudentStr = studentStr;
+        SummaryStr = summaryStr;
+        DateStr = dateStr;
+        WayStr = wayStr;
+        PlaceStr = placeStr;
         this.allowStr = allowStr;
     }
 }

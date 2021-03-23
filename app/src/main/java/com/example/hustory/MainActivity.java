@@ -57,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
                         .permitDiskReads()
                         .permitDiskWrites()
                         .permitNetwork().build());
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         myRef.child("Member").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

@@ -1,21 +1,19 @@
 package com.example.hustory.reservation;
 
-import android.graphics.drawable.Drawable;
-
 public class AfterItem {
-    private Drawable iconDrawable;
+    private String id;
     private String ProfessorStr;
     private String SummaryStr;
     private String DateStr;
     private String WayStr;
     private String PlaceStr;
 
-    public Drawable getIconDrawable() {
-        return iconDrawable;
+    public String getId() {
+        return id;
     }
 
-    public void setIconDrawable(Drawable iconDrawable) {
-        this.iconDrawable = iconDrawable;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getProfessorStr() {
@@ -55,6 +53,15 @@ public class AfterItem {
     }
 
     public void setPlaceStr(String placeStr) {
+        PlaceStr = placeStr;
+    }
+
+    public AfterItem(String id, String professorStr, String summaryStr, String dateStr, String wayStr, String placeStr) {
+        this.id = id;
+        ProfessorStr = professorStr;
+        SummaryStr = summaryStr;
+        DateStr = dateStr;
+        WayStr = wayStr;
         PlaceStr = placeStr;
     }
 }

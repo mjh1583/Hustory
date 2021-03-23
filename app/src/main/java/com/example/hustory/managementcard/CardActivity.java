@@ -21,6 +21,8 @@ import com.example.hustory.user.m_User;
 import com.example.hustory.userInfo.UserInfo;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +39,12 @@ public class CardActivity extends AppCompatActivity {
     private EditText name, birth, email, education, certificate, experience, carrer;
     Button button_modify;
     private FirebaseStorage storage;
+    private FirebaseAuth mAuth;
+    private FirebaseUser cuurentUser;
+    private FirebaseDatabase db = FirebaseDatabase.getInstance();
+    private DatabaseReference myRef = db.getReference();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private String uid = user.getUid();
     View view;
 
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -60,7 +68,7 @@ public class CardActivity extends AppCompatActivity {
 
         FirebaseStorage storage = FirebaseStorage.getInstance("gs://hustory-82cc1.appspot.com");
         StorageReference storageRef = storage.getReference();
-        storageRef.child("images/" + UserInfo.UID).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageRef.child("images/" + uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 //이미지 로드 성공시
@@ -103,7 +111,7 @@ public class CardActivity extends AppCompatActivity {
                 Log.i("write 전", getUsername);
 
 
-                writeNewUser(UserInfo.UID,getUsername,getUseremail,getUsercertificate,getUserbirth,getUserexpercience,getUsereducation,getUsercarrer);
+                writeNewUser(uid,getUsername,getUseremail,getUsercertificate,getUserbirth,getUserexpercience,getUsereducation,getUsercarrer);
 
             }
         });
@@ -142,8 +150,8 @@ public class CardActivity extends AppCompatActivity {
 
     private void readUser(){
 
-        Log.i("uid", UserInfo.UID);
-        mDatabase.child("Member").child(UserInfo.UID).child("management").child("managecard").addValueEventListener(new ValueEventListener() {
+        Log.i("uid", uid);
+        mDatabase.child("Member").child(uid).child("management").child("managecard").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue() != null) {

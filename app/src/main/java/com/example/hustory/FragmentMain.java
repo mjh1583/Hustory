@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +30,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
 import com.example.hustory.firebasedatebase.FirebaseUtility;
 import com.example.hustory.managementcard.FragmentMy;
 import com.example.hustory.question.AnswerActivity;
@@ -37,6 +39,7 @@ import com.example.hustory.reservation.FragmentReservation;
 import com.example.hustory.reservation.GetRole;
 import com.example.hustory.util.DataStringFormat;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,6 +49,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -87,7 +92,7 @@ public class FragmentMain extends Fragment {
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private String uid = user.getUid();
 
-    private  String professor;
+    private  String professor, student_uid, professor_uid;
     private String student;
     private  String summary;
     private  String before_after_data;
@@ -140,6 +145,7 @@ public class FragmentMain extends Fragment {
         main_summary = (TextView) view.findViewById(R.id.main_summary);
         go_reservation = (TextView) view.findViewById(R.id.go_reservation);
 
+
         FirebaseDatabase.getInstance().getReference().child("Member").child(uid).child("R_List").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -151,6 +157,7 @@ public class FragmentMain extends Fragment {
                     reservedate = member.get("reservedate").toString();
                     reserve_month = member.get("reserve_month").toString();
                     reserve_day = member.get("reserve_day").toString();
+                    professor_uid = member.get("prof_uid").toString();
                     long currentTime = new Date().getTime();
 
                     if(before_after_data.equals("false") && Long.valueOf(reservedate).compareTo(check_reservedate) < 0){
@@ -159,6 +166,16 @@ public class FragmentMain extends Fragment {
                         main_summary.setText(summary);
                         go_reservation.setText(CreateDataWithCheck(reserve_month, reserve_day));
                         check_reservedate = Long.valueOf(reservedate);
+                        FirebaseStorage storage = FirebaseStorage.getInstance("gs://hustory-82cc1.appspot.com");
+                        StorageReference storageRef = storage.getReference();
+                        storageRef.child("images/" + professor_uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                //이미지 로드 성공시
+                                Glide.with(view.getContext())
+                                        .load(uri)
+                                        .into(image_professor);
+                            }});
 
                     }else {
                         Log.i("test", "작다"+Long.valueOf(reservedate).compareTo(check_reservedate));
@@ -309,11 +326,13 @@ public class FragmentMain extends Fragment {
         main_summary = (TextView) view.findViewById(R.id.main_summary);
         go_reservation = (TextView) view.findViewById(R.id.go_reservation);
 
+
         FirebaseDatabase.getInstance().getReference().child("Member").child(uid).child("R_List").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     HashMap<String, Object> member = (HashMap<String, Object>) snapshot.getValue();
+                    student_uid = member.get("uid").toString();
                     student = member.get("student").toString();
                     professor = member.get("professor").toString();
                     summary = member.get("summary").toString();
@@ -322,6 +341,16 @@ public class FragmentMain extends Fragment {
                     reserve_month = member.get("reserve_month").toString();
                     reserve_day = member.get("reserve_day").toString();
                     long currentTime = new Date().getTime();
+                    FirebaseStorage storage = FirebaseStorage.getInstance("gs://hustory-82cc1.appspot.com");
+                    StorageReference storageRef = storage.getReference();
+                    storageRef.child("images/" + student_uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            //이미지 로드 성공시
+                            Glide.with(view.getContext())
+                                    .load(uri)
+                                    .into(image_professor);
+                        }});
 
                     if(before_after_data.equals("false") && Long.valueOf(reservedate).compareTo(check_reservedate) < 0){
                         Log.i("test", "크다"+reservedate);

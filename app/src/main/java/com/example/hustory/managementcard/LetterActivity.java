@@ -40,15 +40,11 @@ public class LetterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_letter);
+        Log.i("start", "inte");
 
         init();
 
-
-
-
         button_modify1= findViewById(R.id.button_modify);
-
-
 
         button_modify1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,6 +123,8 @@ public class LetterActivity extends AppCompatActivity {
                     String motivation1 = dataSnapshot.child("motivation").getValue().toString();
                     String background1 = dataSnapshot.child("background").getValue().toString();
 
+                    Log.i("character1", character1);
+
                     background.setText(background1);
                     character.setText(character1);
                     motivation.setText(motivation1);
@@ -134,8 +132,6 @@ public class LetterActivity extends AppCompatActivity {
 
                 }
             }
-
-
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

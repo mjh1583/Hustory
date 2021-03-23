@@ -1,15 +1,19 @@
 package com.example.hustory.reservation;
 
+import android.net.Uri;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.example.hustory.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,6 +22,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +47,7 @@ public class SetDialog {
     private String time;
     private String verstudent;
     private String school;
-    private String major;
+    private String major, prof_uid, student_uid;
     private String company_1, company_2, company_3;
     private Button button_previous;
 
@@ -127,9 +133,11 @@ public class SetDialog {
                             before_after_data = member.get("before_after_data").toString();
                             firebase_key = member.get("key").toString();
                             time = member.get("time").toString();
+                            student_uid = member.get("uid").toString();
                             Log.i("check", "no set : " + allow);
                             if(before_after_data.equals("false") && key.equals(firebase_key)){
-
+                                Log.i("check", "no set : " + key);
+                                ImageView icon_professor = view1.findViewById(R.id.icon_professor);
                                 TextView name_student = (TextView) view1.findViewById(R.id.name_student1);
                                 TextView text_summary = (TextView) view1.findViewById(R.id.text_summary);
                                 TextView reservation_date = (TextView) view1.findViewById(R.id.reservation_date);
@@ -138,6 +146,16 @@ public class SetDialog {
                                 TextView content = (TextView) view1.findViewById(R.id.content);
                                 Button button_accept = (Button) view1.findViewById(R.id.button_accept);
                                 TextView reservation_time = (TextView) view1.findViewById(R.id.reservation_time);
+                                FirebaseStorage storage = FirebaseStorage.getInstance("gs://hustory-82cc1.appspot.com");
+                                StorageReference storageRef = storage.getReference();
+                                storageRef.child("images/" + student_uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        //이미지 로드 성공시
+                                        Glide.with(view1.getContext())
+                                                .load(uri)
+                                                .into(icon_professor);
+                                    }});
                                 name_student.setText(student);
                                 text_summary.setText(summary);
                                 reservation_date.setText(date);
@@ -177,6 +195,7 @@ public class SetDialog {
         myRef.child("Member").child(key).child("management").child("myinfo").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ImageView icon_student = view1.findViewById(R.id.icon_student);
                 TextView version_student = (TextView) view1.findViewById(R.id.version_student);
                 TextView my_school = (TextView) view1.findViewById(R.id.my_school);
                 TextView my_major = (TextView) view1.findViewById(R.id.my_major);
@@ -185,6 +204,19 @@ public class SetDialog {
                 TextView my_company_3 = (TextView) view1.findViewById(R.id.my_company_3);
                 TextView name_student = (TextView) view1.findViewById(R.id.name_student1);
                 name_student.setText(student);
+
+                FirebaseStorage storage = FirebaseStorage.getInstance("gs://hustory-82cc1.appspot.com");
+                StorageReference storageRef = storage.getReference();
+                storageRef.child("images/" + key).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        //이미지 로드 성공시
+                        Glide.with(view1.getContext())
+                                .load(uri)
+                                .into(icon_student);
+
+                    }});
+
                 if(snapshot.getValue() != null) {
                     if(snapshot.child("version_student").getValue() != null){
                         verstudent = snapshot.child("version_student").getValue().toString();

@@ -1,7 +1,7 @@
 package com.example.hustory.reservation;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +9,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
+import com.bumptech.glide.Glide;
 import com.example.hustory.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -39,12 +46,30 @@ public class AfterAdapter extends BaseAdapter {
 
         AfterItem listViewItem = listViewItemList.get(position);
 
-        icon_professor.setImageDrawable(listViewItem.getIconDrawable());
         text_professor.setText(listViewItem.getProfessorStr());
         text_summary.setText(listViewItem.getSummaryStr());
         reservation_date.setText(listViewItem.getDateStr());
         reservation_way.setText(listViewItem.getWayStr());
         reservation_place.setText(listViewItem.getPlaceStr());
+
+        FirebaseStorage storage = FirebaseStorage.getInstance("gs://hustory-82cc1.appspot.com");
+        StorageReference storageRef = storage.getReference();
+        storageRef.child("images/" + listViewItem.getId()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                //이미지 로드 성공시
+                Glide.with(context)
+                        .load(uri)
+                        .into(icon_professor);
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                //이미지 로드 실패시
+                //Toast.makeText(getApplicationContext(), "실패", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         return convertView;
     }
@@ -59,10 +84,10 @@ public class AfterAdapter extends BaseAdapter {
         return listViewItemList.get(position);
     }
 
-    public void addItem(Drawable iconDrawable, String ProfessorStr, String SummaryStr, String DateStr, String WayStr, String PlaceStr) {
-        AfterItem item = new AfterItem();
+    public void addItem(String id, String ProfessorStr, String SummaryStr, String DateStr, String WayStr, String PlaceStr) {
+        AfterItem item = new AfterItem(id,  ProfessorStr,  SummaryStr,  DateStr,  WayStr,  PlaceStr);
 
-        item.setIconDrawable(iconDrawable);
+        item.setId(id);
         item.setProfessorStr(ProfessorStr);
         item.setSummaryStr(SummaryStr);
         item.setDateStr(DateStr);
