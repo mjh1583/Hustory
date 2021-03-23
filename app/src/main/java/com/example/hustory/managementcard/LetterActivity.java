@@ -53,6 +53,10 @@ public class LetterActivity extends AppCompatActivity {
         button_modify1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                background = findViewById(R.id.background);
+                character = findViewById(R.id.character);
+                ict_experience = findViewById(R.id.ict_experience);
+                motivation = findViewById(R.id.motivation);
 
                 String getUserbackground = background.getText().toString();
                 String getUsercharacter = character.getText().toString();
@@ -101,13 +105,6 @@ public class LetterActivity extends AppCompatActivity {
                         // Write was successful!
                         Toast.makeText(LetterActivity.this, "저장을 완료했습니다.", Toast.LENGTH_SHORT).show();
                     }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Write failed
-                        Toast.makeText(LetterActivity.this, "저장을 실패했습니다.", Toast.LENGTH_SHORT).show();
-                    }
                 });
 
     }
@@ -117,7 +114,12 @@ public class LetterActivity extends AppCompatActivity {
         mDatabase.child("Member").child(UserInfo.UID).child("management").child("introduce").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot != null) {
+                if(dataSnapshot.getValue() != null) {
+
+                    background = findViewById(R.id.background);
+                    character = findViewById(R.id.character);
+                    ict_experience = findViewById(R.id.ict_experience);
+                    motivation = findViewById(R.id.motivation);
 
                    // String name = dataSnapshot.child("background").getValue().toString();
                     String character1 = dataSnapshot.child("character").getValue().toString();
@@ -147,6 +149,7 @@ public class LetterActivity extends AppCompatActivity {
         character = (EditText)findViewById(R.id.character);
         ict_experience = (EditText)findViewById(R.id.ict_experience);
         motivation = (EditText)findViewById(R.id.motivation);
+        readUser();
 
         int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
         int newUiOptions = uiOptions;

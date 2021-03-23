@@ -419,6 +419,7 @@ public class FragmentQuestion extends Fragment {
         listview1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i(TAG,""+ position);
                 Intent intent = new Intent(getActivity(), AnswerActivity.class);
                 String q_Num = key_Arr.get(position);
                 String name = name_Arr.get(position);
