@@ -260,6 +260,15 @@ public class FragmentMy extends Fragment {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                name_student1 = (EditText) view.findViewById(R.id.name_student1);
+                my_school = (EditText) view.findViewById(R.id.my_school);
+                my_major = (EditText) view.findViewById(R.id.my_major);
+                my_company_1 = (EditText) view.findViewById(R.id.my_company_1);
+                my_company_2 = (EditText) view.findViewById(R.id.my_company_2);
+                my_company_3 = (EditText) view.findViewById(R.id.my_company_3);
+                version_student = (EditText) view.findViewById(R.id.version_student);
+
+
                 String getUsername_student1 = name_student1.getText().toString();
                 String getUsermy_school = my_school.getText().toString();
                 String getUsermy_major = my_major.getText().toString();
@@ -633,12 +642,6 @@ public class FragmentMy extends Fragment {
                     @Override
                     public void onSuccess(Void aVoid) {
                         // Write was successful!
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Write failed
                     }
                 });
     }
