@@ -257,10 +257,6 @@ public class FragmentMain extends Fragment {
             text_no.setGravity(Gravity.CENTER);
             layout_reservation.addView(text_no);
 
-            LinearLayout.LayoutParams layoutParams1 = (LinearLayout.LayoutParams) text_no.getLayoutParams();
-            layoutParams1.topMargin = 80;
-            text_no.setLayoutParams(layoutParams1);
-
             TextView text_go = new TextView(getContext());
             text_go.setText("새로운 예약을 진행하세요");
             text_go.setTextSize(12);
@@ -268,7 +264,7 @@ public class FragmentMain extends Fragment {
             layout_reservation.addView(text_go);
 
             LinearLayout.LayoutParams layoutParams2 = (LinearLayout.LayoutParams) text_go.getLayoutParams();
-            layoutParams2.bottomMargin = 80;
+            layoutParams2.bottomMargin = 100;
             text_go.setLayoutParams(layoutParams2);
 
             Typeface typeface = getResources().getFont(R.font.jalnan);
@@ -425,18 +421,14 @@ public class FragmentMain extends Fragment {
             text_no.setGravity(Gravity.CENTER);
             layout_reservation.addView(text_no);
 
-            LinearLayout.LayoutParams layoutParams1 = (LinearLayout.LayoutParams) text_no.getLayoutParams();
-            layoutParams1.topMargin = 80;
-            text_no.setLayoutParams(layoutParams1);
-
             TextView text_go = new TextView(getContext());
-            text_go.setText("새로운 예약을 진행하세요");
-            text_go.setTextSize(12);
+            text_go.setText("새로운 예약을 기다리세요");
+            text_go.setTextSize(10);
             text_go.setGravity(Gravity.CENTER);
             layout_reservation.addView(text_go);
 
             LinearLayout.LayoutParams layoutParams2 = (LinearLayout.LayoutParams) text_go.getLayoutParams();
-            layoutParams2.bottomMargin = 80;
+            layoutParams2.bottomMargin = 100;
             text_go.setLayoutParams(layoutParams2);
 
             Typeface typeface = getResources().getFont(R.font.jalnan);
