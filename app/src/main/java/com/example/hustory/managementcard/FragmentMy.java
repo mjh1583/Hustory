@@ -95,9 +95,10 @@ public class FragmentMy extends Fragment {
     private SharedPreferences.Editor auto_editor;
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
+        Log.i("uid", ""+ uid);
         if (GetRole.FLAG == 1) {
             Log.i("flag", ""+GetRole.FLAG);
+
             view = inflater.inflate(R.layout.fragment_my, container, false);
             init_student();
         } else {
@@ -111,7 +112,7 @@ public class FragmentMy extends Fragment {
 
 
     public void init_student() {
-        Log.i("init_student", UserInfo.UID);
+        Log.i("init_student", uid);
 
         readUser();
 
@@ -183,7 +184,7 @@ public class FragmentMy extends Fragment {
 
         FirebaseStorage storage = FirebaseStorage.getInstance("gs://hustory-82cc1.appspot.com");
         StorageReference storageRef = storage.getReference();
-        storageRef.child("images/"+ UserInfo.UID).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageRef.child("images/"+ uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 //이미지 로드 성공시
@@ -289,7 +290,7 @@ public class FragmentMy extends Fragment {
                 result.put("version_student", getUserversion_student);
 
 
-                writeNewUser(UserInfo.UID, getUsername_student1,getUsermy_school, getUsermy_major, getUsermy_company_1, getUsermy_company_2, getUsermy_company_3,getUserversion_student);
+                writeNewUser(uid, getUsername_student1,getUsermy_school, getUsermy_major, getUsermy_company_1, getUsermy_company_2, getUsermy_company_3,getUserversion_student);
             }
         });
     } //init_student()
@@ -411,7 +412,7 @@ public class FragmentMy extends Fragment {
 
         FirebaseStorage storage = FirebaseStorage.getInstance("gs://hustory-82cc1.appspot.com");
         StorageReference storageRef = storage.getReference();
-        storageRef.child("images/" + UserInfo.UID).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storageRef.child("images/" + uid).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 //이미지 로드 성공시
@@ -446,7 +447,7 @@ public class FragmentMy extends Fragment {
                 result.put("my_agency", getUsermy_agency);
                 result.put("my_spot", getUsermy_spot);
 
-                writeNewUser1(UserInfo.UID, getUsername_student,getUsermy_agency,getUsermy_spot,getUsermy_department);
+                writeNewUser1(uid, getUsername_student,getUsermy_agency,getUsermy_spot,getUsermy_department);
 
 
             }
@@ -474,8 +475,8 @@ public class FragmentMy extends Fragment {
     }
 
     private void readUser(){
-        Log.i("uid", UserInfo.UID);
-        mDatabase.child("Member").child(UserInfo.UID).child("management").addValueEventListener(new ValueEventListener() {
+        Log.i("uid", uid);
+        mDatabase.child("Member").child(uid).child("management").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Log.i("onDataChange", dataSnapshot.toString());
@@ -514,10 +515,10 @@ public class FragmentMy extends Fragment {
     private void readUser1(){
 
 
-        Log.i("uid", UserInfo.UID);
+        Log.i("uid", uid);
 
 
-        mDatabase.child("Member").child(UserInfo.UID).child("management").addValueEventListener(new ValueEventListener() {
+        mDatabase.child("Member").child(uid).child("management").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue() != null) {
@@ -597,7 +598,7 @@ public class FragmentMy extends Fragment {
             FirebaseStorage storage = FirebaseStorage.getInstance();
 
 
-            String filename = UserInfo.UID;
+            String filename = uid;
             //storage 주소와 폴더 파일명을 지정해 준다.
             StorageReference storageRef = storage.getReferenceFromUrl("gs://hustory-82cc1.appspot.com").child("images/" + filename);
             //올라가거라...

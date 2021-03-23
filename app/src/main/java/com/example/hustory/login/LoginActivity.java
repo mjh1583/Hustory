@@ -153,7 +153,6 @@ public class LoginActivity extends AppCompatActivity {
                         else {
                             auto_login(false);
                         }
-
                         currentUser = mAuth.getCurrentUser();
                         initRole(currentUser.getUid());
                         startToast("로그인에 성공하였습니다.");
@@ -223,13 +222,21 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     GetRole.FLAG = 2;
                 }
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
+
         });
+        try {
+            Thread.sleep(300);
+
+        } catch (InterruptedException e) {
+
+        }
     }
 
     @Override

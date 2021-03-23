@@ -172,8 +172,9 @@ public class SetDialog {
         key = arr.get(position);
         student = nameArr.get(position);
 
+
         // view 세팅
-        myRef.child("Member").child(key).child("management").child("1").addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.child("Member").child(key).child("management").child("myinfo").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 TextView version_student = (TextView) view1.findViewById(R.id.version_student);
@@ -183,6 +184,7 @@ public class SetDialog {
                 TextView my_company_2 = (TextView) view1.findViewById(R.id.my_company_2);
                 TextView my_company_3 = (TextView) view1.findViewById(R.id.my_company_3);
                 TextView name_student = (TextView) view1.findViewById(R.id.name_student1);
+                name_student.setText(student);
                 if(snapshot.getValue() != null) {
                     if(snapshot.child("version_student").getValue() != null){
                         verstudent = snapshot.child("version_student").getValue().toString();

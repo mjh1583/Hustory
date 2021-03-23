@@ -145,7 +145,7 @@ public class FragmentMain extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     HashMap<String, Object> member = (HashMap<String, Object>) snapshot.getValue();
-                    student = member.get("student").toString();
+                    professor = member.get("professor").toString();
                     summary = member.get("summary").toString();
                     before_after_data = member.get("before_after_data").toString();
                     reservedate = member.get("reservedate").toString();
@@ -155,7 +155,7 @@ public class FragmentMain extends Fragment {
 
                     if(before_after_data.equals("false") && Long.valueOf(reservedate).compareTo(check_reservedate) < 0){
                         Log.i("test", "크다"+reservedate);
-                        main_professor.setText(student);
+                        main_professor.setText(professor);
                         main_summary.setText(summary);
                         go_reservation.setText(CreateDataWithCheck(reserve_month, reserve_day));
                         check_reservedate = Long.valueOf(reservedate);
@@ -314,6 +314,7 @@ public class FragmentMain extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     HashMap<String, Object> member = (HashMap<String, Object>) snapshot.getValue();
+                    student = member.get("student").toString();
                     professor = member.get("professor").toString();
                     summary = member.get("summary").toString();
                     before_after_data = member.get("before_after_data").toString();
@@ -324,7 +325,7 @@ public class FragmentMain extends Fragment {
 
                     if(before_after_data.equals("false") && Long.valueOf(reservedate).compareTo(check_reservedate) < 0){
                         Log.i("test", "크다"+reservedate);
-                        main_professor.setText(professor);
+                        main_professor.setText(student);
                         main_summary.setText(summary);
                         go_reservation.setText(CreateDataWithCheck(reserve_month, reserve_day));
                         check_reservedate = Long.valueOf(reservedate);
